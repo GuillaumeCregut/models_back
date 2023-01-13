@@ -3,7 +3,7 @@ const connection = require('./dbconfig');
 const express = require('express');
 const cors = require('cors');
 const app = express();
-// const router = require('./routes/index.routes');
+const router = require('./routes/index.routes');
 const cookieParser = require('cookie-parser');
 const port = process.env.PORT || 8000;
 const corsOptions ={
@@ -26,7 +26,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
 
 app.use(cors(corsOptions));
-// app.use('/api', router);
+app.use('/api', router);
 app.use('/uploads',express.static('uploads'));
 
 app.get("/", (req, res) => {
