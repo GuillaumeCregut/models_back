@@ -1,9 +1,17 @@
-const getAll=(req,res)=>{
-    res.send('OK Man');
+const countryModel=require('../models/country.model');
+const Country=require('../classes/Country.class');
+const getAll= async (req,res)=>{
+    const result= await countryModel.findAll();
+    res.json(result);
 }
 
-const getOne=(req,res)=>{
-
+const getOne=async (req,res)=>{
+    const id=req.params.id;
+    const result= await countryModel.findOne(id);
+    if (result)
+    res.json(result);   
+    else
+        res.sendStatus(404);  
 }
 
 const addCountry=(req,res)=>{
