@@ -12,9 +12,7 @@ connection.connect((err) => {
   if (err) {
     console.error('error connecting: ' + err.stack);
     throw err;
-  } /*else {
-    console.log('connected as id ' + connection.threadId);
-  }*/
+  }
 });
 
 module.exports = connection;
