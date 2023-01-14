@@ -38,12 +38,14 @@ const addOne = async (country) => {
     }
 }
 
-const updateOne = async () => {
-
+const updateOne = async (country) => {
+    const dbResult=await dbquery('update','UPDATE country SET name=? WHERE id=?',[country.name,country.id]);
+    return dbResult;
 }
 
-const deleteOne = async () => {
-
+const deleteOne = async (id) => {
+    const dbResult=await dbquery('delete','DELETE FROM country WHERE id=?',[id]);
+    return dbResult;
 }
 
 module.exports = {

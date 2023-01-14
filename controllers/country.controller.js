@@ -49,12 +49,38 @@ const addCountry=async(req,res)=>{
     
 }
 
-const updateCountry=(req,res)=>{
-
+const updateCountry=async (req,res)=>{
+    const id=parseInt(req.params.id);
+    if(id===0 || isNaN(id)){
+        return res.status(422).send('bad Id');
+    }
+    const errors=validate(req.body);
+    if (errors){
+        const error=errors.details[0].message;
+        return res.status(422).send(error);
+    }
+    const country=new Country(id,req.body.name);
+    const result=await countryModel.updateOne(country);
+    if(result){
+        res.sendStatus(204);
+    }
+    else{
+        res.sendStatus(500)
+    }
 }
 
-const deleteCountry=(req,res)=>{
-
+const deleteCountry=async (req,res)=>{
+    const id=parseInt(req.params.id);
+    if(id===0 || isNaN(id)){
+        return res.status(422).send('bad Id');
+    }
+    const result=await countryModel.deleteOne(id);
+    if(result){
+        res.sendStatus(204);
+    }
+    else{
+        res.sendStatus(500)
+    }
 }
 module.exports={
     getAll,
