@@ -19,7 +19,7 @@ const dbquery = (action,sql,params)=>{
     }) 
     .catch((err)=>{
         console.error(err);
-        return 0;
+        return -1;
     })
 }
 

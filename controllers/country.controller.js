@@ -11,8 +11,11 @@ const  validate=(data)=>{
 
 const getAll= async (req,res)=>{
     const result= await countryModel.findAll();
-    if(result)
+    if(result&&result!==-1)
          res.json(result);
+    else if (result===-1){
+        res.sendStatus(500)
+    }
     else{
         res.sendStatus(404)
     }
@@ -21,11 +24,14 @@ const getAll= async (req,res)=>{
 const getOne=async (req,res)=>{
     const id=req.params.id;
     const result= await countryModel.findOne(id);
-    console.log(result)
-    if (result)
+    if (result&&result!==-1)
     res.json(result);   
-    else
-        res.sendStatus(404);  
+    else if (result===-1){
+        res.sendStatus(500)
+    }
+    else{
+        res.sendStatus(404)
+    }  
 }
 
 const addCountry=async(req,res)=>{
@@ -61,11 +67,14 @@ const updateCountry=async (req,res)=>{
     }
     const country=new Country(id,req.body.name);
     const result=await countryModel.updateOne(country);
-    if(result){
+    if(result&&result!==-1){
         res.sendStatus(204);
     }
-    else{
-        res.sendStatus(500)
+    else if(result===-1){
+        res.sendStatus(500);
+    }
+    else {
+        res.sendStatus(404)
     }
 }
 
@@ -75,11 +84,14 @@ const deleteCountry=async (req,res)=>{
         return res.status(422).send('bad Id');
     }
     const result=await countryModel.deleteOne(id);
-    if(result){
+    if(result&&result!==-1){
         res.sendStatus(204);
     }
-    else{
-        res.sendStatus(500)
+    else if(result===-1){
+        res.sendStatus(500);
+    }
+    else {
+        res.sendStatus(404)
     }
 }
 module.exports={
