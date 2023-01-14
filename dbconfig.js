@@ -8,4 +8,12 @@ const connection = mysql.createConnection({
   timezone:'Z'
 });
 
+connection.connect((err) => {
+  if (err) {
+    console.error('error connecting: ' + err.stack);
+  } /*else {
+    console.log('connected as id ' + connection.threadId);
+  }*/
+});
+
 module.exports = connection;
