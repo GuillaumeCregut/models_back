@@ -5,6 +5,9 @@ class Country{
     this.id=id;
     this.name=name
   }
+  setId(id){
+    this.id=id;
+  }
 }
  
 module.exports=Country;
