@@ -1,11 +1,8 @@
 const router=require('express').Router();
 const country=require('./country.routes');
 
-<<<<<<< HEAD
 router.use('/country',country);
 
-=======
->>>>>>> dev
 const defaultReply=(req,res)=>{
     res.status(404);
     res.send('Please read documentation')
