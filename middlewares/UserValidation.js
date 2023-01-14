@@ -5,3 +5,8 @@ const userCheck=(req,res,next)=>{
 const checkLevel=(req,res,next)=>{
     next();
 }
+
+module.exports={
+    userCheck,
+    checkLevel
+}
