@@ -205,14 +205,11 @@ CREATE TABLE IF NOT EXISTS `provider` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+ALTER TABLE `provider` ADD `owner` INT NOT NULL AFTER `id`;
 --
 -- Déchargement des données de la table `provider`
 --
 
-INSERT INTO `provider` (`id`, `name`) VALUES
-(1, 'Oups Model'),
-(2, 'Passion 132'),
-(3, 'Super Hobby');
 
 -- --------------------------------------------------------
 
@@ -281,7 +278,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 -- Contraintes pour les tables déchargées
 --
-
+ALTER TABLE `provider` ADD CONSTRAINT `c_user_provider` FOREIGN KEY (`owner`) REFERENCES `user`(`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 --
 -- Contraintes pour la table `family`
 --
