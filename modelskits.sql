@@ -166,6 +166,8 @@ CREATE TABLE IF NOT EXISTS `model` (
   KEY `c_user_model` (`owner`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+
+ALTER TABLE `model` ADD `reference` VARCHAR(30) NOT NULL AFTER `name`;
 -- --------------------------------------------------------
 
 --
@@ -299,6 +301,8 @@ ALTER TABLE `model`
   ADD CONSTRAINT `c_state_model` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `c_user_model` FOREIGN KEY (`owner`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
+
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
