@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : jeu. 26 jan. 2023 à 18:53
+-- Généré le : jeu. 26 jan. 2023 à 20:37
 -- Version du serveur : 8.0.21
 -- Version de PHP : 8.1.2
 
@@ -163,10 +163,8 @@ CREATE TABLE IF NOT EXISTS `model` (
   `category` int NOT NULL,
   `brand` int NOT NULL,
   `period` int NOT NULL,
-  `provider` int NOT NULL,
   `scale` int NOT NULL,
-  `owner` int NOT NULL,
-  `bill` int NOT NULL,
+  `orders` int NOT NULL,
   `name` varchar(255) NOT NULL,
   `reference` varchar(30) NOT NULL,
   `picture` varchar(200) DEFAULT NULL,
@@ -176,9 +174,7 @@ CREATE TABLE IF NOT EXISTS `model` (
   KEY `c_category_model` (`category`),
   KEY `c_family_model` (`family`),
   KEY `c_period_model` (`period`),
-  KEY `c_provider_model` (`provider`),
-  KEY `c_scale_model` (`scale`),
-  KEY `c_user_model` (`owner`)
+  KEY `c_scale_model` (`scale`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -214,7 +210,9 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `owner` int NOT NULL,
   `provider` int NOT NULL,
   `reference` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  KEY `c_order_owner` (`owner`),
+  KEY `c_order_provider` (`provider`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -254,7 +252,7 @@ CREATE TABLE IF NOT EXISTS `provider` (
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `c_user_provider` (`owner`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
@@ -356,6 +354,13 @@ ALTER TABLE `model_user`
   ADD CONSTRAINT `c_model_model` FOREIGN KEY (`model`) REFERENCES `model` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `c_model_owner` FOREIGN KEY (`owner`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   ADD CONSTRAINT `c_model_state` FOREIGN KEY (`state`) REFERENCES `state` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+--
+-- Contraintes pour la table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `c_order_owner` FOREIGN KEY (`owner`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  ADD CONSTRAINT `c_order_provider` FOREIGN KEY (`provider`) REFERENCES `provider` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Contraintes pour la table `provider`
