@@ -29,7 +29,16 @@ const getAll = async (req, res) => {
 }
 
 const getOne = async (req, res) => {
-    const result = userModel;
+    const id=req.params.id;
+    const result =await  userModel.findOne(id);
+    if (result&&result!==-1)
+    res.json(result);   
+    else if (result===-1){
+        res.sendStatus(500)
+    }
+    else{
+        res.sendStatus(404)
+    }  
 }
 
 const addOne = async (req, res) => {
