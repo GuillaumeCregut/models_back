@@ -48,8 +48,13 @@ const addOne =async(req,res)=>{
         rank,
         email
     )
-    res.sendStatus(404);
-    const result=userModel.addUser(payload);
+    const result=await userModel.addUser(payload);
+    if(result){
+        res.json(result);
+    }
+    else{
+        res.sendStatus(500)
+    }
 }
 
 const updateUser=async(req,res)=>{
