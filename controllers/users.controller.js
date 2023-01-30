@@ -42,7 +42,6 @@ const getOne = async (req, res) => {
 }
 
 const addOne = async (req, res) => {
-    //Check entry
     const errors = validate(req.body);
     if (errors) {
         const error = errors.details[0].message;
@@ -80,9 +79,20 @@ const updateUser = async (req, res) => {
 }
 
 const deleteUser = async (req, res) => {
-    //Check entry
-    const result = userModel;
-
+    const id=parseInt(req.params.id);
+    if(id===0 || isNaN(id)){
+        return res.status(422).send('bad Id');
+    }
+    const result = await userModel.deleteOne(id);
+    if(result&&result!==-1){
+        res.sendStatus(204);
+    }
+    else if(result===-1){
+        res.sendStatus(500);
+    }
+    else {
+        res.sendStatus(404)
+    }
 }
 
 module.exports = {

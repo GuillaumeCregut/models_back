@@ -52,8 +52,15 @@ const addUser=async(user)=>{
     }
 }
 
+
+const deleteOne=async(id)=>{
+    const dbResult = await dbquery('delete', 'DELETE FROM user WHERE id=?', [id]);
+    return dbResult;
+}
+
 module.exports={
     addUser,
     findAll,
     findOne,
+    deleteOne,
 }
