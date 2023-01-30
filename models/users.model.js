@@ -52,8 +52,12 @@ const addUser=async(user)=>{
     }
 }
 
+const updateUser=async(user)=>{
+    console.log(user);
+    //Soit on update champs par champs, soit faut voir comment faire
+}
 
-const deleteOne=async(id)=>{
+const deleteUser=async(id)=>{
     const dbResult = await dbquery('delete', 'DELETE FROM user WHERE id=?', [id]);
     return dbResult;
 }
@@ -62,5 +66,6 @@ module.exports={
     addUser,
     findAll,
     findOne,
-    deleteOne,
+    deleteUser,
+    updateUser
 }

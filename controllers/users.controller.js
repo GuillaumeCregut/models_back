@@ -74,8 +74,36 @@ const addOne = async (req, res) => {
 }
 
 const updateUser = async (req, res) => {
-    //Check entry
-    const result = userModel;
+    const errors = validate(req.body,false);
+    if (errors) {
+        const error = errors.details[0].message;
+        return res.status(422).send(error);
+    }
+    const id=parseInt(req.params.id);
+    if(id===0 || isNaN(id)){
+        return res.status(422).send('bad Id');
+    }
+    console.log(req.body)
+    const { password, firstname, lastname, email, login,rank } = req.body;
+    let encryptedPassword ='';
+    if(password){
+        encryptedPassword = await encrypt(password);
+    }
+    else{
+        encryptedPassword=undefined;
+    }
+    const payload = new User(
+        firstname,
+        lastname,
+        login,
+        encryptedPassword,
+        rank,
+        email,
+        id
+    )
+    const result = userModel.updateUser(payload);
+//change this
+    res.sendStatus(404)
 }
 
 const deleteUser = async (req, res) => {
@@ -83,7 +111,7 @@ const deleteUser = async (req, res) => {
     if(id===0 || isNaN(id)){
         return res.status(422).send('bad Id');
     }
-    const result = await userModel.deleteOne(id);
+    const result = await userModel.deleteUser(id);
     if(result&&result!==-1){
         res.sendStatus(204);
     }
