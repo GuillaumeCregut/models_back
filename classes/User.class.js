@@ -15,6 +15,10 @@ class User{
         this.login=login;
         this.id=id
     }
+
+    setId(id){
+        this.id=id;
+    }
 }
 
 module.exports=User;

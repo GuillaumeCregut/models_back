@@ -1,7 +1,7 @@
 const userModel=require('../models/users.model');
 const User=require('../classes/User.class');
 const Joi=require('joi');
-const {encrypt,compare}=require('../utils/crypto');
+const {encrypt}=require('../utils/crypto');
 
 const  validate=(data, forCreation = true)=>{
     const presence = forCreation ? 'required' : 'optional';
@@ -31,13 +31,13 @@ const addOne =async(req,res)=>{
         const error=errors.details[0].message;
         return res.status(422).send(error);
     }
+
     let {rank}=req.body;
     if (!rank){
         rank=1;
     }
-    const {password,firstname,lastname,email,login}=req.body;
 
-    //BCrypt password !
+    const {password,firstname,lastname,email,login}=req.body;
     let encryptedPassword=await encrypt( password);
 
     const payload=new User(
@@ -49,7 +49,7 @@ const addOne =async(req,res)=>{
         email
     )
     res.sendStatus(404);
-    const result=userModel;
+    const result=userModel.addUser(payload);
 }
 
 const updateUser=async(req,res)=>{
