@@ -7,6 +7,7 @@ const router = require('./routes/index.routes');
 const cookieParser = require('cookie-parser');
 const headerConfig = require('./config/headerConfig');
 const { logInfo, Emitter } =require('./utils/logEvent');
+const errorHandler = require('./middlewares/errorHandler');
 
 //Initialise 
 const myEmitter=new Emitter();
@@ -19,7 +20,7 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(headerConfig);
 app.use(cookieParser());
-
+app.use(errorHandler)
 
 app.use('/api', router);
 app.use('/uploads',express.static('uploads'));
