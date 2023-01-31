@@ -1,13 +1,15 @@
 require('dotenv').config();
 const express = require('express');
-const EventEmitter=require('events');
 const cors = require('cors');
 const app = express();
 const corsOptions=require('./config/corsConfig')
 const router = require('./routes/index.routes');
 const cookieParser = require('cookie-parser');
 const headerConfig = require('./config/headerConfig');
-const { logInfo } =require('./utils/logEvent');
+const { logInfo, Emitter } =require('./utils/logEvent');
+
+//Initialise 
+const myEmitter=new Emitter();
 
 const port = process.env.PORT || 8000;
 
@@ -26,9 +28,8 @@ app.get("/", (req, res) => {
     res.send("Welcome");
 });
 
-class MyEmitter extends EventEmitter{};
-//Initialise 
-const myEmitter=new MyEmitter();
+
+
 //add listener
 myEmitter.on('log',(msg)=>{logInfo(msg)});
 
