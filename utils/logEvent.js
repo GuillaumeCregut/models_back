@@ -7,7 +7,7 @@ const EventEmitter=require('events');
 class Emitter extends EventEmitter{};
 
 const logFile= async (message, file)=>{
-    const newDate = `${format(new Date(), 'yyyyMMdd\tHH:mm:ss')}`;
+    const newDate = `${format(new Date(), 'yyyy/MM/dd\tHH:mm:ss')}`;
     const logItem = `${newDate}\t${message}\n`;
     try {
         if (!fs.existsSync(path.join(__dirname, '..', 'logs'))) {
@@ -27,8 +27,13 @@ const logError=async (message)=>{
     logFile(message,'errors.txt')
 }
 
+const logWarning=async (message)=>{
+    logFile(message,'warnings.txt')
+}
+
 module.exports = {
     logInfo,
     logError,
-    Emitter
+    Emitter,
+    logWarning
 }
