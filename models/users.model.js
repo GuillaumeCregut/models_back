@@ -69,7 +69,7 @@ const updateUser=async(user)=>{
         return dbUpdate;
     }
     else{
-        console.log('nothing found')
+        return 0;
     }
 
 }
