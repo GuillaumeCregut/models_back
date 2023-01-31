@@ -8,6 +8,7 @@ const cookieParser = require('cookie-parser');
 const headerConfig = require('./config/headerConfig');
 const { logInfo, Emitter } =require('./utils/logEvent');
 const {loggerDebug}=require('./middlewares/loggerMiddleware');
+const errorHandler = require('./middlewares/errorHandler');
 
 //Initialise 
 const myEmitter=new Emitter();
@@ -21,6 +22,7 @@ app.use(cors(corsOptions));
 app.use(headerConfig);
 app.use(cookieParser());
 app.use(loggerDebug);
+app.use(errorHandler)
 
 app.use('/api', router);
 app.use('/uploads',express.static('uploads'));
