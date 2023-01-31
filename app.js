@@ -6,6 +6,11 @@ const corsOptions=require('./config/corsConfig')
 const router = require('./routes/index.routes');
 const cookieParser = require('cookie-parser');
 const headerConfig = require('./config/headerConfig');
+const { logInfo, Emitter } =require('./utils/logEvent');
+
+//Initialise 
+const myEmitter=new Emitter();
+
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
@@ -25,8 +30,13 @@ app.get("/", (req, res) => {
 
 
 
+//add listener
+myEmitter.on('log',(msg)=>{logInfo(msg)});
+
+
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
+  myEmitter.emit('log',`Server listening on port ${port}`)
 });
 
 module.exports = app;
