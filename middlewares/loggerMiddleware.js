@@ -7,7 +7,6 @@ const logger=async(req,res,next)=>{
 }
 
 const loggerDebug=async (req,res,next)=>{
-    console.log(req)
     await logWarning(`En-tête requete ${req.headers.origin}, URL=${req.url}`)
     next();
 }

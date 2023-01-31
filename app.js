@@ -34,7 +34,7 @@ app.get("/", loggerDebug,(req, res) => {
 
 
 app.listen(port, () => {
-  console.log(`Server listening on port ${port}`);
+  console.info(`Server listening on port ${port}`);
   logInfo(`Server listening on port ${port}`);
 });
 

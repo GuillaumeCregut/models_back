@@ -83,7 +83,6 @@ const updateUser = async (req, res) => {
     if(id===0 || isNaN(id)){
         return res.status(422).send('bad Id');
     }
-    console.log(req.body)
     const { password, firstname, lastname, email, login,rank } = req.body;
     let encryptedPassword ='';
     if(password){
@@ -101,9 +100,16 @@ const updateUser = async (req, res) => {
         email,
         id
     )
-    const result = userModel.updateUser(payload);
-//change this
-    res.sendStatus(404)
+    const result =await userModel.updateUser(payload);
+    if(result&&result!==-1){
+        res.sendStatus(204);
+    }
+    else if(result===-1){
+        res.sendStatus(500);
+    }
+    else {
+        res.sendStatus(404)
+    }
 }
 
 const deleteUser = async (req, res) => {
