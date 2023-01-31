@@ -6,4 +6,13 @@ const logger=async(req,res,next)=>{
     next();
 }
 
-module.exports=logger;
+const loggerDebug=async (req,res,next)=>{
+    console.log(req)
+    await logWarning(`En-tête requete ${req.headers.origin}, URL=${req.url}`)
+    next();
+}
+
+module.exports={
+logger,
+loggerDebug
+};
