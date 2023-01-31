@@ -7,6 +7,7 @@ const router = require('./routes/index.routes');
 const cookieParser = require('cookie-parser');
 const headerConfig = require('./config/headerConfig');
 const { logInfo, Emitter } =require('./utils/logEvent');
+const {loggerDebug}=require('./middlewares/loggerMiddleware');
 const errorHandler = require('./middlewares/errorHandler');
 
 //Initialise 
@@ -20,24 +21,21 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(headerConfig);
 app.use(cookieParser());
+app.use(loggerDebug);
 app.use(errorHandler)
 
 app.use('/api', router);
 app.use('/uploads',express.static('uploads'));
 
-app.get("/", (req, res) => {
+app.get("/", loggerDebug,(req, res) => {
     res.send("Welcome");
 });
 
 
 
-//add listener
-myEmitter.on('log',(msg)=>{logInfo(msg)});
-
-
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
-  myEmitter.emit('log',`Server listening on port ${port}`)
+  logInfo(`Server listening on port ${port}`);
 });
 
 module.exports = app;
