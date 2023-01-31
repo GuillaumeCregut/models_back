@@ -1,5 +1,5 @@
 const router=require('express').Router();
-const logger=require('../middlewares/loggerMiddleware');
+const {logger}=require('../middlewares/loggerMiddleware');
 const country=require('./country.routes');
 const users=require('./users.routes');
 
