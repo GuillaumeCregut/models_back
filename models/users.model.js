@@ -37,6 +37,24 @@ const findOne=async(id)=>{
 
 }
 
+const findOneByLogin=async (login)=>{
+    const dbResult = await dbquery('get', 'SELECT firstname,id,lastname,rankUser,passwd FROM user WHERE login=?',[login]);
+    if (dbResult && dbResult !== -1) {
+        const resultat = dbResult.map(element => {
+            const item = new User(element.firstname,element.lastname,login,element.passwd,element.rankUser,null,element.id);
+            return item;
+        });
+        return resultat;
+    }
+    else if(dbResult===-1)
+    {
+        return undefined;
+    }
+    else
+        return -1;
+
+}
+
 
 const addUser=async(user)=>{
     
@@ -84,5 +102,6 @@ module.exports={
     findAll,
     findOne,
     deleteUser,
-    updateUser
+    updateUser,
+    findOneByLogin,
 }
