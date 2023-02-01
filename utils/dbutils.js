@@ -1,6 +1,7 @@
 const connection=require('../dbconfig');
 const db=connection.promise();
 
+const {logError}=require('./logEvent');
 const dbquery = (action,sql,params)=>{
     return db.query(sql,params)
         .then(([result])=>{
@@ -18,6 +19,7 @@ const dbquery = (action,sql,params)=>{
             }
     }) 
     .catch((err)=>{
+        logError(err);
         console.error(err);
         return -1;
     })
