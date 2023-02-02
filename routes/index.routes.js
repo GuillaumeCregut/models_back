@@ -2,10 +2,15 @@ const router=require('express').Router();
 const {logger}=require('../middlewares/loggerMiddleware');
 const country=require('./country.routes');
 const users=require('./users.routes');
-
+const auth=require('./auth.routes');
+const refresAuth=require('./refreshauth.routes')
+const logout=require('./logout.routes');
 /*Used routes */
 router.use('/country',country);
 router.use('/users/',users);
+router.use('/auth',auth);
+router.use('/refresh',refresAuth);
+router.use('/logout',logout);
 
 const defaultReply=(req,res)=>{
     res.status(404);

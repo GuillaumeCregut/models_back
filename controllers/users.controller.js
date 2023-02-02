@@ -2,7 +2,6 @@ const userModel = require('../models/users.model');
 const User = require('../classes/User.class');
 const Joi = require('joi');
 const { encrypt } = require('../utils/crypto');
-
 const validate = (data, forCreation = true) => {
     const presence = forCreation ? 'required' : 'optional';
     return Joi.object({
