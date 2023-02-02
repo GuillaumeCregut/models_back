@@ -60,9 +60,15 @@ const addUser=async(user)=>{
     
     const paramsArray=Object.values(user);
     const [id,...params]=paramsArray;
+    const checkUnique=await dbquery('get','SELECT count(*) as nb FROM `user` WHERE login=? OR email=?',[user.login,user.email]);
+    const nbUser=checkUnique[0].nb;
+    if(nbUser>0){
+        return -2;
+    }
     const dbResult= await dbquery('add','INSERT INTO user (firstname, lastname, login,passwd,rankUser, email) VALUES(?,?,?,?,?,?)',params)
     if (dbResult != -1) {
         user.setId(dbResult);
+        user.password=null;
         return user;
     }
     else {

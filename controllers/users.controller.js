@@ -65,6 +65,9 @@ const addOne = async (req, res) => {
     )
     const result = await userModel.addUser(payload);
     if (result) {
+        if(result===-2){
+            return res.sendStatus(409);
+        }
         res.json(result);
     }
     else {

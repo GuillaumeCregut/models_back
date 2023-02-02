@@ -317,12 +317,15 @@ CREATE TABLE IF NOT EXISTS `user` (
   `passwd` varchar(255) NOT NULL,
   `login` varchar(200) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `refreshToken` VARCHAR(255) NULL, 
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Contraintes pour les tables déchargées
 --
+ALTER TABLE `user` ADD UNIQUE(`login`);
+ALTER TABLE `user` ADD UNIQUE(`email`);
 
 --
 -- Contraintes pour la table `family`
