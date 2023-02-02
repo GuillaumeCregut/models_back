@@ -30,6 +30,7 @@ CREATE TABLE `user` (
   `passwd` varchar(255) NOT NULL,
   `login` varchar(200) NOT NULL,
   `email` varchar(255) NOT NULL,
+  `refreshToken` VARCHAR(255) NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
