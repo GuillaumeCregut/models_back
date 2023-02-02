@@ -324,7 +324,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 -- Contraintes pour les tables déchargées
 --
-
+ALTER TABLE `user` ADD UNIQUE(`login`, `email`);
 --
 -- Contraintes pour la table `family`
 --
