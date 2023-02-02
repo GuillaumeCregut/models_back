@@ -97,6 +97,33 @@ const deleteUser=async(id)=>{
     return dbResult;
 }
 
+const setToken=async(token,id)=>{
+    const dbResult= await dbquery('update','UPDATE user SET refreshToken=? WHERE id=?',[token,id]);
+    return dbResult;
+}
+
+const deleteTokenDb=async(token)=>{
+    const dbResult= await dbquery('update','UPDATE user SET refreshToken=null WHERE refreshToken=?',[token]);
+    return dbResult;
+}
+
+
+const findUserByToken=async(token)=>{
+    const dbResult = await dbquery('get', 'SELECT firstname,id,lastname,rankUser FROM user WHERE refreshToken=?',[token]);
+    if (dbResult && dbResult !== -1) {
+        const resultat = dbResult.map(element => {
+            const item = new User(element.firstname,element.lastname,element.login,element.passwd,element.rankUser,null,element.id);
+            return item;
+        });
+        return resultat;
+    }
+    else if(dbResult===-1)
+    {
+        return undefined;
+    }
+    else
+        return -1;
+}
 module.exports={
     addUser,
     findAll,
@@ -104,4 +131,7 @@ module.exports={
     deleteUser,
     updateUser,
     findOneByLogin,
+    setToken,
+    deleteTokenDb,
+    findUserByToken,
 }
