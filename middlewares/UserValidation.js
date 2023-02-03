@@ -3,6 +3,8 @@ const {verifyToken}=require('../utils/auth');
 const userCheck=(req,res,next)=>{
    // For later.
     // const authHeader=req.headers['authorization'];
+    // to be relaced by
+    // const authHeader=req.headers.authorization || req.headers.Authorization;
     // if(!authHeader){ 
     //     return res.sendStatus(401);
     // }
