@@ -1,6 +1,6 @@
 const corsOptions ={
-     origin:process.env.CLIENT_URL,  
-   // origin: true,
+    // origin:process.env.CLIENT_URL,  
+    origin: true,
     credentials:true,            //access-control-allow-credentials:true
     optionSuccessStatus:200
   }

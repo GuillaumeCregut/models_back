@@ -263,7 +263,7 @@ CREATE TABLE IF NOT EXISTS `provider` (
 DROP TABLE IF EXISTS `scale`;
 CREATE TABLE IF NOT EXISTS `scale` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `scale` varchar(6) NOT NULL,
+  `name` varchar(6) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
