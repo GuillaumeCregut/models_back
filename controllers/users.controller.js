@@ -121,7 +121,7 @@ const deleteUser = async (req, res) => {
     }
     const result = await userModel.deleteUser(id);
     if(result&&result!==-1){
-        res.sendStatus(204);
+        res.status(201).sendStatus(204);
     }
     else if(result===-1){
         res.sendStatus(500);
