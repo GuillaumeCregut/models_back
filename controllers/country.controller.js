@@ -48,7 +48,7 @@ const addCountry=async(req,res)=>{
     const result=await countryModel.addOne(country);
     //On envoie le nouveau élément
     if(result){
-        res.json(result);
+        res.status(201).json(result);
     }
     else
         res.sendStatus(500)
