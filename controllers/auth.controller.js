@@ -88,6 +88,7 @@ console.log('passe')
     }
     if (result){
         res.clearCookie('jwt',{httpOnly:true,sameSite:'None',secure:true}); //Ajout de semSite et secure sans test opé
+        res.cookie('jwt','',{ maxAge: 1, httpOnly:true,sameSite:'Strict', secure:false}); 
         return res.sendStatus(204)
     }
     else{
