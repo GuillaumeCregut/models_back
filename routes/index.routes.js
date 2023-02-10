@@ -1,19 +1,26 @@
 const router=require('express').Router();
 const {logger}=require('../middlewares/loggerMiddleware');
-const country=require('./country.routes');
-const brand=require('./brand.routes');
-const users=require('./users.routes');
 const auth=require('./auth.routes');
-const refresAuth=require('./refreshauth.routes')
 const logout=require('./logout.routes');
-/*Used routes */
-router.use('/country',country);
-router.use('/brand',brand);
-router.use('/users/',users);
-router.use('/auth',auth);
-router.use('/refresh',refresAuth);
-router.use('/logout',logout);
+const refresAuth=require('./refreshauth.routes');
+const brand=require('./brand.routes');
+const country=require('./country.routes');
+const period=require('./period.routes');
+const users=require('./users.routes');
 
+/*Specific routes*/
+router.use('/auth',auth);
+router.use('/logout',logout);
+router.use('/refresh',refresAuth);
+
+/* Routes*/
+router.use('/brand',brand);
+router.use('/country',country);
+router.use('/period',period);
+router.use('/users',users);
+
+
+/* Default routes */
 const defaultReply=(req,res)=>{
     res.status(404);
     res.send('Please read documentation')
