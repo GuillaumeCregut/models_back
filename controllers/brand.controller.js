@@ -1,20 +1,29 @@
-const getAll=()=>{
+const Brand=require('../classes/Brand.class');
+const Joi = require('joi');
+
+const  validate=(data)=>{
+    return Joi.object({
+        name : Joi.string().max(200).presence('required')
+    }).validate(data,{abortEarly:false}).error;
+}
+
+const getAll=async (req,res)=>{
 
 };
 
-const getOne=()=>{
+const getOne=async (req,res)=>{
 
 };
 
-const addOne=()=>{
+const addOne=async (req,res)=>{
 
 }
 
-const updateOne=()=>{
+const updateOne=async (req,res)=>{
 
 }
 
-const deleteOne=()=>{
+const deleteOne=async (req,res)=>{
 
 };
 
