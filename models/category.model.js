@@ -1,11 +1,11 @@
 const Category=require('../classes/Category.class');
 const { dbquery } = require('../utils/dbutils');
 
-const getAll=async()=>{
+const findAll=async()=>{
     const dbResult = await dbquery('get', 'SELECT * FROM category ORDER BY name');
     if (dbResult && dbResult !== -1) {
         const resultat = dbResult.map(element => {
-            const item = new Scale(element.id, element.name);
+            const item = new Category(element.id, element.name);
             return item;
         });
         return resultat;
@@ -18,7 +18,7 @@ const getAll=async()=>{
         return -1;
 }
 
-const getOne=async(id)=>{
+const findOne=async(id)=>{
     const dbResult = await dbquery('get', 'SELECT * FROM category WHERE id=?', [id]);
     if (dbResult !== -1) {
         if (dbResult.length > 0) {
@@ -54,8 +54,8 @@ const deleteOne=async(id)=>{
 }
 
 module.exports={
-    getAll,
-    getOne,
+    findAll,
+    findOne,
     addOne,
     updateOne,
     deleteOne,
