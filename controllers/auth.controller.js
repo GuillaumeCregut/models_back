@@ -35,12 +35,13 @@ const authCheck=async(req,res)=>{
         else{
             const accessToken=await calculatetoken(user.id,user.rank,user.firstname,user.lastname,'auth');
             const refreshToken=await calculatetoken(user.id,user.rank,user.firstname,user.lastname,'refresh');
+            console.log('token refresh : ',refreshToken)
             const tokenSetup=await setToken(refreshToken,user.id);
             if(tokenSetup===-1){
                 return res.sendStatus(500);
             }
             if (tokenSetup){
-                res.cookie('jwt',refreshToken,{httpOnly:true,sameSite:'None',secure:true,maxAge:maxAgeRefresh}); //Rajout de samSite et Secure sans test opé.
+                res.cookie('jwt',refreshToken,{httpOnly:true,sameSite:'None',secure:false,maxAge:maxAgeRefresh}); //Rajout de samSite et Secure sans test opé.
                 return  res.json({accessToken}); 
             }
             else
@@ -86,14 +87,14 @@ console.log('passe')
     if(result===-1){
         return res.sendStatus(500);
     }
-    if (result){
-        res.clearCookie('jwt',{httpOnly:true,sameSite:'None',secure:true}); //Ajout de semSite et secure sans test opé
+   // if (result){
+        res.clearCookie('jwt',{httpOnly:true,sameSite:'None',secure:false}); //Ajout de semSite et secure sans test opé
         res.cookie('jwt','',{ maxAge: 1, httpOnly:true,sameSite:'Strict', secure:false}); 
         return res.sendStatus(204)
-    }
-    else{
+  //  }
+  //  else{
         return res.sendStatus(404)
-    }
+  //  }
 }
 
 module.exports={

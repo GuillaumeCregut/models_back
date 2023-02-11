@@ -104,6 +104,7 @@ const deleteUser=async(id)=>{
 }
 
 const setToken=async(token,id)=>{
+    console.log('in DB : ',token);
     const dbResult= await dbquery('update','UPDATE user SET refreshToken=? WHERE id=?',[token,id]);
     return dbResult;
 }
@@ -130,6 +131,14 @@ const findUserByToken=async(token)=>{
     else
         return -1;
 }
+
+const findCredentialsByUser=async(firsname,lastname,token)=>{
+    const dbResult = await dbquery('get', 'SELECT * FROM user WHERE (firstname=? and lastname=? and refreshToken=?)', [firsname,lastname,token]);
+    console.log(dbResult);
+    
+}
+
+
 module.exports={
     addUser,
     findAll,
@@ -140,4 +149,5 @@ module.exports={
     setToken,
     deleteTokenDb,
     findUserByToken,
+    findCredentialsByUser,
 }
