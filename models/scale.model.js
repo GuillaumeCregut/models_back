@@ -44,7 +44,7 @@ const addOne=async(scale)=>{
     }
 }
 
-const updatOne=async(scale)=>{
+const updateOne=async(scale)=>{
     const dbResult = await dbquery('update', 'UPDATE scale SET name=? WHERE id=?', [scale.name, scale.id]);
     return dbResult;
 }
@@ -58,6 +58,6 @@ module.exports={
     findAll,
     findOne,
     addOne,
-    updatOne,
+    updateOne,
     deleteOne,
 }
