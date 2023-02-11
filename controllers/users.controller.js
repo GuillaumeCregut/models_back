@@ -131,10 +131,12 @@ const deleteUser = async (req, res) => {
     }
 }
 
+
+
 module.exports = {
     getAll,
     getOne,
     addOne,
     updateUser,
-    deleteUser
+    deleteUser,
 }

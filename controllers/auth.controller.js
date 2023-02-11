@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const {findOneByLogin,setToken,findUserByToken,deleteTokenDb}=require('../models/users.model');
+const {findOneByLogin,setToken,findUserByToken,deleteTokenDb, findCredentialsByUser}=require('../models/users.model');
 const {compare}=require('../utils/crypto');
 const {calculatetoken,maxAgeRefresh, verifyToken}=require('../utils/auth');
 
@@ -10,6 +10,13 @@ const  validate=(data)=>{
         login : Joi.string().max(200).presence('required'),
         password: Joi.string().max(200).presence('required'),
     }).validate(data,{abortEarly:false}).error;
+}
+
+const validateUser=(data)=>{
+        return Joi.object({
+            firstname:Joi.string().max(200).presence('required'),
+            lastname: Joi.string().max(200).presence('required'),
+        }).validate(data,{abortEarly:false}).error;
 }
 
 const authCheck=async(req,res)=>{
@@ -35,12 +42,13 @@ const authCheck=async(req,res)=>{
         else{
             const accessToken=await calculatetoken(user.id,user.rank,user.firstname,user.lastname,'auth');
             const refreshToken=await calculatetoken(user.id,user.rank,user.firstname,user.lastname,'refresh');
+            console.log('token refresh : ',refreshToken)
             const tokenSetup=await setToken(refreshToken,user.id);
             if(tokenSetup===-1){
                 return res.sendStatus(500);
             }
             if (tokenSetup){
-                res.cookie('jwt',refreshToken,{httpOnly:true,sameSite:'None',secure:true,maxAge:maxAgeRefresh}); //Rajout de samSite et Secure sans test opé.
+                res.cookie('jwt',refreshToken,{httpOnly:true,sameSite:'Strict',secure:false,maxAge:maxAgeRefresh}); //Rajout de samSite et Secure sans test opé.
                 return  res.json({accessToken}); 
             }
             else
@@ -87,7 +95,7 @@ console.log('passe')
         return res.sendStatus(500);
     }
     if (result){
-        res.clearCookie('jwt',{httpOnly:true,sameSite:'None',secure:true}); //Ajout de semSite et secure sans test opé
+        res.clearCookie('jwt',{httpOnly:true,sameSite:'Strict',secure:false}); //Ajout de semSite et secure sans test opé
         res.cookie('jwt','',{ maxAge: 1, httpOnly:true,sameSite:'Strict', secure:false}); 
         return res.sendStatus(204)
     }
@@ -96,8 +104,49 @@ console.log('passe')
     }
 }
 
+const reloadUser=async(req,res)=>{
+    const {firstname,lastname}=req.body;
+    const errors=validateUser({firstname,lastname});
+    if (errors){
+        const error=errors.details[0].message;
+        return res.status(422).send(error);
+    }
+    const cookies=req.cookies;
+    if(!cookies?.jwt){
+        return res.sendStatus(401);
+    }
+    const token=cookies.jwt;
+    const result=await findCredentialsByUser(firstname,lastname,token);
+    if(!result){
+        return res.sendStatus(500);
+    }
+    else{
+        if(!result?.id)
+        {
+            return res.sendStatus(401);
+        }
+        else{
+            const tokenOk=verifyToken(token,'refresh');
+            if(tokenOk){
+                const {id,firstname,lastname,rankUser}=result;
+                const user={
+                    id,
+                    firstname,
+                    lastname,
+                    rank:rankUser
+                }
+                const accessToken= calculatetoken(user.id,user.rank,user.firstname,user.lastname,'auth');
+                return  res.json({accessToken}); 
+            }
+            else
+                return res.sendStatus(403);
+        }
+    }
+}
+
 module.exports={
     authCheck,
     refreshToken,
-    deleteToken
+    deleteToken,
+    reloadUser,
 };
