@@ -131,16 +131,7 @@ const deleteUser = async (req, res) => {
     }
 }
 
-const reloadUser=async(req,res)=>{
-    const {firstname,lastname}=req.body;
-    const cookies=req.cookies;
-    if(!cookies?.jwt){
-        return res.sendStatus(401);
-    }
-    const token=cookies.jwt;
-    const result=await userModel.findCredentialsByUser(firstname,lastname,token);
-    res.sendStatus(200);
-}
+
 
 module.exports = {
     getAll,
@@ -148,5 +139,4 @@ module.exports = {
     addOne,
     updateUser,
     deleteUser,
-    reloadUser,
 }

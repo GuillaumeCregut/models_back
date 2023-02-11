@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const {findOneByLogin,setToken,findUserByToken,deleteTokenDb}=require('../models/users.model');
+const {findOneByLogin,setToken,findUserByToken,deleteTokenDb, findCredentialsByUser}=require('../models/users.model');
 const {compare}=require('../utils/crypto');
 const {calculatetoken,maxAgeRefresh, verifyToken}=require('../utils/auth');
 
@@ -87,18 +87,30 @@ console.log('passe')
     if(result===-1){
         return res.sendStatus(500);
     }
-   // if (result){
+    if (result){
         res.clearCookie('jwt',{httpOnly:true,sameSite:'Strict',secure:false}); //Ajout de semSite et secure sans test opé
         res.cookie('jwt','',{ maxAge: 1, httpOnly:true,sameSite:'Strict', secure:false}); 
         return res.sendStatus(204)
-  //  }
-  //  else{
+    }
+    else{
         return res.sendStatus(404)
-  //  }
+    }
+}
+
+const reloadUser=async(req,res)=>{
+    const {firstname,lastname}=req.body;
+    const cookies=req.cookies;
+    if(!cookies?.jwt){
+        return res.sendStatus(401);
+    }
+    const token=cookies.jwt;
+    const result=await findCredentialsByUser(firstname,lastname,token);
+    res.sendStatus(200);
 }
 
 module.exports={
     authCheck,
     refreshToken,
-    deleteToken
+    deleteToken,
+    reloadUser,
 };
