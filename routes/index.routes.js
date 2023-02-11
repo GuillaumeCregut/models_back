@@ -8,6 +8,7 @@ const category=require('./category.route');
 const country=require('./country.routes');
 const period=require('./period.routes');
 const scale=require('./scale.router');
+const state=require('./state.route');
 const users=require('./users.routes');
 
 /*Specific routes*/
@@ -21,6 +22,7 @@ router.use('/country',country);
 router.use('/category',category);
 router.use('/period',period);
 router.use('/scale',scale);
+router.use('/state',state);
 router.use('/users',users);
 
 
