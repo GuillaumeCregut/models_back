@@ -41,7 +41,7 @@ const authCheck=async(req,res)=>{
                 return res.sendStatus(500);
             }
             if (tokenSetup){
-                res.cookie('jwt',refreshToken,{httpOnly:true,sameSite:'None',secure:false,maxAge:maxAgeRefresh}); //Rajout de samSite et Secure sans test opé.
+                res.cookie('jwt',refreshToken,{httpOnly:true,sameSite:'Strict',secure:false,maxAge:maxAgeRefresh}); //Rajout de samSite et Secure sans test opé.
                 return  res.json({accessToken}); 
             }
             else
@@ -88,7 +88,7 @@ console.log('passe')
         return res.sendStatus(500);
     }
    // if (result){
-        res.clearCookie('jwt',{httpOnly:true,sameSite:'None',secure:false}); //Ajout de semSite et secure sans test opé
+        res.clearCookie('jwt',{httpOnly:true,sameSite:'Strict',secure:false}); //Ajout de semSite et secure sans test opé
         res.cookie('jwt','',{ maxAge: 1, httpOnly:true,sameSite:'Strict', secure:false}); 
         return res.sendStatus(204)
   //  }
