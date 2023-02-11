@@ -23,7 +23,7 @@ const findOne=async(id)=>{
     const dbResult = await dbquery('get', 'SELECT * FROM brand WHERE id=?', [id]);
     if (dbResult !== -1) {
         if (dbResult.length > 0) {
-            brand = new Brand(dbResult[0].id, dbResult[0].name)
+            const brand = new Brand(dbResult[0].id, dbResult[0].name)
             return brand;
         }
         else
