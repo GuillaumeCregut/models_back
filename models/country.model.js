@@ -2,7 +2,7 @@ const Country = require('../classes/Country.class');
 const { dbquery } = require('../utils/dbutils');
 
 const findAll = async () => {
-    const dbResult = await dbquery('get', 'SELECT * FROM country');
+    const dbResult = await dbquery('get', 'SELECT * FROM country ORDER BY name');
     if (dbResult && dbResult !== -1) {
         const resultat = dbResult.map(element => {
             const item = new Country(element.id, element.name);
@@ -23,8 +23,8 @@ const findOne = async (id) => {
     const dbResult = await dbquery('get', 'SELECT * FROM country WHERE id=?', [id]);
     if (dbResult !== -1) {
         if (dbResult.length > 0) {
-            country = new Country(dbResult[0].id, dbResult[0].name)
-            return dbResult[0];
+            const country = new Country(dbResult[0].id, dbResult[0].name)
+            return country;
         }
         else
             return false;

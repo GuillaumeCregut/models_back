@@ -22,8 +22,8 @@ const findOne=async(id)=>{
     const dbResult = await dbquery('get', 'SELECT * FROM category WHERE id=?', [id]);
     if (dbResult !== -1) {
         if (dbResult.length > 0) {
-            scale= new Category(dbResult[0].id, dbResult[0].name)
-            return dbResult[0];
+            const category= new Category(dbResult[0].id, dbResult[0].name)
+            return category;
         }
         else
             return false;
