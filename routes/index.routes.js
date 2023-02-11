@@ -6,6 +6,7 @@ const refresAuth=require('./refreshauth.routes');
 const brand=require('./brand.routes');
 const country=require('./country.routes');
 const period=require('./period.routes');
+const scale=require('./scale.router');
 const users=require('./users.routes');
 
 /*Specific routes*/
@@ -17,6 +18,7 @@ router.use('/refresh',refresAuth);
 router.use('/brand',brand);
 router.use('/country',country);
 router.use('/period',period);
+router.use('/scale',scale);
 router.use('/users',users);
 
 
