@@ -22,8 +22,8 @@ const findOne=async(id)=>{
     const dbResult = await dbquery('get', 'SELECT * FROM period WHERE id=?', [id]);
     if (dbResult !== -1) {
         if (dbResult.length > 0) {
-            country = new Period(dbResult[0].id, dbResult[0].name)
-            return dbResult[0];
+           const  period = new Period(dbResult[0].id, dbResult[0].name)
+            return period[0];
         }
         else
             return false;
