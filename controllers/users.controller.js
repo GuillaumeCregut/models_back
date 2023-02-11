@@ -31,7 +31,7 @@ const getOne = async (req, res) => {
     const id=req.params.id;
     const result =await  userModel.findOne(id);
     if (result&&result!==-1)
-    res.json(result);   
+    res.json(result[0]);   
     else if (result===-1){
         res.sendStatus(500)
     }
