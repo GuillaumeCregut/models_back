@@ -23,8 +23,8 @@ const findOne=async(id)=>{
     const dbResult = await dbquery('get', 'SELECT * FROM scale WHERE id=?', [id]);
     if (dbResult !== -1) {
         if (dbResult.length > 0) {
-            scale= new Scale(dbResult[0].id, dbResult[0].name)
-            return dbResult[0];
+            const scale= new Scale(dbResult[0].id, dbResult[0].name)
+            return scale;
         }
         else
             return false;
