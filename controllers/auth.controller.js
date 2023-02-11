@@ -12,6 +12,13 @@ const  validate=(data)=>{
     }).validate(data,{abortEarly:false}).error;
 }
 
+const validateUser=(data)=>{
+        return Joi.object({
+            firstname:Joi.string().max(200).presence('required'),
+            lastname: Joi.string().max(200).presence('required'),
+        }).validate(data,{abortEarly:false}).error;
+}
+
 const authCheck=async(req,res)=>{
     const{login, password}=req.body;
     const errors=validate({login,password});
@@ -99,13 +106,42 @@ console.log('passe')
 
 const reloadUser=async(req,res)=>{
     const {firstname,lastname}=req.body;
+    const errors=validateUser({firstname,lastname});
+    if (errors){
+        const error=errors.details[0].message;
+        return res.status(422).send(error);
+    }
     const cookies=req.cookies;
     if(!cookies?.jwt){
         return res.sendStatus(401);
     }
     const token=cookies.jwt;
     const result=await findCredentialsByUser(firstname,lastname,token);
-    res.sendStatus(200);
+    if(!result){
+        return res.sendStatus(500);
+    }
+    else{
+        if(!result?.id)
+        {
+            return res.sendStatus(401);
+        }
+        else{
+            const tokenOk=verifyToken(token,'refresh');
+            if(tokenOk){
+                const {id,firstname,lastname,rankUser}=result;
+                const user={
+                    id,
+                    firstname,
+                    lastname,
+                    rank:rankUser
+                }
+                const accessToken= calculatetoken(user.id,user.rank,user.firstname,user.lastname,'auth');
+                return  res.json({accessToken}); 
+            }
+            else
+                return res.sendStatus(403);
+        }
+    }
 }
 
 module.exports={

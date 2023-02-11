@@ -37,7 +37,8 @@ const verifyToken=(token,typeToken)=>{
     }
     return jwt.verify(token,key,(err,decoded)=>{
         if(err) {
-            return false; }
+            return false; 
+        }
         return decoded;
     })
 }
