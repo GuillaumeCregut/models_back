@@ -42,7 +42,6 @@ const authCheck=async(req,res)=>{
         else{
             const accessToken=await calculatetoken(user.id,user.rank,user.firstname,user.lastname,'auth');
             const refreshToken=await calculatetoken(user.id,user.rank,user.firstname,user.lastname,'refresh');
-            console.log('token refresh : ',refreshToken)
             const tokenSetup=await setToken(refreshToken,user.id);
             if(tokenSetup===-1){
                 return res.sendStatus(500);
@@ -83,13 +82,11 @@ const refreshToken=async (req,res)=>{
 
 const deleteToken=async(req,res)=>{
 //On client also delete accessToken
-console.log('passe')
     const cookies=req.cookies;
     if(!cookies?.jwt){
         return res.sendStatus(204);
     }
     const refreshToken=cookies.jwt;
-    console.log('refresh : ',refreshToken)
     result=await deleteTokenDb(refreshToken);
     if(result===-1){
         return res.sendStatus(500);
