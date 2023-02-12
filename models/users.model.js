@@ -104,7 +104,6 @@ const deleteUser=async(id)=>{
 }
 
 const setToken=async(token,id)=>{
-    console.log('in DB : ',token);
     const dbResult= await dbquery('update','UPDATE user SET refreshToken=? WHERE id=?',[token,id]);
     return dbResult;
 }
