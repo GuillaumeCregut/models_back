@@ -4,6 +4,7 @@ const auth=require('./auth.routes');
 const logout=require('./logout.routes');
 const refresAuth=require('./refreshauth.routes');
 const brand=require('./brand.routes');
+const builder=require('./builder.route');
 const category=require('./category.route');
 const country=require('./country.routes');
 const period=require('./period.routes');
@@ -18,6 +19,7 @@ router.use('/refresh',refresAuth);
 
 /* Routes*/
 router.use('/brand',brand);
+router.use('/builder',builder);
 router.use('/country',country);
 router.use('/category',category);
 router.use('/period',period);

@@ -15,3 +15,5 @@ class Builder{
         this.countryName=name;
     }
 }
+
+module.exports=Builder;
