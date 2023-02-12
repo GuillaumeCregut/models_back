@@ -19,10 +19,10 @@
 -- Table structure for table `family`
 --
 
-DROP TABLE IF EXISTS `family`;
+DROP TABLE IF EXISTS `builders`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `family` (
+CREATE TABLE `builders` (
   `id` int NOT NULL AUTO_INCREMENT,
   `country` int NOT NULL,
   `name` varchar(200) NOT NULL,
@@ -36,9 +36,9 @@ CREATE TABLE `family` (
 -- Dumping data for table `family`
 --
 
-LOCK TABLES `family` WRITE;
+LOCK TABLES `builders` WRITE;
 /*!40000 ALTER TABLE `family` DISABLE KEYS */;
-INSERT INTO `family` VALUES (1,2,'Messerschmitt'),(2,2,'Focke Wulf'),(3,1,'Morane Saulnier'),(4,1,'Nieuport'),(5,6,'Supermarine'),(6,6,'Hawker'),(7,3,'Fairchild'),(8,3,'Grumann'),(9,3,'Consolited'),(10,3,'Republic'),(11,3,'North American'),(12,5,'Kawasaki'),(13,4,'Yakovlev'),(14,4,'Mikoyan Gurevitch'),(15,4,'Lavochkin');
+INSERT INTO `builders` VALUES (1,2,'Messerschmitt'),(2,2,'Focke Wulf'),(3,1,'Morane Saulnier'),(4,1,'Nieuport'),(5,6,'Supermarine'),(6,6,'Hawker'),(7,3,'Fairchild'),(8,3,'Grumann'),(9,3,'Consolited'),(10,3,'Republic'),(11,3,'North American'),(12,5,'Kawasaki'),(13,4,'Yakovlev'),(14,4,'Mikoyan Gurevitch'),(15,4,'Lavochkin');
 /*!40000 ALTER TABLE `family` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
