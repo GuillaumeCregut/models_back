@@ -7,10 +7,10 @@ const getAll = async (req, res) => {
     if (result && result !== -1)
         res.json(result);
     else if (result === -1) {
-        res.sendStatus(500)
+        res.sendStatus(404)
     }
     else {
-        res.sendStatus(404)
+        res.sendStatus(500)
     }
 }
 
