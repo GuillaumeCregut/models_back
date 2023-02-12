@@ -105,8 +105,8 @@ INSERT INTO `country` (`id`, `name`) VALUES
 -- Structure de la table `family`
 --
 
-DROP TABLE IF EXISTS `family`;
-CREATE TABLE IF NOT EXISTS `family` (
+DROP TABLE IF EXISTS `builders`;
+CREATE TABLE IF NOT EXISTS `builders` (
   `id` int NOT NULL AUTO_INCREMENT,
   `country` int NOT NULL,
   `name` varchar(200) NOT NULL,
@@ -118,7 +118,7 @@ CREATE TABLE IF NOT EXISTS `family` (
 -- Déchargement des données de la table `family`
 --
 
-INSERT INTO `family` (`id`, `country`, `name`) VALUES
+INSERT INTO `builders` (`id`, `country`, `name`) VALUES
 (1, 2, 'Messerschmitt'),
 (2, 2, 'Focke Wulf'),
 (3, 1, 'Morane Saulnier'),
