@@ -4,8 +4,8 @@ const {userCheck}=require('../middlewares/UserValidation');
 
 router.get('/',builderController.getAll);
 router.get('/:id',builderController.getOne);
-router.post('/',builderController.addOne);
-router.put('/:id',builderController.updateOne);
-router.delete('/:id',builderController.deleteOne);
+router.post('/',userCheck,builderController.addOne);
+router.put('/:id',userCheck,builderController.updateOne);
+router.delete('/:id',userCheck,builderController.deleteOne);
 
 module.exports =router;
