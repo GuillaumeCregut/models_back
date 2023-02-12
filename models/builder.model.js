@@ -20,8 +20,6 @@ const findAll = async () => {
 
 const findOne = async (id) => {
     const dbResult = await dbquery('get', 'SELECT builders.name, builders.id, builders.country, country.name as country_name FROM builders INNER JOIN country on builders.country=country.id WHERE builders.id=? ORDER BY builders.name', [id]);
-    console.log(dbResult)
-
     if (dbResult && dbResult !== -1) {
         if(dbResult.length>0){
             const result=dbResult[0];
@@ -51,7 +49,8 @@ const addOne = async (builder) => {
 }
 
 const updateOne = async (builder) => {
-
+    const dbResult=await dbquery('update', 'UPDATE builders SET name=?, country=? WHERE id=?', [builder.name,builder.countryId, builder.id]);
+    return dbResult;
 }
 
 const deleteOne = async (id) => {

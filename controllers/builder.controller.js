@@ -62,6 +62,22 @@ const updateOne = async (req, res) => {
         return res.sendStatus(422);
     }
     const idNum = parseInt(id);
+    const {name,country}=req.body;
+    const errors=validate({name,country}, true)
+    if (errors){
+        const error=errors.details[0].message;
+        return res.status(422).send(error);
+    }
+    const newBuilder=new Builder(idNum,name,country);
+    const result=await builderModel.updateOne(newBuilder);
+    if(result&&result!==-1){
+        res.sendStatus(204);
+    }
+    else if(result===-1){
+        res.sendStatus(500)
+    }
+    else
+        res.sendStatus(404)
 }
 
 const deleteOne = async (req, res) => {
