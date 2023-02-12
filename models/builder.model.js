@@ -1,42 +1,59 @@
 const { dbquery } = require('../utils/dbutils');
-const Builder=require('../classes/Builder.class');
+const Builder = require('../classes/Builder.class');
 
-const findAll=async()=>{
-   const dbResult = await dbquery('get', 'SELECT builders.name, builders.id, builders.country, country.name as country_name FROM builders INNER JOIN country on builders.country=country.id ORDER BY builders.name');
-   if (dbResult && dbResult !== -1) {
+const findAll = async () => {
+    const dbResult = await dbquery('get', 'SELECT builders.name, builders.id, builders.country, country.name as country_name FROM builders INNER JOIN country on builders.country=country.id ORDER BY builders.name');
+    if (dbResult && dbResult !== -1) {
         //mise en forme du résultat
-        const result=dbResult.map((item)=>{
-            const builder=new Builder(item.id, item.name,item.country);
+        const result = dbResult.map((item) => {
+            const builder = new Builder(item.id, item.name, item.country);
             builder.setCountryName(item.country_name);
             return builder;
         })
         return result;
     }
-    else if(dbResult===-1)
-    {
+    else if (dbResult === -1) {
         return undefined;
     }
     else
         return -1;
 }
 
-const findOne=async(id)=>{
+const findOne = async (id) => {
+    const dbResult = await dbquery('get', 'SELECT builders.name, builders.id, builders.country, country.name as country_name FROM builders INNER JOIN country on builders.country=country.id WHERE builders.id=? ORDER BY builders.name', [id]);
+    console.log(dbResult)
+
+    if (dbResult && dbResult !== -1) {
+        //mise en forme du résultat
+        if(dbResult.length>0){
+            const result=dbResult[0];
+            const builder = new Builder(result.id, result.name, result.country);
+            builder.setCountryName(result.country_name);
+            return builder;
+        }
+        else
+            return -1;
+    }
+    else if (dbResult === -1) {
+        return undefined;
+    }
+    else
+        return -1;
+}
+
+const addOne = async (builder) => {
 
 }
 
-const addOne=async(builder)=>{
+const updateOne = async (builder) => {
 
 }
 
-const updateOne=async(builder)=>{
+const deleteOne = async (id) => {
 
 }
 
-const deleteOne=async(id)=>{
-
-}
-
-module.exports ={
+module.exports = {
     findAll,
     findOne,
     addOne,
