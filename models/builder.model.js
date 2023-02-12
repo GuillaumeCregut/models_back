@@ -54,7 +54,8 @@ const updateOne = async (builder) => {
 }
 
 const deleteOne = async (id) => {
-
+    const dbResult=await dbquery('delete', 'DELETE FROM builders WHERE id=?', [id]);
+    return dbResult;
 }
 
 module.exports = {

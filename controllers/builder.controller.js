@@ -86,6 +86,15 @@ const deleteOne = async (req, res) => {
         return res.sendStatus(422);
     }
     const idNum = parseInt(id);
+    const result=await builderModel.deleteOne(idNum);
+    if(result&&result!==-1){
+        res.sendStatus(204);
+    }
+    else if(result===-1){
+        res.sendStatus(500)
+    }
+    else
+        res.sendStatus(404)
 }
 
 module.exports = {
