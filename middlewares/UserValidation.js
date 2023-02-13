@@ -10,7 +10,6 @@ const userCheck=(req,res,next)=>{
     }
     const token=authHeader.split(' ')[1];
     const isOK=verifyToken(token,'access');
-    console.log(isOK)
     if(!isOK)
         return res.sendStatus(403);
     req.user=isOK;
