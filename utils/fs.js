@@ -9,6 +9,7 @@ const createUpload = async () => {
 }
 
 const createSubUpload= async (dir)=>{
+    await createUpload();
     if (!fs.existsSync(path.join(__dirname, '..', 'uploads',dir))) {
         await fsPromises.mkdir(path.join(__dirname, '..', 'uploads',dir));
     }

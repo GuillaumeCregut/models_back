@@ -1,8 +1,8 @@
 const Model = require('../classes/model.class');
 const modelModel = require('../models/model.model');
 const Joi = require('joi');
-const multer = require('multer');
-const {createSubUpload}=require('../utils/fs');
+
+
 const validate = (data, option) => {
     const presence = option ? 'required' : 'optional'
     return Joi.object({
@@ -17,18 +17,9 @@ const validate = (data, option) => {
     }).validate(data, { abortEarly: false }).error;
 }
 
-createSubUpload('models');
 
-const storagePicture = multer.diskStorage(
-    {
-        destination: function (req, file, cb) {
-            cb(null, 'uploads/models/')
-        },
-        filename: function (req, file, cb) {
-            cb(null, file.originalname)
-        }
-    }
-);
+
+
 
 const getAll = async (req, res) => {
     const result = await modelModel.findAll();
