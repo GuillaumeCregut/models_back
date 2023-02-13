@@ -17,10 +17,6 @@ const validate = (data, option) => {
     }).validate(data, { abortEarly: false }).error;
 }
 
-
-
-
-
 const getAll = async (req, res) => {
     const result = await modelModel.findAll();
     if (result && result !== -1) {
@@ -49,7 +45,7 @@ const getOne = async (req, res) => {
 
 const addOne = async (req, res) => {
     //See to store picture
-    const picture=null;
+    const picture= req?.file?.path;
     const { name, brand, builder, category, period, scale, reference, scalemates } = req.body;
     const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates }, true);
     if (errors) {

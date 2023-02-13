@@ -21,8 +21,8 @@ const uploadPicture=multer({storage:storagePicture});
 
 router.get('/',modelController.getAll);
 router.get('/:id',modelController.getOne);
-router.post('/',modelController.addOne);
-router.put('/:id',modelController.updateOne);
+router.post('/',uploadPicture.single('file'),modelController.addOne);
+router.put('/:id',uploadPicture.single('file'),modelController.updateOne);
 router.delete('/:id',modelController.deleteOne);
 
 module.exports=router;
