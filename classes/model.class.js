@@ -17,6 +17,17 @@ class Model{
     builderName;
     brandName;
 
+/**
+ * 
+ * @param {*} id 
+ * @param {*} name 
+ * @param {*} brand 
+ * @param {*} builder 
+ * @param {*} category 
+ * @param {*} period 
+ * @param {*} reference 
+ * @param {*} scale 
+ */
     constructor (id,name,brand,builder,category,period,reference,scale){
         this.id=id;
         this.name=name;
@@ -49,3 +60,5 @@ class Model{
         this.brandName=name;
     }
 }
+
+module.exports=Model;
