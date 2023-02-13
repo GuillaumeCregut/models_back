@@ -41,6 +41,9 @@ const addOne = async (builder) => {
     const dbResult=await dbquery('add', 'INSERT INTO builders (name,country) VALUES (?,?)',[builder.name,builder.countryId]);
     if (dbResult != -1) {
         builder.setId(dbResult);
+        //Get country Name
+        const dbCountry=await dbquery('get','SELECT name FROM country WHERE id=?',[builder.countryId]); 
+        builder.setCountryName(dbCountry[0].name)
          return builder;
      }
      else {
