@@ -52,7 +52,26 @@ const findOne = async (id) => {
 }
 
 const addOne = async (model) => {
-
+    const result = await dbquery('add', 'INSERT INTO model (builder,category,brand,period,scale,name,reference,scalemates,picture) VALUES (?,?,?,?,?,?,?,?,?)', [
+        model.builder, model.category, model.brand, model.period, model.scale, model.name, model.reference, model.link, null
+    ])
+    if (result != -1) {
+        model.setId(result);
+        //Getting result in text
+        const dbResult = await dbquery('get', 'SELECT * FROM model_full WHERE id=? ORDER BY name', [model.id]);
+        const item = dbResult[0];
+        model.setBrandName(item.brandname);
+        model.setBuilderName(item.buildername);
+        model.setCategoryName(item.categoryname);
+        model.setPeriodName(item.periodname);
+        model.setScalName(item.scalename);
+        model.setPicture(item.picture);
+        model.setLink(item.scalemates);
+        return model;
+    }
+    else {
+        return undefined;
+    }
 }
 
 const updateOne = async (model) => {

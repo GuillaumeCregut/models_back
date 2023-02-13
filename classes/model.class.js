@@ -38,6 +38,10 @@ class Model{
         this.reference=reference;
         this.scale=scale;
     }
+    setId(id){
+        this.id=id
+    }
+    
     setPicture(link){
         this.picture=link;
     }
