@@ -2,6 +2,20 @@ const Model=require('../classes/model.class');
 const modelModel=require('../models/model.model');
 const Joi=require('joi');
 
+const  validate=(data,option)=>{
+    const presence=option?'required':'optional'
+    return Joi.object({
+        name : Joi.string().max(200).presence(presence),
+        reference : Joi.string().max(200).presence(presence),
+        brand : Joi.number().integer().presence(presence),
+        builder : Joi.number().integer().presence(presence),
+        scale : Joi.number().integer().presence(presence),
+        category : Joi.number().integer().presence(presence),
+        period : Joi.number().integer().presence(presence),
+        scalemates : Joi.string().max(200).presence('optional'),
+    }).validate(data,{abortEarly:false}).error;
+}
+
 const getAll=async(req,res)=>{
     const result=await modelModel.findAll();
     if(result&&result!==-1){
@@ -29,6 +43,13 @@ const getOne=async(req,res)=>{
 }
 
 const addOne=async(req,res)=>{
+    //See to store picture
+    const{name,brand,builder, category,period,scale,reference,scalemates}=req.body;
+    const errors=validate({name,brand,builder, category,period,scale,reference,scalemates});
+    if (errors){
+        const error=errors.details[0].message;
+        return res.status(422).send(error);
+    }
     
 }
 
