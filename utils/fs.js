@@ -8,4 +8,12 @@ const createUpload = async () => {
     }
 }
 
-module.exports={createUpload}
+const createSubUpload= async (dir)=>{
+    if (!fs.existsSync(path.join(__dirname, '..', 'uploads',dir))) {
+        await fsPromises.mkdir(path.join(__dirname, '..', 'uploads',dir));
+    }
+}
+module.exports={
+    createUpload,
+    createSubUpload,
+}
