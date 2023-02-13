@@ -9,8 +9,9 @@ const headerConfig = require('./config/headerConfig');
 const { logInfo, Emitter } =require('./utils/logEvent');
 const {loggerDebug}=require('./middlewares/loggerMiddleware');
 const errorHandler = require('./middlewares/errorHandler');
-
+const {createUpload}=require('./utils/fs');
 //Initialise 
+createUpload();
 const myEmitter=new Emitter();
 
 const port = process.env.PORT || 8000;
@@ -23,7 +24,6 @@ app.use(headerConfig);
 app.use(cookieParser());
 app.use(loggerDebug);
 app.use(errorHandler)
-
 app.use('/api', router);
 app.use('/uploads',express.static('uploads'));
 
