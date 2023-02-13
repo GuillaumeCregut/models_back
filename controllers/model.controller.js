@@ -44,6 +44,7 @@ const getOne = async (req, res) => {
 
 const addOne = async (req, res) => {
     //See to store picture
+    const picture=null;
     const { name, brand, builder, category, period, scale, reference, scalemates } = req.body;
     const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates }, true);
     if (errors) {
@@ -60,6 +61,7 @@ const addOne = async (req, res) => {
     if (scalemates) {
         newModel.setLink(scalemates);
     }
+    newModel.setPicture(picture);
     const result = await modelModel.addOne(newModel);
     if (result)
         return res.status(201).json(result);
@@ -68,11 +70,66 @@ const addOne = async (req, res) => {
 }
 
 const updateOne = async (req, res) => {
-
+    if (isNaN(req.params.id)) {
+        return res.sendStatus(422);
+    }
+    const id = parseInt(req.params.id);
+    //See to store picture
+    const picture=null;
+    const { name, brand, builder, category, period, scale, reference, scalemates } = req.body;
+    const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates });
+    if (errors) {
+        const error = errors.details[0].message;
+        return res.status(422).send(error);
+    }
+    let brandI = parseInt(brand);
+    let builderI = parseInt(builder);
+    let categoryI = parseInt(category);
+    let periodI = parseInt(period);
+    let scaleI = parseInt(scale);
+    const oldModel = await modelModel.findOne(id);
+    if (!brandI) {
+        brandI = oldModel.brand;
+    }
+    if (!builderI) {
+        builderI = oldModel.builder;
+    }
+    if (!categoryI) {
+        categoryI = oldModel.category;
+    }
+    if (!periodI)
+        periodI = oldModel.period;
+    if (!scaleI)
+        scaleI = oldModel.scale;
+    const newModel = new Model(oldModel.id, name, brandI, builderI, categoryI, periodI, reference, scaleI);
+    newModel.setLink(scalemates?scalemates:oldModel.link);
+    newModel.setPicture(picture?picture:oldModel.picture);
+    const result=await modelModel.updateOne(newModel);
+    if (result && result !== -1) {
+        res.sendStatus(204);
+    }
+    else if (result === -1) {
+        res.sendStatus(500)
+    }
+    else
+        res.sendStatus(404)
 }
 
 const deleteOne = async (req, res) => {
-
+    const id = req.params.id;
+    if (isNaN(id)) {
+        return res.sendStatus(422);
+    }
+    const idNum = parseInt(id);
+    const result = await modelModel.deleteOne(idNum);
+    if (result && result !== -1) {
+        res.sendStatus(204);
+    }
+    else if (result === -1) {
+        res.sendStatus(500)
+    }
+    else
+        res.sendStatus(404)
 }
 
 module.exports = {

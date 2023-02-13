@@ -41,7 +41,7 @@ class Model{
     setId(id){
         this.id=id
     }
-    
+
     setPicture(link){
         this.picture=link;
     }

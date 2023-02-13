@@ -52,8 +52,9 @@ const findOne = async (id) => {
 }
 
 const addOne = async (model) => {
+    //Prévoir l'ajout d'image
     const result = await dbquery('add', 'INSERT INTO model (builder,category,brand,period,scale,name,reference,scalemates,picture) VALUES (?,?,?,?,?,?,?,?,?)', [
-        model.builder, model.category, model.brand, model.period, model.scale, model.name, model.reference, model.link, null
+        model.builder, model.category, model.brand, model.period, model.scale, model.name, model.reference, model.link, model.picture
     ])
     if (result != -1) {
         model.setId(result);
@@ -75,11 +76,15 @@ const addOne = async (model) => {
 }
 
 const updateOne = async (model) => {
-
+    const result = await dbquery('update', 'UPDATE model SET builder=?,category=?,brand=?,period=?,scale=?,name=?,reference=?,scalemates=?,picture=? WHERE id=?', [
+        model.builder, model.category, model.brand, model.period, model.scale, model.name, model.reference, model.link, model.picture,model.id
+    ])
+    return result;
 }
 
 const deleteOne = async (id) => {
-
+    const dbResult=await dbquery('delete', 'DELETE FROM model WHERE id=?', [id]);
+    return dbResult;
 }
 
 module.exports = {
