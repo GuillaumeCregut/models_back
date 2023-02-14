@@ -69,7 +69,7 @@ const addOne = async (model) => {
         model.setBuilderName(item.buildername);
         model.setCategoryName(item.categoryname);
         model.setPeriodName(item.periodname);
-        model.setScalName(item.scalename);
+        model.setScaleName(item.scalename);
         model.setPicture(item.picture);
         model.setLink(item.scalemates);
         return model;
