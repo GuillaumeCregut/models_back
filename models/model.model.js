@@ -14,6 +14,8 @@ const findAll = async () => {
             newModel.setScalName(item.scalename);
             newModel.setPicture(item.picture);
             newModel.setLink(item.scalemates);
+            newModel.setCountryId(item.countryid);
+            newModel.setScalName(item.countryname);
             return newModel;
         });
         return models;
@@ -38,6 +40,8 @@ const findOne = async (id) => {
             newModel.setScalName(item.scalename);
             newModel.setPicture(item.picture);
             newModel.setLink(item.scalemates);
+            newModel.setCountryId(item.countryid);
+            newModel.setScalName(item.countryname);
             return newModel;
         }
         else
