@@ -28,7 +28,7 @@ SET time_zone = "+00:00";
 --
 
 DROP VIEW IF EXISTS `model_full`;
-CREATE  VIEW `model_full`  AS SELECT `m`.`id` AS `id`, `m`.`name` AS `name`, `m`.`builder` AS `builder`, `m`.`category` AS `category`, `m`.`brand` AS `brand`, `m`.`period` AS `period`, `m`.`scale` AS `scale`, `m`.`reference` AS `reference`, `m`.`picture` AS `picture`, `m`.`scalemates` AS `scalemates`, `bu`.`name` AS `buildername`, `c`.`name` AS `categoryname`, `br`.`name` AS `brandname`, `p`.`name` AS `periodname`, `s`.`name` AS `scalename` FROM (((((`model` `m` join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `category` `c` on((`m`.`category` = `c`.`id`))) join `brand` `br` on((`m`.`brand` = `br`.`id`))) join `period` `p` on((`m`.`period` = `p`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`)))  ;
+CREATE  VIEW `model_full`  AS SELECT m.id AS id, m.name AS name, m.builder AS builder, m.category AS category, m.brand AS brand, m.period AS period, m.scale AS scale, m.reference AS reference, m.picture AS picture, m.scalemates AS scalemates, bu.name AS buildername, bu.country as countryid, c.name AS categoryname, br.name AS brandname, p.name AS periodname, s.name AS scalename,co.name AS countryname FROM model m INNER join builders bu on m.builder = bu.id INNER JOIN category c on m.category = c.id INNER join brand br on m.brand = br.id INNER JOIN period p on m.period = p.id INNER join scale s on m.scale = s.id INNER JOIN country co on bu.country=co.id;
 
 --
 -- VIEW `model_full`
