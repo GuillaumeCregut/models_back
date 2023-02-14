@@ -16,6 +16,8 @@ class Model{
     scaleName;
     builderName;
     brandName;
+    countryId;
+    countryName;
 
 /**
  * 
@@ -54,7 +56,7 @@ class Model{
     setPeriodName(name){
         this.periodName=name;
     }
-    setScalName(name){
+    setScaleName(name){
         this.scaleName=name;
     }
     setBuilderName(name){
@@ -62,6 +64,12 @@ class Model{
     }
     setBrandName(name){
         this.brandName=name;
+    }
+    setCountryId(id){
+        this.countryId=id;
+    }
+    setCountryName(name){
+        this.countryName=name;
     }
 }
 

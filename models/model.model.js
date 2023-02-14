@@ -11,9 +11,11 @@ const findAll = async () => {
             newModel.setBuilderName(item.buildername);
             newModel.setCategoryName(item.categoryname);
             newModel.setPeriodName(item.periodname);
-            newModel.setScalName(item.scalename);
+            newModel.setScaleName(item.scalename);
             newModel.setPicture(item.picture);
             newModel.setLink(item.scalemates);
+            newModel.setCountryId(item.countryid);
+            newModel.setCountryName(item.countryname);
             return newModel;
         });
         return models;
@@ -35,9 +37,11 @@ const findOne = async (id) => {
             newModel.setBuilderName(item.buildername);
             newModel.setCategoryName(item.categoryname);
             newModel.setPeriodName(item.periodname);
-            newModel.setScalName(item.scalename);
+            newModel.setScaleName(item.scalename);
             newModel.setPicture(item.picture);
             newModel.setLink(item.scalemates);
+            newModel.setCountryId(item.countryid);
+            newModel.setCountryName(item.countryname);
             return newModel;
         }
         else
