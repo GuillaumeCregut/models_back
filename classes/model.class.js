@@ -16,6 +16,8 @@ class Model{
     scaleName;
     builderName;
     brandName;
+    countryId;
+    countryName;
 
 /**
  * 
@@ -62,6 +64,12 @@ class Model{
     }
     setBrandName(name){
         this.brandName=name;
+    }
+    setCountryId(id){
+        this.countryId=id;
+    }
+    set CountryName(name){
+        this.countryName=name;
     }
 }
 
