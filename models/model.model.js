@@ -87,8 +87,16 @@ const updateOne = async (model) => {
 }
 
 const deleteOne = async (id) => {
+    const old=await findOne(id);
     const dbResult=await dbquery('delete', 'DELETE FROM model WHERE id=?', [id]);
-    return dbResult;
+    if (dbResult && dbResult !== -1) {
+        if(old.picture)
+            return old.picture;
+        else
+            return dbResult;
+    }
+    else
+        return dbResult
 }
 
 module.exports = {

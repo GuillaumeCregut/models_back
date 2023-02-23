@@ -1,7 +1,8 @@
 const Model = require('../classes/model.class');
 const modelModel = require('../models/model.model');
 const Joi = require('joi');
-
+const fs = require('fs');
+const path = require('path');
 
 const validate = (data, option) => {
     const presence = option ? 'required' : 'optional'
@@ -124,7 +125,19 @@ const deleteOne = async (req, res) => {
     const idNum = parseInt(id);
     const result = await modelModel.deleteOne(idNum);
     if (result && result !== -1) {
-        res.sendStatus(204);
+        if(result){
+            try{
+                const filePath=path.join(__dirname, '..',result);
+                console.log(filePath)
+                fs.unlinkSync(filePath);
+                return res.sendStatus(204);
+            }
+            catch (err) {
+                return res.status(204).send("Le fichier n'as pu être supprimer")
+            }
+        }
+        else
+            return res.sendStatus(204);
     }
     else if (result === -1) {
         res.sendStatus(500)
