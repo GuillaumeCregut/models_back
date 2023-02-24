@@ -77,7 +77,7 @@ const updateOne = async (req, res) => {
     }
     const id = parseInt(req.params.id);
     //See to store picture
-    const picture=null;
+    const picture= req?.file?.path;
     const { name, brand, builder, category, period, scale, reference, scalemates } = req.body;
     const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates });
     if (errors) {
@@ -108,7 +108,7 @@ const updateOne = async (req, res) => {
     newModel.setPicture(picture?picture:oldModel.picture);
     const result=await modelModel.updateOne(newModel);
     if (result && result !== -1) {
-        res.sendStatus(204);
+        res.status(200).json(newModel.picture);
     }
     else if (result === -1) {
         res.sendStatus(500)
