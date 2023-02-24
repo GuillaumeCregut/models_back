@@ -121,7 +121,7 @@ const updateOne = async (req, res) => {
                 return res.status(204).send("Le fichier n'as pu être supprimer")
             }
         }
-        res.status(200).json(newModel.picture);
+        res.status(200).json({newPicture:newModel.picture});
     }
     else if (result === -1) {
         res.sendStatus(500)
