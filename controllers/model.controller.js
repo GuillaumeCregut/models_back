@@ -46,7 +46,7 @@ const getOne = async (req, res) => {
 
 const addOne = async (req, res) => {
     //See to store picture
-    const picture= req?.file?.path;
+    const picture = req?.file?.path;
     const { name, brand, builder, category, period, scale, reference, scalemates } = req.body;
     const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates }, true);
     if (errors) {
@@ -77,7 +77,7 @@ const updateOne = async (req, res) => {
     }
     const id = parseInt(req.params.id);
     //See to store picture
-    const picture= req?.file?.path;
+    const picture = req?.file?.path;
     const { name, brand, builder, category, period, scale, reference, scalemates } = req.body;
     const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates });
     if (errors) {
@@ -103,11 +103,24 @@ const updateOne = async (req, res) => {
         periodI = oldModel.period;
     if (!scaleI)
         scaleI = oldModel.scale;
+
     const newModel = new Model(oldModel.id, name, brandI, builderI, categoryI, periodI, reference, scaleI);
-    newModel.setLink(scalemates?scalemates:oldModel.link);
-    newModel.setPicture(picture?picture:oldModel.picture);
-    const result=await modelModel.updateOne(newModel);
+    newModel.setLink(scalemates ? scalemates : oldModel.link);
+    newModel.setPicture(picture ? picture : oldModel.picture);
+    const result = await modelModel.updateOne(newModel);
     if (result && result !== -1) {
+        ////Remove old picture
+        if (oldModel.picture && oldModel.picture != '') {
+            try {
+                const filePath = path.join(__dirname, '..', result);
+                console.log(filePath)
+                fs.unlinkSync(filePath);
+                return res.sendStatus(204);
+            }
+            catch (err) {
+                return res.status(204).send("Le fichier n'as pu être supprimer")
+            }
+        }
         res.status(200).json(newModel.picture);
     }
     else if (result === -1) {
@@ -125,9 +138,9 @@ const deleteOne = async (req, res) => {
     const idNum = parseInt(id);
     const result = await modelModel.deleteOne(idNum);
     if (result && result !== -1) {
-        if(result){
-            try{
-                const filePath=path.join(__dirname, '..',result);
+        if (result) {
+            try {
+                const filePath = path.join(__dirname, '..', result);
                 console.log(filePath)
                 fs.unlinkSync(filePath);
                 return res.sendStatus(204);
