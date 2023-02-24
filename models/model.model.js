@@ -83,7 +83,12 @@ const updateOne = async (model) => {
     const result = await dbquery('update', 'UPDATE model SET builder=?,category=?,brand=?,period=?,scale=?,name=?,reference=?,scalemates=?,picture=? WHERE id=?', [
         model.builder, model.category, model.brand, model.period, model.scale, model.name, model.reference, model.link, model.picture,model.id
     ])
-    return result;
+    if (result &&result !== -1) {
+        const newModel=findOne(model.id);
+        return newModel;
+    }
+    else
+        return result;
 }
 
 const deleteOne = async (id) => {

@@ -110,18 +110,17 @@ const updateOne = async (req, res) => {
     const result = await modelModel.updateOne(newModel);
     if (result && result !== -1) {
         ////Remove old picture
-        if (oldModel.picture && oldModel.picture != '') {
+        if (oldModel.picture && oldModel.picture != '' && picture) {
             try {
                 const filePath = path.join(__dirname, '..', result);
-                console.log(filePath)
                 fs.unlinkSync(filePath);
-                return res.sendStatus(204);
             }
             catch (err) {
-                return res.status(204).send("Le fichier n'as pu être supprimer")
+                //Log le result
+                console.log('Erreur de suppression')
             }
         }
-        res.status(200).json(newModel.picture);
+        return res.status(200).json(result);
     }
     else if (result === -1) {
         res.sendStatus(500)
