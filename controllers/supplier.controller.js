@@ -113,10 +113,10 @@ const deleteOne=async(req,res)=>{
         res.sendStatus(204);
     }
     else if(result===-1){
-        res.sendStatus(404);
+        res.sendStatus(500);
     }
     else {
-        res.sendStatus(500)
+        res.sendStatus(404)
     }
 }
 
