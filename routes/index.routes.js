@@ -11,6 +11,7 @@ const model=require('./model.route');
 const period=require('./period.routes');
 const scale=require('./scale.router');
 const state=require('./state.route');
+const supplier=require('./supplier.route');
 const users=require('./users.routes');
 
 /*Specific routes*/
@@ -27,6 +28,7 @@ router.use('/model',model);
 router.use('/period',period);
 router.use('/scale',scale);
 router.use('/state',state);
+router.use('/supplier',supplier);
 router.use('/users',users);
 
 
