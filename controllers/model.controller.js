@@ -79,7 +79,7 @@ const updateOne = async (req, res) => {
     //See to store picture
     const picture = req?.file?.path;
     const { name, brand, builder, category, period, scale, reference, scalemates } = req.body;
-    const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates });
+    const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates },false);
     if (errors) {
         const error = errors.details[0].message;
         return res.status(422).send(error);

@@ -7,6 +7,9 @@ class Supplier{
         this.name=name;
         this.owner=ownerId;
     }
+    setId(id){
+        this.id=id;
+    }
 }
 
 module.exports=Supplier;
