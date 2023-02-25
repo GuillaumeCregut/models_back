@@ -26,6 +26,8 @@ CREATE TABLE `model_order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `model_id` int NOT NULL,
   `order_id` int NOT NULL,
+   `qtte` INT NOT NULL,
+  `price` DOUBLE UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `model_order` (`model_id`),
   KEY `order_order` (`order_id`),
