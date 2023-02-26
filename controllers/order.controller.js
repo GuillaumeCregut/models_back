@@ -58,11 +58,18 @@ const addOne=async(req,res)=>{
         order.addModels(item);
     })
     const result=await orderModel.addOne(order);
-    if(result&&result!==-1){
-        return res.sendStatus(200);
+    console.log(result)
+    if(result&&result>0){
+        return res.status(201).json(result);
     }
     else if(result===-1){
-        res.sendStatus(500)
+        res.sendStatus(409)
+    }
+    else if(result===-2){
+        return res.sendStatus(422);
+    }
+    else{
+        return res.sendStatus(500);
     }
 }
 
