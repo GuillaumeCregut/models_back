@@ -28,11 +28,31 @@ const validateList=(data,option=true)=>{
 }
 
 const getAll=async(req,res)=>{
-
+    const resultOrder=await orderModel.findAll();
+    if(resultOrder&&resultOrder!==-1)
+        return res.json(resultOrder);
+    else if(resultOrder===-1){
+        return res.sendStatus(500);
+    }
+    else
+        return res.status(200).json([]);
 }
 
 const getAllUser=async(req,res)=>{
-
+    //Get all orders from one user
+    const id=req.params.id;
+    if(isNaN(id)){
+        return res.sendStatus(422);
+    }
+    const idUser=parseInt(id);
+    const resultOrder=await orderModel.findAllUser(idUser);
+    if(resultOrder&&resultOrder!==-1)
+        return res.json(resultOrder);
+    else if(resultOrder===-1){
+        return res.sendStatus(500);
+    }
+    else
+        return res.status(200).json([]);
 }
 
 const getOne=async(req,res)=>{
@@ -78,7 +98,8 @@ const updateOne=async(req,res)=>{
 }
 
 const deleteOne=async(req,res)=>{
-
+    id=req.params.id;
+    const result=await orderModel.deleteOne(id);
 }
 
 module.exports={
