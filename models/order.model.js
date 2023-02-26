@@ -106,6 +106,38 @@ const findAllUser = async (id) => {
     else return undefined;
 }
 
+const findOne=async(id)=>{
+    const dbOrders = await dbquery('get', 'SELECT o.provider, o.owner,o.reference, p.name FROM orders o INNER JOIN provider p ON o.provider=p.id WHERE o.reference=?',[id]);
+    if (dbOrders.length > 0 && dbOrders !== -1) {
+        const orderList = dbOrders.map((order) => {
+            const newOrder = new Order(order.provider,  order.owner, order.reference);
+            newOrder.setProviderName(order.name);
+            return newOrder;
+        })
+        //Get All items from orders.
+        for(let i=0;i<orderList.length;i++){
+            const order=orderList[i];
+            const dbItems = await dbquery('get', 'SELECT mo.id, mo.model_id,mo.qtte,mo.price,m.name FROM model_order mo INNER JOIN model m ON mo.model_id=m.id  WHERE mo.order_id=?', [order.reference]);
+            if (dbItems && dbItems !== -1) {
+                dbItems.forEach((model) => {
+                    const newModel = {
+                        id: model.model_id,
+                        qtty: model.qtte,
+                        price: model.price,
+                        name: model.name
+                    }
+                    orderList[i].addModels(newModel);
+                })
+            }
+        }
+        return orderList[0];
+    }
+    else if (dbOrders === -1) {
+        return dbOrders;
+    }
+    else return undefined;
+}
+
 
 
 const addOne = async (order) => {
@@ -186,4 +218,5 @@ module.exports = {
     findAllUser,
     findAll,
     deleteOne,
+    findOne
 }

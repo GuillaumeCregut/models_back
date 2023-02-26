@@ -22,9 +22,6 @@ const validateList=(data,option=true)=>{
             qtty:Joi.number().integer().required()
         })
     return Joi.array().items(schema).validate(data).error;
-    
-    return false;
-    // list:Joi.array().items(Joi.number().integer(),required(),Joi.number().integer().required(),Joi.number().required()).presence(presence)
 }
 
 const getAll=async(req,res)=>{
@@ -56,7 +53,16 @@ const getAllUser=async(req,res)=>{
 }
 
 const getOne=async(req,res)=>{
-
+    id=req.params.id;
+    const result=await orderModel.findOne(id);
+    if(result&&result!==-1){
+        res.json(result);
+    }
+    else if(result===-1){
+        return res.sendStatus(500);
+    }
+    else
+        return res.sendStatus(404);
 }
 
 const addOne=async(req,res)=>{
