@@ -170,7 +170,15 @@ const addOne = async (order) => {
 
 const deleteOne=async(id)=>{
     //delete all model_order
-    console.log(id)
+    const removeResult=await dbquery('delete','DELETE FROM model_order WHERE order_id=?',[id])
+    if(removeResult && removeResult!==-1){
+        const removeOrder=await dbquery('delete', 'DELETE FROM orders WHERE reference=?',[id]);
+        return removeOrder
+    }
+    else if (removeResult===-1){
+        return -1;
+    }
+    else return false;
 }
 
 module.exports = {

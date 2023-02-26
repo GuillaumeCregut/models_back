@@ -100,6 +100,13 @@ const updateOne=async(req,res)=>{
 const deleteOne=async(req,res)=>{
     id=req.params.id;
     const result=await orderModel.deleteOne(id);
+    if(result && result!=-1){
+        return res.sendStatus(204);
+    }
+    else if(result===-1){
+        return res.sendStatus(500)
+    }
+    else return res.sendStatus(404);  
 }
 
 module.exports={
