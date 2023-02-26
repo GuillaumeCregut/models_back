@@ -53,7 +53,17 @@ const addOne=async(req,res)=>{
         const errorList=errorsList.details[0].message;
         return res.status(422).send(errorList);
     }
-    return res.sendStatus(200);
+    const order=new Order(supplier,owner,reference);
+    list.forEach((item)=>{
+        order.addModels(item);
+    })
+    const result=await orderModel.addOne(order);
+    if(result&&result!==-1){
+        return res.sendStatus(200);
+    }
+    else if(result===-1){
+        res.sendStatus(500)
+    }
 }
 
 const updateOne=async(req,res)=>{

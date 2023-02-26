@@ -1,19 +1,17 @@
 class Orders{
-    id;
-    provider_id;
-    provider_name;
-    owner_id;
+    providerId;
+    providerName;
+    ownerId;
     reference;
-    models;
-    constructor(id,provider,owner,reference){
-        this.id=id;
+    models=[];
+    constructor(provider,owner,reference){
         this.reference=reference;
-        this.owner_id=owner;
-        this.provider_id=provider;
+        this.ownerId=owner;
+        this.providerId=provider;
     }
 
     setProviderName (name){
-         this.provider_name=name;
+         this.providerName=name;
     }
 
     addModels(model){
