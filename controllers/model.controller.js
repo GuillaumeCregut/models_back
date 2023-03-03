@@ -163,7 +163,19 @@ const setFavorite=async(req,res)=>{
 }
 
 const getFavorite=async(req,res)=>{
-
+        const id=req.params.id;
+        if(isNaN(id)){
+            return res.sendStatus(422);
+        }
+        const userId=parseInt(id);
+        const result=await modelModel.getFavorite(userId);
+        if(result&&result!==-1)
+            return res.json(result);
+        else if(result==-1){
+            return res.sendStatus(418)
+        }
+        else
+            return res.sendStatus(500)
 }
 
 module.exports = {
