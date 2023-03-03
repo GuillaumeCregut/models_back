@@ -19,7 +19,7 @@ const validateList=(data,option=true)=>{
         Joi.object({
             idModel:Joi.number().integer().required(),
             price : Joi.number().required(),
-            qtty:Joi.number().integer().required()
+            qtty:Joi.number().min(1).integer().required()
         })
     return Joi.array().items(schema).validate(data).error;
 }
@@ -85,7 +85,7 @@ const addOne=async(req,res)=>{
     })
     const result=await orderModel.addOne(order);
     console.log(result)
-    if(result&&result>0){
+    if(result&&typeof(result)==="object"){
         return res.status(201).json(result);
     }
     else if(result===-1){
