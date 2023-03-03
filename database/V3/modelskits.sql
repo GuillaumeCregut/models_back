@@ -188,10 +188,13 @@ CREATE TABLE IF NOT EXISTS `model_order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `model_id` int NOT NULL,
   `order_id` int NOT NULL,
+  `qtte` INT NOT NULL,
+  `price` DOUBLE UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `model_order` (`model_id`),
   KEY `order_order` (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 -- --------------------------------------------------------
 
