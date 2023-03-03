@@ -104,10 +104,35 @@ const deleteOne = async (id) => {
         return dbResult
 }
 
+const getFavorite=async(userId)=>{
+        const dbResult=await dbquery('get','SELECT id,model as modelId,modelName,brandName,builderName,scaleName FROM model_favorite WHERE owner=?',[userId]);
+        if (dbResult && dbResult !== -1) {
+            return dbResult;
+        }
+        else if (dbResult === -1) {
+            return undefined; //500 error
+        }
+        else
+            return -1 
+}
+
+const setFavorite=async(owner,modelId)=>{
+    const dbResult= await dbquery('add','INSERT INTO model_user (state,owner,model) VALUES (4,?,?)',[owner,modelId])
+    return dbResult
+}
+
+const unsetFavorite=async(owner,modelId)=>{
+    const dbResult= await dbquery('delete','DELETE FROM model_user WHERE state=4 AND owner=? AND model=?',[owner,modelId]);
+    return dbResult;
+}
+
 module.exports = {
     findAll,
     findOne,
     addOne,
     updateOne,
     deleteOne,
+    getFavorite,
+    setFavorite,
+    unsetFavorite,
 }
