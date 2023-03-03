@@ -18,6 +18,14 @@ const validate = (data, option) => {
     }).validate(data, { abortEarly: false }).error;
 }
 
+const validateFavorite=(data)=>{
+    return Joi.object({
+        modelId:Joi.number().min(1).presence('required'),
+        owner:Joi.number().min(1).presence('required'),
+        like:Joi.boolean().presence('required'),
+    }).validate(data, { abortEarly: false }).error; 
+}
+
 const getAll = async (req, res) => {
     const result = await modelModel.findAll();
     if (result && result !== -1) {
@@ -159,7 +167,28 @@ const deleteOne = async (req, res) => {
 }
 
 const setFavorite=async(req,res)=>{
-
+    const errors=validateFavorite(req.body);
+    if (errors) {
+        const error = errors.details[0].message;
+        return res.status(422).send(error);
+    }
+    const{owner,modelId,like}=req.body;
+    let result=null;
+    if(like){
+        result= await modelModel.setFavorite(owner,modelId);
+    }
+    else{
+        result= await modelModel.unsetFavorite(owner,modelId);
+    }
+    if (result && result !== -1) {
+       return res.sendStatus(204);
+    }
+    else if (result === -1) {
+       return res.sendStatus(500)
+    }
+    else
+      return  res.sendStatus(404)
+    res.sendStatus(200)
 }
 
 const getFavorite=async(req,res)=>{

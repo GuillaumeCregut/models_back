@@ -116,8 +116,14 @@ const getFavorite=async(userId)=>{
             return -1 
 }
 
-const setFavorite=async()=>{
+const setFavorite=async(owner,modelId)=>{
+    const dbResult= await dbquery('add','INSERT INTO model_user (state,owner,model) VALUES (4,?,?)',[owner,modelId])
+    return dbResult
+}
 
+const unsetFavorite=async(owner,modelId)=>{
+    const dbResult= await dbquery('delete','DELETE FROM model_user WHERE state=4 AND owner=? AND model=?',[owner,modelId]);
+    return dbResult;
 }
 
 module.exports = {
@@ -128,4 +134,5 @@ module.exports = {
     deleteOne,
     getFavorite,
     setFavorite,
+    unsetFavorite,
 }
