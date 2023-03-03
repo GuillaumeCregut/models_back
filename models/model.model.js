@@ -104,10 +104,20 @@ const deleteOne = async (id) => {
         return dbResult
 }
 
+const getFavorite=async(userId)=>{
+
+}
+
+const setFavorite=async()=>{
+
+}
+
 module.exports = {
     findAll,
     findOne,
     addOne,
     updateOne,
     deleteOne,
+    getFavorite,
+    setFavorite,
 }

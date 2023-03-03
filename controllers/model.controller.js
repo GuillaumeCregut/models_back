@@ -158,10 +158,20 @@ const deleteOne = async (req, res) => {
         res.sendStatus(404)
 }
 
+const setFavorite=async(req,res)=>{
+
+}
+
+const getFavorite=async(req,res)=>{
+
+}
+
 module.exports = {
     getAll,
     getOne,
     addOne,
     updateOne,
     deleteOne,
+    setFavorite,
+    getFavorite,
 }
