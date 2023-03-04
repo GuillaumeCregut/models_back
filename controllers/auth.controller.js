@@ -73,7 +73,6 @@ const refreshToken=async (req,res)=>{
     const tokenOk=verifyToken(refreshToken,'refresh')
     if(!tokenOk ||(tokenOk.firstname!==user.firstname ||tokenOk.lastname!==user.lastname))
     {
-        console.log('Erreur de token refresh');
         return res.sendStatus(403);
     }
     const accessToken=await calculatetoken(user.id,user.rank,user.firstname,user.lastname,'auth');

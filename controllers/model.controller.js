@@ -125,7 +125,7 @@ const updateOne = async (req, res) => {
             }
             catch (err) {
                 //Log le result
-                console.log('Erreur de suppression')
+                console.error('Erreur de suppression')
             }
         }
         return res.status(200).json(result);
@@ -148,7 +148,6 @@ const deleteOne = async (req, res) => {
         if (result) {
             try {
                 const filePath = path.join(__dirname, '..', result);
-                console.log(filePath)
                 fs.unlinkSync(filePath);
                 return res.sendStatus(204);
             }
