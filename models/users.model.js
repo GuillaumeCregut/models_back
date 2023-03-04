@@ -137,6 +137,16 @@ const findCredentialsByUser=async(firsname,lastname,token)=>{
     
 }
 
+const addModelInStock=async(user,model)=>{
+    const dbResult=dbquery('add','INSERT INTO model_user (state,owner,model) VALUES (1,?,?)',[user,model]);
+    if (dbResult && dbResult != -1) {
+        return dbResult;
+    }
+    else {
+        return undefined;
+    }
+
+}
 
 module.exports={
     addUser,
@@ -149,4 +159,5 @@ module.exports={
     deleteTokenDb,
     findUserByToken,
     findCredentialsByUser,
+    addModelInStock,
 }

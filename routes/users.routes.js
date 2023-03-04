@@ -1,11 +1,12 @@
 const router=require('express').Router();
 const {userCheck}=require('../middlewares/UserValidation');
-const UsersController=require('../controllers/users.controller')
+const usersController=require('../controllers/users.controller')
 
-router.get('/',userCheck,UsersController.getAll);
-router.get('/:id',userCheck,UsersController.getOne);
-router.post('/',UsersController.addOne);
-router.put('/:id',userCheck,UsersController.updateUser);
-router.delete('/:id',userCheck,UsersController.deleteUser);
+router.get('/',userCheck,usersController.getAll);
+router.get('/:id',userCheck,usersController.getOne);
+router.post('/',usersController.addOne);
+router.post('/model',usersController.addModelStock)
+router.put('/:id',userCheck,usersController.updateUser);
+router.delete('/:id',userCheck,usersController.deleteUser);
 
 module.exports=router;
