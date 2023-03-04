@@ -14,6 +14,13 @@ const validate = (data, forCreation = true) => {
     }).validate(data, { abortEarly: false }).error;
 }
 
+const validateModel = (data, forCreation = true) => {
+    const presence = forCreation ? 'required' : 'optional';
+    return Joi.object({
+        user: Joi.number().integer().presence(presence),
+        model: Joi.number().integer().presence(presence),
+    }).validate(data, { abortEarly: false }).error;
+}
 
 const getAll = async (req, res) => {
     const result = await userModel.findAll();
@@ -131,7 +138,24 @@ const deleteUser = async (req, res) => {
     }
 }
 
-
+const addModelStock=async(req,res)=>{
+    //Check if user is the correct user
+    const errors=validateModel(req.body);
+    if (errors) {
+        const error = errors.details[0].message;
+        return res.status(422).send(error);
+    }
+    const {user,model}=req.body;
+    const result=await userModel.addModelInStock(user,model);
+    if(result&&result!==-1){
+        return res.sendStatus(204);
+    }
+    else if(result===-1)
+        return res.sendStatus(500);
+    else
+        return res.sendStatus(404);
+  
+}
 
 module.exports = {
     getAll,
@@ -139,4 +163,5 @@ module.exports = {
     addOne,
     updateUser,
     deleteUser,
+    addModelStock,
 }
