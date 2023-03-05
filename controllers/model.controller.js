@@ -26,6 +26,14 @@ const validateFavorite=(data)=>{
     }).validate(data, { abortEarly: false }).error; 
 }
 
+const validateStock=(data)=>{
+    return Joi.object({
+        id:Joi.number().min(1).presence('required'),
+        owner:Joi.number().min(1).presence('required'),
+        newState:Joi.number().min(1).presence('required'),
+    }).validate(data, { abortEarly: false }).error; 
+}
+
 const getAll = async (req, res) => {
     const result = await modelModel.findAll();
     if (result && result !== -1) {
@@ -206,6 +214,37 @@ const getFavorite=async(req,res)=>{
             return res.sendStatus(500)
 }
 
+const getStock=async(req,res)=>{
+    const id=req.params.id;
+    if(isNaN(id)){
+        return res.sendStatus(422);
+    }
+    const userId=parseInt(id);
+    const result=await modelModel.getAllKitsUser(userId);
+    if(result&&result!==-1)
+        return res.json(result)
+    else if(result===-1)
+        return res.sendStatus(500);
+    res.sendStatus(418);
+}
+
+const updateStock=async(req,res)=>{
+    const errors=validateStock(req.body);
+    if (errors) {
+        const error = errors.details[0].message;
+        return res.status(422).send(error);
+    }
+    const {owner,id,newState}=req.body;
+    const result=await modelModel.updateStock(id,owner,newState);
+    if(result&&result!==-1){
+        return res.sendStatus(204);
+    }
+    else if(result===-1)
+        return res.sendStatus(500);
+    else
+        return res.sendStatus(404);
+}
+
 module.exports = {
     getAll,
     getOne,
@@ -214,4 +253,6 @@ module.exports = {
     deleteOne,
     setFavorite,
     getFavorite,
+    getStock,
+    updateStock,
 }
