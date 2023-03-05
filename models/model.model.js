@@ -126,6 +126,11 @@ const unsetFavorite=async(owner,modelId)=>{
     return dbResult;
 }
 
+const getAllKitsUser=async(idUser)=>{
+    const dbResult=await dbquery('get','SELECT * FROM mymodels WHERE owner=?',[idUser]);
+    return dbResult;
+}
+
 module.exports = {
     findAll,
     findOne,
@@ -135,4 +140,5 @@ module.exports = {
     getFavorite,
     setFavorite,
     unsetFavorite,
+    getAllKitsUser,
 }

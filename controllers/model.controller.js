@@ -207,7 +207,17 @@ const getFavorite=async(req,res)=>{
 }
 
 const getStock=async(req,res)=>{
-
+    const id=req.params.id;
+    if(isNaN(id)){
+        return res.sendStatus(422);
+    }
+    const userId=parseInt(id);
+    const result=await modelModel.getAllKitsUser(userId);
+    if(result&&result!==-1)
+        return res.json(result)
+    else if(result===-1)
+        return res.sendStatus(500);
+    res.sendStatus(418);
 }
 
 module.exports = {
