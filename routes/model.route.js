@@ -25,6 +25,7 @@ router.get('/favorite/:id',modelController.getFavorite)
 router.get('/:id',modelController.getOne);
 router.post('/',uploadPicture.single('file'),modelController.addOne);
 router.post('/favorite',modelController.setFavorite);
+router.put('/stock',modelController.updateStock);
 router.put('/:id',userCheck,uploadPicture.single('file'),modelController.updateOne);
 router.delete('/:id',modelController.deleteOne);
 

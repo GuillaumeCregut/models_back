@@ -131,6 +131,11 @@ const getAllKitsUser=async(idUser)=>{
     return dbResult;
 }
 
+const updateStock=async(id,owner,state)=>{
+    const dbResult=await dbquery('update','UPDATE model_user SET state=? WHERE id=? AND owner=?',[state,id,owner]);
+    return dbResult;
+}
+
 module.exports = {
     findAll,
     findOne,
@@ -141,4 +146,5 @@ module.exports = {
     setFavorite,
     unsetFavorite,
     getAllKitsUser,
+    updateStock,
 }
