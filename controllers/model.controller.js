@@ -206,6 +206,10 @@ const getFavorite=async(req,res)=>{
             return res.sendStatus(500)
 }
 
+const getStock=async(req,res)=>{
+
+}
+
 module.exports = {
     getAll,
     getOne,
@@ -214,4 +218,5 @@ module.exports = {
     deleteOne,
     setFavorite,
     getFavorite,
+    getStock,
 }
