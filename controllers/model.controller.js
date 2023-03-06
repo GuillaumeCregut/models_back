@@ -259,6 +259,8 @@ const getAllInfoKit=async(req,res)=>{
     else return res.sendStatus(418);
 }
 
+
+
 module.exports = {
     getAll,
     getOne,

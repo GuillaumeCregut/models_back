@@ -4,6 +4,7 @@ const Joi = require('joi');
 const { encrypt } = require('../utils/crypto');
 const fs = require('fs');
 const path = require('path');
+const {createSubUpload}=require('../utils/fs');
 
 const validate = (data, forCreation = true) => {
     const presence = forCreation ? 'required' : 'optional';
@@ -135,12 +136,13 @@ const deleteUser = async (req, res) => {
     if(result&&result!==-1){
         //unlink userfolder  
         try {
-            const dirPath = path.join(__dirname, '..','upload','user',id);
+            const dirPath = path.join(__dirname, '..','uploads','users',id.toString());
             fs.rmSync(dirPath, { recursive: true, force: true });;
         }
         catch (err) {
             //Log le result
             console.error('Erreur de suppression')
+            console.log(err)
         } 
             res.sendStatus(204);
     }
