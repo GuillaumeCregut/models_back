@@ -14,6 +14,7 @@ const createSubUpload= async (dir)=>{
         await fsPromises.mkdir(path.join(__dirname, '..', 'uploads',dir));
     }
 }
+
 module.exports={
     createUpload,
     createSubUpload,

@@ -21,7 +21,8 @@ const uploadPicture=multer({storage:storagePicture});
 
 router.get('/',modelController.getAll);
 router.get('/user/:id',modelController.getStock);
-router.get('/favorite/:id',modelController.getFavorite)
+router.get('/favorite/:id',modelController.getFavorite);
+router.get('/info/:id',modelController.getAllInfoKit);
 router.get('/:id',modelController.getOne);
 router.post('/',uploadPicture.single('file'),modelController.addOne);
 router.post('/favorite',modelController.setFavorite);
