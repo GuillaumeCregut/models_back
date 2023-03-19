@@ -245,6 +245,22 @@ const updateStock=async(req,res)=>{
         return res.sendStatus(404);
 }
 
+const getAllInfoKit=async(req,res)=>{
+    const id=req.params.id;
+    if(isNaN(id)){
+        return res.sendStatus(422);
+    }
+    const idKit=parseInt(id);
+    const result=await modelModel.getAllDetailsKit(idKit);
+    if(result && result!==-1)
+        return res.json(result);
+    else if(result===-1)
+        return res.sendStatus(500)
+    else return res.sendStatus(418);
+}
+
+
+
 module.exports = {
     getAll,
     getOne,
@@ -255,4 +271,5 @@ module.exports = {
     getFavorite,
     getStock,
     updateStock,
+    getAllInfoKit,
 }

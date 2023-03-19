@@ -136,6 +136,15 @@ const updateStock=async(id,owner,state)=>{
      return dbResult;
 }
 
+const getAllDetailsKit=async(id)=>{
+    const dbResult=await dbquery('get','SELECT * FROM all_info_model WHERE id=?',[id]);
+    if(dbResult && dbResult!==-1){
+        return dbResult[0];
+    }
+    else 
+        return dbResult;
+}
+
 module.exports = {
     findAll,
     findOne,
@@ -147,4 +156,5 @@ module.exports = {
     unsetFavorite,
     getAllKitsUser,
     updateStock,
+    getAllDetailsKit,
 }

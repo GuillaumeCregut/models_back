@@ -1,6 +1,9 @@
 const router=require('express').Router();
 const {userCheck}=require('../middlewares/UserValidation');
-const usersController=require('../controllers/users.controller')
+const usersController=require('../controllers/users.controller');
+const {createSubUpload}=require('../utils/fs');
+
+createSubUpload('users');
 
 router.get('/',userCheck,usersController.getAll);
 router.get('/:id',userCheck,usersController.getOne);

@@ -2,6 +2,10 @@ const userModel = require('../models/users.model');
 const User = require('../classes/User.class');
 const Joi = require('joi');
 const { encrypt } = require('../utils/crypto');
+const fs = require('fs');
+const path = require('path');
+const {createSubUpload}=require('../utils/fs');
+
 const validate = (data, forCreation = true) => {
     const presence = forCreation ? 'required' : 'optional';
     return Joi.object({
@@ -75,6 +79,8 @@ const addOne = async (req, res) => {
         if(result===-2){
             return res.sendStatus(409);
         }
+        //Create userfolder
+        createSubUpload(`users/${result.id}`);
         res.status(201).json(result);
     }
     else {
@@ -128,7 +134,17 @@ const deleteUser = async (req, res) => {
     }
     const result = await userModel.deleteUser(id);
     if(result&&result!==-1){
-        res.sendStatus(204);
+        //unlink userfolder  
+        try {
+            const dirPath = path.join(__dirname, '..','uploads','users',id.toString());
+            fs.rmSync(dirPath, { recursive: true, force: true });;
+        }
+        catch (err) {
+            //Log le result
+            console.error('Erreur de suppression')
+            console.log(err)
+        } 
+            res.sendStatus(204);
     }
     else if(result===-1){
         res.sendStatus(500);
