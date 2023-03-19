@@ -1,6 +1,6 @@
 const Category=require('../classes/Category.class');
 const categoryModel=require('../models/category.model');
-const Joi=require('Joi');
+const Joi=require('joi');
 
 const  validate=(data)=>{
     return Joi.object({
