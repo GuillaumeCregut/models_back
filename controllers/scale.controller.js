@@ -1,6 +1,6 @@
 const scaleModel=require('../models/scale.model');
 const Scale=require('../classes/Scale.class');
-const Joi=require('Joi');
+const Joi=require('joi');
 
 const  validate=(data)=>{
     return Joi.object({

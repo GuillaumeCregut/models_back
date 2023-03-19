@@ -1,6 +1,6 @@
 const stateModel=require('../models/state.model');
 const State=require('../classes/State.class');
-const Joi=require('Joi');
+const Joi=require('joi');
 
 const  validate=(data)=>{
     return Joi.object({
