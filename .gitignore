@@ -5,3 +5,5 @@ logs
 temp.*
 .~lock.*
 uploads
+db_password.txt
+.env_docker
