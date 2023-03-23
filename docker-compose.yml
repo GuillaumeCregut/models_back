@@ -8,5 +8,15 @@ services:
     env_file:
       - ./.env
     volumes:
-      - .:/usr/src/app # named volume
+      - .:/usr/src/app # named volume Sourcehote:dossierDocker
       - /usr/src/app/node_modules # anonymous volume for node_modules only
+  mysql:
+    image: mysql:latest
+    volumes: 
+      - "../test/:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: MUSTANG
+
+
+
+
