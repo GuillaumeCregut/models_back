@@ -6,3 +6,4 @@ Dockerfile
 .env
 .dockerignore
 docker-compose*
+db_password.txt

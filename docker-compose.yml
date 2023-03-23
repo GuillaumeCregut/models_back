@@ -12,12 +12,20 @@ services:
       - /usr/src/app/node_modules # anonymous volume for node_modules only
   mysql:
     image: mysql:latest
+    container_name: mysql
     volumes: 
       - "../test/:/var/lib/mysql"
     environment:
-      MYSQL_ROOT_PASSWORD: ******
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
+
     ports:
       - "3307:3306"
+    secrets:
+      - db_password
+secrets:
+  db_password:
+    file: ./db_password.txt
+
 
 
 
