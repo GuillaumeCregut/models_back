@@ -15,7 +15,9 @@ services:
     volumes: 
       - "../test/:/var/lib/mysql"
     environment:
-      MYSQL_ROOT_PASSWORD: MUSTANG
+      MYSQL_ROOT_PASSWORD: ******
+    ports:
+      - "3307:3306"
 
 
 

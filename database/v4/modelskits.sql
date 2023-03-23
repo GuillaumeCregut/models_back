@@ -442,7 +442,7 @@ CREATE TABLE IF NOT EXISTS `user` (
 DROP TABLE IF EXISTS `all_info_model`;
 
 DROP VIEW IF EXISTS `all_info_model`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `all_info_model`  AS SELECT `mu`.`id` AS `id`, `mu`.`model` AS `model`, `mu`.`provider` AS `provider`, `mu`.`pictures` AS `pictures`, `mu`.`price` AS `price`, `mu`.`owner` AS `owner`, `mu`.`state` AS `state`, `m`.`name` AS `modelName`, `m`.`picture` AS `picture`, `m`.`reference` AS `reference`, `m`.`scalemates` AS `scalemates`, `b`.`name` AS `brandName`, `p`.`name` AS `periodName`, `s`.`name` AS `scaleName`, `bu`.`name` AS `builderName`, `c`.`name` AS `categoryName`, `pr`.`name` AS `providerName` FROM (((((((`model_user` `mu` join `model` `m` on((`mu`.`model` = `m`.`id`))) join `brand` `b` on((`m`.`brand` = `b`.`id`))) join `period` `p` on((`m`.`period` = `p`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `category` `c` on((`m`.`category` = `c`.`id`))) left join `provider` `pr` on((`mu`.`provider` = `pr`.`id`)))  ;
+CREATE  VIEW `all_info_model`  AS SELECT `mu`.`id` AS `id`, `mu`.`model` AS `model`, `mu`.`provider` AS `provider`, `mu`.`pictures` AS `pictures`, `mu`.`price` AS `price`, `mu`.`owner` AS `owner`, `mu`.`state` AS `state`, `m`.`name` AS `modelName`, `m`.`picture` AS `picture`, `m`.`reference` AS `reference`, `m`.`scalemates` AS `scalemates`, `b`.`name` AS `brandName`, `p`.`name` AS `periodName`, `s`.`name` AS `scaleName`, `bu`.`name` AS `builderName`, `c`.`name` AS `categoryName`, `pr`.`name` AS `providerName` FROM (((((((`model_user` `mu` join `model` `m` on((`mu`.`model` = `m`.`id`))) join `brand` `b` on((`m`.`brand` = `b`.`id`))) join `period` `p` on((`m`.`period` = `p`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `category` `c` on((`m`.`category` = `c`.`id`))) left join `provider` `pr` on((`mu`.`provider` = `pr`.`id`)))  ;
 
 -- --------------------------------------------------------
 
@@ -452,7 +452,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `model_favorite`;
 
 DROP VIEW IF EXISTS `model_favorite`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `model_favorite`  AS SELECT `mu`.`id` AS `id`, `mu`.`owner` AS `owner`, `mu`.`model` AS `model`, `m`.`name` AS `modelName`, `b`.`name` AS `brandName`, `bu`.`name` AS `builderName`, `s`.`name` AS `scaleName` FROM ((((`model_user` `mu` join `model` `m` on((`mu`.`model` = `m`.`id`))) join `brand` `b` on((`m`.`brand` = `b`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) WHERE (`mu`.`state` = 4)  ;
+CREATE  VIEW `model_favorite`  AS SELECT `mu`.`id` AS `id`, `mu`.`owner` AS `owner`, `mu`.`model` AS `model`, `m`.`name` AS `modelName`, `b`.`name` AS `brandName`, `bu`.`name` AS `builderName`, `s`.`name` AS `scaleName` FROM ((((`model_user` `mu` join `model` `m` on((`mu`.`model` = `m`.`id`))) join `brand` `b` on((`m`.`brand` = `b`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) WHERE (`mu`.`state` = 4)  ;
 
 -- --------------------------------------------------------
 
@@ -462,7 +462,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `model_full`;
 
 DROP VIEW IF EXISTS `model_full`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `model_full`  AS SELECT `m`.`id` AS `id`, `m`.`name` AS `name`, `m`.`builder` AS `builder`, `m`.`category` AS `category`, `m`.`brand` AS `brand`, `m`.`period` AS `period`, `m`.`scale` AS `scale`, `m`.`reference` AS `reference`, `m`.`picture` AS `picture`, `m`.`scalemates` AS `scalemates`, `bu`.`name` AS `buildername`, `bu`.`country` AS `countryid`, `c`.`name` AS `categoryname`, `br`.`name` AS `brandname`, `p`.`name` AS `periodname`, `s`.`name` AS `scalename`, `co`.`name` AS `countryname` FROM ((((((`model` `m` join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `category` `c` on((`m`.`category` = `c`.`id`))) join `brand` `br` on((`m`.`brand` = `br`.`id`))) join `period` `p` on((`m`.`period` = `p`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) join `country` `co` on((`bu`.`country` = `co`.`id`)))  ;
+CREATE  VIEW `model_full`  AS SELECT `m`.`id` AS `id`, `m`.`name` AS `name`, `m`.`builder` AS `builder`, `m`.`category` AS `category`, `m`.`brand` AS `brand`, `m`.`period` AS `period`, `m`.`scale` AS `scale`, `m`.`reference` AS `reference`, `m`.`picture` AS `picture`, `m`.`scalemates` AS `scalemates`, `bu`.`name` AS `buildername`, `bu`.`country` AS `countryid`, `c`.`name` AS `categoryname`, `br`.`name` AS `brandname`, `p`.`name` AS `periodname`, `s`.`name` AS `scalename`, `co`.`name` AS `countryname` FROM ((((((`model` `m` join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `category` `c` on((`m`.`category` = `c`.`id`))) join `brand` `br` on((`m`.`brand` = `br`.`id`))) join `period` `p` on((`m`.`period` = `p`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) join `country` `co` on((`bu`.`country` = `co`.`id`)))  ;
 
 -- --------------------------------------------------------
 
@@ -472,7 +472,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 DROP TABLE IF EXISTS `mymodels`;
 
 DROP VIEW IF EXISTS `mymodels`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `mymodels`  AS SELECT `mu`.`id` AS `id`, `mu`.`model` AS `idModel`, `mu`.`state` AS `state`, `mu`.`pictures` AS `pictures`, `mu`.`owner` AS `owner`, `s`.`name` AS `stateName`, `m`.`name` AS `modelName`, `m`.`reference` AS `reference`, `m`.`picture` AS `boxPicture`, `bu`.`name` AS `builderName`, `st`.`name` AS `scaleName`, `br`.`name` AS `brandName` FROM (((((`model_user` `mu` join `state` `s` on((`mu`.`state` = `s`.`id`))) join `model` `m` on((`mu`.`model` = `m`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `scale` `st` on((`m`.`scale` = `st`.`id`))) join `brand` `br` on((`m`.`brand` = `br`.`id`)))  ;
+CREATE  VIEW `mymodels`  AS SELECT `mu`.`id` AS `id`, `mu`.`model` AS `idModel`, `mu`.`state` AS `state`, `mu`.`pictures` AS `pictures`, `mu`.`owner` AS `owner`, `s`.`name` AS `stateName`, `m`.`name` AS `modelName`, `m`.`reference` AS `reference`, `m`.`picture` AS `boxPicture`, `bu`.`name` AS `builderName`, `st`.`name` AS `scaleName`, `br`.`name` AS `brandName` FROM (((((`model_user` `mu` join `state` `s` on((`mu`.`state` = `s`.`id`))) join `model` `m` on((`mu`.`model` = `m`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `scale` `st` on((`m`.`scale` = `st`.`id`))) join `brand` `br` on((`m`.`brand` = `br`.`id`)))  ;
 
 --
 -- Contraintes pour les tables déchargées
