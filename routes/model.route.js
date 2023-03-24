@@ -9,7 +9,7 @@ createSubUpload('models');
 const storagePicture = multer.diskStorage(
     {
         destination: function (req, file, cb) {
-            cb(null, 'uploads/models/')
+            cb(null, 'assets/uploads/models/')
         },
         filename: function (req, file, cb) {
             cb(null, file.originalname)

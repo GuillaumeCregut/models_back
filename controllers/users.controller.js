@@ -136,7 +136,7 @@ const deleteUser = async (req, res) => {
     if(result&&result!==-1){
         //unlink userfolder  
         try {
-            const dirPath = path.join(__dirname, '..','uploads','users',id.toString());
+            const dirPath = path.join(__dirname, '..','assets','uploads','users',id.toString());
             fs.rmSync(dirPath, { recursive: true, force: true });;
         }
         catch (err) {

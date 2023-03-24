@@ -3,15 +3,15 @@ const fsPromises = require('fs').promises;
 const path = require('path');
 
 const createUpload = async () => {
-    if (!fs.existsSync(path.join(__dirname, '..', 'uploads'))) {
-        await fsPromises.mkdir(path.join(__dirname, '..', 'uploads'));
+    if (!fs.existsSync(path.join(__dirname, '..','assets' ,'uploads'))) {
+        await fsPromises.mkdir(path.join(__dirname, '..','assets','uploads'));
     }
 }
 
 const createSubUpload= async (dir)=>{
     await createUpload();
-    if (!fs.existsSync(path.join(__dirname, '..', 'uploads',dir))) {
-        await fsPromises.mkdir(path.join(__dirname, '..', 'uploads',dir));
+    if (!fs.existsSync(path.join(__dirname, '..', 'assets','uploads',dir))) {
+        await fsPromises.mkdir(path.join(__dirname, '..', 'assets','uploads',dir));
     }
 }
 
