@@ -8,7 +8,7 @@ services:
     env_file:
       - ./.env_docker
     volumes:
-      - .:/usr/src/app # named volume Sourcehote:dossierDocker
+      - ../testbc:/usr/src/app # named volume Sourcehote:dossierDocker not god here
       - /usr/src/app/node_modules # anonymous volume for node_modules only
   mysql:
     image: mysql:latest
