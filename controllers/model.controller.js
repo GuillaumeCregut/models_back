@@ -195,7 +195,6 @@ const setFavorite=async(req,res)=>{
     }
     else
       return  res.sendStatus(404)
-    res.sendStatus(200)
 }
 
 const getFavorite=async(req,res)=>{
@@ -266,17 +265,6 @@ const getAllInfoKit=async(req,res)=>{
     else return res.sendStatus(418);
 }
 
-const getTest=async(req,res)=>{
-    const idModel=parseInt(req.params.id,10);
-    const idUser=parseInt(req.params.iduser,10);
-    console.log(idModel,idUser);
-    console.log(req.user);
-    if(idUser!==req.user.user_id){
-        res.sendStatus(401);
-    }
-   else res.sendStatus(200);
-}
-
 module.exports = {
     getAll,
     getOne,
@@ -288,5 +276,4 @@ module.exports = {
     getStock,
     updateStock,
     getAllInfoKit,
-    getTest,
 }
