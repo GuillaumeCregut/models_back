@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(loggerDebug);
 app.use(errorHandler)
 app.use('/api', router);
-app.use('/uploads',express.static('uploads'));
+app.use('/assets/uploads',express.static('assets/uploads'));
 
 app.get("/", loggerDebug,(req, res) => {
     res.send("Welcome");
