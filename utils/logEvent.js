@@ -13,10 +13,10 @@ const logFile = async (message, file) => {
         const newDate = `${format(new Date(), 'yyyy/MM/dd\tHH:mm:ss')}`;
         const logItem = `${newDate}\t${message}\n`;
         try {
-            if (!fs.existsSync(path.join(__dirname, '..', 'logs'))) {
-                await fsPromises.mkdir(path.join(__dirname, '..', 'logs'));
+            if (!fs.existsSync(path.join(__dirname, '..','assets' , 'logs'))) {
+                await fsPromises.mkdir(path.join(__dirname, '..','assets' ,'logs'));
             }
-            await fsPromises.appendFile(path.join(__dirname, '..', 'logs', file), logItem)
+            await fsPromises.appendFile(path.join(__dirname, '..','assets' , 'logs', file), logItem)
         } catch (err) {
             console.error(err)
         }

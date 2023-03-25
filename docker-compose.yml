@@ -8,8 +8,12 @@ services:
     env_file:
       - ./.env_docker
     volumes:
-      - .:/usr/src/app # named volume Sourcehote:dossierDocker
+      - ../testbc:/usr/src/app/assets # named volume Sourcehote:dossierDocker not god here
       - /usr/src/app/node_modules # anonymous volume for node_modules only
+  modelsfront:
+    image: modelsfront
+    ports: 
+      - "8001:8001"
   mysql:
     image: mysql:latest
     container_name: mysql
