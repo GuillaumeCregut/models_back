@@ -3,6 +3,8 @@ const modelController=require('../controllers/model.controller');
 const {userCheck}=require('../middlewares/UserValidation');
 const multer = require('multer');
 const {createSubUpload}=require('../utils/fs');
+const fs = require('fs');
+const path = require('path');
 
 createSubUpload('models');
 
@@ -18,8 +20,12 @@ const errorHandler = (error, req, res, next) => {
 const storageUserPictures=multer.diskStorage(
     {
         destination: function (req, file, cb) {
-            const userFolderId = req.user;
-            const userFolder = `assets/uploads/users/${userFolderId}`;
+            const userFolderId=req.user.user_id;
+            const model=req.params.id;
+            const userFolder = `assets/uploads/users/${userFolderId}/${model}`;
+            const pathFolder=path.join(__dirname,'..',userFolder);
+            fs.mkdirSync(pathFolder, { recursive: true })
+            req.filePath=userFolder;
             cb(null, userFolder)
         },
         filename: function (req, file, cb) {
@@ -28,10 +34,10 @@ const storageUserPictures=multer.diskStorage(
                 if (file.mimetype === 'image/jpeg')
                     ext = '.jpg';
                 const filename = file.originalname.slice(0, -4).replace(/[^a-zA-Z0-9]/g, '') + ext;
+                req.fileOk=true;
                 cb(null, filename)
             }
             else{
-                console.log('coucou')
                 return cb(new Error('File not good'));
             }                
         }
@@ -58,6 +64,7 @@ const storagePicture = multer.diskStorage(
     }
 );
 
+
 const uploadPictureUser=multer({storage:storageUserPictures});
 
 const uploadPicture=multer({storage:storagePicture});
@@ -69,7 +76,7 @@ router.get('/info/:id/user/:iduser',userCheck,modelController.getAllInfoKit);
 router.get('/:id',modelController.getOne);
 router.post('/',uploadPicture.single('file'),errorHandler,modelController.addOne);
 router.post('/favorite',modelController.setFavorite);
-router.post('/x',userCheck,uploadPictureUser.array('file',6),errorHandler,modelController.addUserPictures); //changer les x par les bonnes infos
+router.post('/user/picture/:id',userCheck,uploadPictureUser.array('file',6),errorHandler,modelController.addUserPictures); //changer les x par les bonnes infos
 router.put('/stock',modelController.updateStock); //Controler l'utilisateur
 router.put('/:id',userCheck,uploadPicture.single('file'),errorHandler,modelController.updateOne); //Controler l'utilisateur
 router.delete('/:id',userCheck,modelController.deleteOne);

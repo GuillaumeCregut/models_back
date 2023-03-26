@@ -287,7 +287,16 @@ const getAllInfoKit = async (req, res) => {
 }
 
 const addUserPictures = async (req, res) => {
+    const fileOk = req?.fileOk;
 
+    if(fileOk){
+        //Ajoute à la BDD
+        const filesPath=req.filePath;
+        console.log(filesPath);
+        return res.sendStatus(200);
+    }
+    else
+        return res.sendStatus(500);
 }
 
 module.exports = {

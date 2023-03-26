@@ -13,7 +13,6 @@ const userCheck=(req,res,next)=>{
     if(!isOK)
         return res.sendStatus(403);
     req.user=isOK;
-    console.log(req.user)
     next();
 }
 
