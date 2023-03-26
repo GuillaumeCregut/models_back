@@ -69,7 +69,7 @@ router.get('/info/:id/user/:iduser',userCheck,modelController.getAllInfoKit);
 router.get('/:id',modelController.getOne);
 router.post('/',uploadPicture.single('file'),errorHandler,modelController.addOne);
 router.post('/favorite',modelController.setFavorite);
-router.post('/x',userCheck,uploadPictureUser.array('file',6),errorHandler,modelController.x); //changer les x par les bonnes infos
+router.post('/x',userCheck,uploadPictureUser.array('file',6),errorHandler,modelController.addUserPictures); //changer les x par les bonnes infos
 router.put('/stock',modelController.updateStock); //Controler l'utilisateur
 router.put('/:id',userCheck,uploadPicture.single('file'),errorHandler,modelController.updateOne); //Controler l'utilisateur
 router.delete('/:id',userCheck,modelController.deleteOne);
