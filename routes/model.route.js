@@ -17,6 +17,17 @@ const errorHandler = (error, req, res, next) => {
     next();
 }
 
+const IdChecker=(req,res,next)=>{
+    if(isNaN(req.params.id))
+        return res.sendStatus(422);
+    next();
+}
+
+const pre=(req,res,next)=>{
+    req.user={user_id:5};
+    next();
+}
+
 const storageUserPictures=multer.diskStorage(
     {
         destination: function (req, file, cb) {
@@ -76,7 +87,7 @@ router.get('/info/:id/user/:iduser',userCheck,modelController.getAllInfoKit);
 router.get('/:id',modelController.getOne);
 router.post('/',uploadPicture.single('file'),errorHandler,modelController.addOne);
 router.post('/favorite',modelController.setFavorite);
-router.post('/user/picture/:id',userCheck,uploadPictureUser.array('file',6),errorHandler,modelController.addUserPictures); //changer les x par les bonnes infos
+router.post('/user/picture/:id',pre,IdChecker,uploadPictureUser.array('file',6),errorHandler,modelController.addUserPictures); //changer les x par les bonnes infos
 router.put('/stock',modelController.updateStock); //Controler l'utilisateur
 router.put('/:id',userCheck,uploadPicture.single('file'),errorHandler,modelController.updateOne); //Controler l'utilisateur
 router.delete('/:id',userCheck,modelController.deleteOne);
