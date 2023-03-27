@@ -87,7 +87,8 @@ router.get('/info/:id/user/:iduser',userCheck,modelController.getAllInfoKit);
 router.get('/:id',modelController.getOne);
 router.post('/',uploadPicture.single('file'),errorHandler,modelController.addOne);
 router.post('/favorite',modelController.setFavorite);
-router.post('/user/picture/:id',pre,IdChecker,uploadPictureUser.array('file',6),errorHandler,modelController.addUserPictures); //changer les x par les bonnes infos
+router.post('/user/picture/:id',userCheck,IdChecker,uploadPictureUser.array('file',6),errorHandler,modelController.addUserPictures); 
+router.delete('/user/picture/:id',pre,modelController.deleteUserPicture);
 router.put('/stock',modelController.updateStock); //Controler l'utilisateur
 router.put('/:id',userCheck,uploadPicture.single('file'),errorHandler,modelController.updateOne); //Controler l'utilisateur
 router.delete('/:id',userCheck,modelController.deleteOne);

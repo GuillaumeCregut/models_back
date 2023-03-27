@@ -281,7 +281,6 @@ const getAllInfoKit = async (req, res) => {
             const basePath = result.pictures;
             const fileArray = [];
             const pathModel = path.join(__dirname, '..', basePath);
-            console.log(pathModel);
             await fs.promises.readdir(pathModel)
 
                 .then(filenames => {
@@ -333,10 +332,26 @@ const addUserPictures = async (req, res) => {
     else{
         deletePath(filesPath);
         return res.sendStatus(500);
-    }
-        
+    }        
 }
 
+const deleteUserPicture=async(req,res)=>{
+    if(isNaN(req.params.id))
+        return res.sendStatus(422);
+    const userId=req.user.user_id;
+    const id=req.params.id;
+    const filename=req.query.file;
+    const filePath=path.join(__dirname,'..','assets','uploads','users',`${userId}`,id,filename);
+    try{
+        fs.unlinkSync(filePath);
+        return res.sendStatus(204);
+    }
+    catch (err){
+        console.error(err);
+        res.sendStatus(500);
+    }
+    
+}
 module.exports = {
     getAll,
     getOne,
@@ -349,4 +364,5 @@ module.exports = {
     updateStock,
     getAllInfoKit,
     addUserPictures,
+    deleteUserPicture,
 }
