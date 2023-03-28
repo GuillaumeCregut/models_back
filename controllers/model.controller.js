@@ -4,6 +4,26 @@ const Joi = require('joi');
 const fs = require('fs');
 const path = require('path');
 
+const deletePath=(filePathToDelete)=>{ //Vérifier si tout est OK
+    const filePath = path.join(__dirname, '..', filePathToDelete);
+    var list = fs.readdirSync(filePath);
+    for(var i = 0; i < list.length; i++) {
+        var filename = path.join(filePath, list[i]);
+        var stat = fs.statSync(filename);
+
+        if(filename == "." || filename == "..") {
+            // pass these files
+        } else if(stat.isDirectory()) {
+            // rmdir recursively
+            rmdir(filename);
+        } else {
+            // rm fiilename
+            fs.unlinkSync(filename);
+        }
+    }
+    fs.rmdirSync(filePath);
+}
+
 const validate = (data, option) => {
     const presence = option ? 'required' : 'optional'
     return Joi.object({
@@ -18,20 +38,20 @@ const validate = (data, option) => {
     }).validate(data, { abortEarly: false }).error;
 }
 
-const validateFavorite=(data)=>{
+const validateFavorite = (data) => {
     return Joi.object({
-        modelId:Joi.number().min(1).presence('required'),
-        owner:Joi.number().min(1).presence('required'),
-        like:Joi.boolean().presence('required'),
-    }).validate(data, { abortEarly: false }).error; 
+        modelId: Joi.number().min(1).presence('required'),
+        owner: Joi.number().min(1).presence('required'),
+        like: Joi.boolean().presence('required'),
+    }).validate(data, { abortEarly: false }).error;
 }
 
-const validateStock=(data)=>{
+const validateStock = (data) => {
     return Joi.object({
-        id:Joi.number().min(1).presence('required'),
-        owner:Joi.number().min(1).presence('required'),
-        newState:Joi.number().min(1).presence('required'),
-    }).validate(data, { abortEarly: false }).error; 
+        id: Joi.number().min(1).presence('required'),
+        owner: Joi.number().min(1).presence('required'),
+        newState: Joi.number().min(1).presence('required'),
+    }).validate(data, { abortEarly: false }).error;
 }
 
 const getAll = async (req, res) => {
@@ -95,7 +115,7 @@ const updateOne = async (req, res) => {
     //See to store picture
     const picture = req?.file?.path;
     const { name, brand, builder, category, period, scale, reference, scalemates } = req.body;
-    const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates },false);
+    const errors = validate({ name, brand, builder, category, period, scale, reference, scalemates }, false);
     if (errors) {
         const error = errors.details[0].message;
         return res.status(422).send(error);
@@ -173,94 +193,165 @@ const deleteOne = async (req, res) => {
         res.sendStatus(404)
 }
 
-const setFavorite=async(req,res)=>{
-    const errors=validateFavorite(req.body);
+const setFavorite = async (req, res) => {
+    const errors = validateFavorite(req.body);
     if (errors) {
         const error = errors.details[0].message;
         return res.status(422).send(error);
     }
-    const{owner,modelId,like}=req.body;
-    let result=null;
-    if(like){
-        result= await modelModel.setFavorite(owner,modelId);
+    const { owner, modelId, like } = req.body;
+    let result = null;
+    if (like) {
+        result = await modelModel.setFavorite(owner, modelId);
     }
-    else{
-        result= await modelModel.unsetFavorite(owner,modelId);
+    else {
+        result = await modelModel.unsetFavorite(owner, modelId);
     }
     if (result && result !== -1) {
-       return res.sendStatus(204);
+        return res.sendStatus(204);
     }
     else if (result === -1) {
-       return res.sendStatus(500)
+        return res.sendStatus(500)
     }
     else
-      return  res.sendStatus(404)
-    res.sendStatus(200)
+        return res.sendStatus(404)
 }
 
-const getFavorite=async(req,res)=>{
-        const id=req.params.id;
-        if(isNaN(id)){
-            return res.sendStatus(422);
-        }
-        const userId=parseInt(id);
-        const result=await modelModel.getFavorite(userId);
-        if(result&&result!==-1)
-            return res.json(result);
-        else if(result==-1){
-            return res.sendStatus(418)
-        }
-        else
-            return res.sendStatus(500)
-}
-
-const getStock=async(req,res)=>{
-    const id=req.params.id;
-    if(isNaN(id)){
+const getFavorite = async (req, res) => {
+    const id = req.params.id;
+    if (isNaN(id)) {
         return res.sendStatus(422);
     }
-    const userId=parseInt(id);
-    const result=await modelModel.getAllKitsUser(userId);
-    if(result&&result!==-1)
+    const userId = parseInt(id);
+    const result = await modelModel.getFavorite(userId);
+    if (result && result !== -1)
+        return res.json(result);
+    else if (result == -1) {
+        return res.sendStatus(418)
+    }
+    else
+        return res.sendStatus(500)
+}
+
+const getStock = async (req, res) => {
+    const id = req.params.id;
+    if (isNaN(id)) {
+        return res.sendStatus(422);
+    }
+    const userId = parseInt(id);
+    const result = await modelModel.getAllKitsUser(userId);
+    if (result && result !== -1)
         return res.json(result)
-    else if(result===-1)
+    else if (result === -1)
         return res.sendStatus(500);
     res.sendStatus(418);
 }
 
-const updateStock=async(req,res)=>{
-    const errors=validateStock(req.body);
+const updateStock = async (req, res) => {
+    const errors = validateStock(req.body);
     if (errors) {
         const error = errors.details[0].message;
         return res.status(422).send(error);
     }
-    const {owner,id,newState}=req.body;
-    const result=await modelModel.updateStock(id,owner,newState);
-    if(result&&result!==-1){
+    const { owner, id, newState } = req.body;
+    const result = await modelModel.updateStock(id, owner, newState);
+    if (result && result !== -1) {
         return res.sendStatus(204);
     }
-    else if(result===-1)
+    else if (result === -1)
         return res.sendStatus(500);
     else
         return res.sendStatus(404);
 }
 
-const getAllInfoKit=async(req,res)=>{
-    const id=req.params.id;
-    if(isNaN(id)){
+const getAllInfoKit = async (req, res) => {
+    const id = req.params.id;
+    if (isNaN(id)) {
         return res.sendStatus(422);
     }
-    const idKit=parseInt(id);
-    const result=await modelModel.getAllDetailsKit(idKit);
-    if(result && result!==-1)
+    const idKit = parseInt(id);
+    const idUser = parseInt(req.params.iduser, 10);
+    if (idUser !== req.user.user_id) {
+        return res.sendStatus(401);
+    }
+    const result = await modelModel.getAllDetailsKit(idKit);
+    if (result && result !== -1) {
+        //Get all images and add them to responses
+        if (result.pictures) {
+            const basePath = result.pictures;
+            const fileArray = [];
+            const pathModel = path.join(__dirname, '..', basePath);
+            await fs.promises.readdir(pathModel)
+
+                .then(filenames => {
+                    for (let filename of filenames) {
+                        fileArray.push(filename)
+
+                    }
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
+            const pictures = {
+                baseFolder: basePath,
+                files: fileArray
+            }
+            result.pictures = pictures;
+        }
         return res.json(result);
-    else if(result===-1)
+    }
+    else if (result === -1)
         return res.sendStatus(500)
     else return res.sendStatus(418);
 }
 
+const addUserPictures = async (req, res) => {
+    const fileOk = req?.fileOk;
+    if(fileOk){
+        //Ajoute à la BDD
+        const filesPath=req?.filePath;
+        if(filesPath&&filesPath!=''){
+            const id=parseInt(req.params.id);
+            //Si on rencontre un souci, alors on fait marche arrière sur le répertoire créé
+            const dbResult=await modelModel. updatePictures(filesPath,id);
+            if(dbResult && dbResult!=-1){
+                return res.sendStatus(204);
+            }
+            else if(dbResult===-1){
+                res.sendStatus(500)
+            }
+            else{
+                //On supprime le répertoire
+                deletePath(filesPath);
+                return res.sendStatus(422)
+            }
+        }
+        else
+            return res.sendStatus(418);
+    }
+    else{
+        deletePath(filesPath);
+        return res.sendStatus(500);
+    }        
+}
 
-
+const deleteUserPicture=async(req,res)=>{
+    if(isNaN(req.params.id))
+        return res.sendStatus(422);
+    const userId=req.user.user_id;
+    const id=req.params.id;
+    const filename=req.query.file;
+    const filePath=path.join(__dirname,'..','assets','uploads','users',`${userId}`,id,filename);
+    try{
+        fs.unlinkSync(filePath);
+        return res.sendStatus(204);
+    }
+    catch (err){
+        console.error(err);
+        res.sendStatus(500);
+    }
+    
+}
 module.exports = {
     getAll,
     getOne,
@@ -272,4 +363,6 @@ module.exports = {
     getStock,
     updateStock,
     getAllInfoKit,
+    addUserPictures,
+    deleteUserPicture,
 }

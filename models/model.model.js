@@ -145,6 +145,11 @@ const getAllDetailsKit=async(id)=>{
         return dbResult;
 }
 
+const updatePictures=async(filePath,id)=>{
+    const dbResult=await dbquery('update', 'UPDATE model_user SET pictures=? WHERE id=?',[filePath,id])
+    return dbResult;
+}
+
 module.exports = {
     findAll,
     findOne,
@@ -157,4 +162,5 @@ module.exports = {
     getAllKitsUser,
     updateStock,
     getAllDetailsKit,
+    updatePictures,
 }

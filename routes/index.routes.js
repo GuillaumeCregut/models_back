@@ -10,11 +10,10 @@ const country=require('./country.routes');
 const model=require('./model.route');
 const order=require('./order.route');
 const period=require('./period.routes');
-const scale=require('./scale.router');
+const scale=require('./scale.route');
 const state=require('./state.route');
 const supplier=require('./supplier.route');
 const users=require('./users.routes');
-
 /*Specific routes*/
 router.use('/auth',auth);
 router.use('/logout',logout);
@@ -32,7 +31,6 @@ router.use('/scale',scale);
 router.use('/state',state);
 router.use('/supplier',supplier);
 router.use('/users',users);
-
 
 /* Default routes */
 const defaultReply=(req,res)=>{
