@@ -70,7 +70,7 @@ router.post('/',uploadPicture.single('file'),errorFileHandler,modelController.ad
 router.post('/favorite',modelController.setFavorite);
 router.post('/user/picture/:id',userCheck,idChecker,uploadPictureUser.array('file',6),errorFileHandler,modelController.addUserPictures); 
 router.delete('/user/picture/:id',userCheck,idChecker,modelController.deleteUserPicture);
-router.put('/stock',modelController.updateStock); //Controler l'utilisateur
+router.put('/stock',userCheck,modelController.updateStock); //Controler l'utilisateur
 router.put('/:id',userCheck,uploadPicture.single('file'),errorFileHandler,modelController.updateOne); //Controler l'utilisateur
 router.delete('/:id',userCheck,modelController.deleteOne);
 
