@@ -20,7 +20,14 @@ const checkLevel=(req,res,next)=>{
     next();
 }
 
+const idChecker=(req,res,next)=>{
+    if(isNaN(req.params.id))
+        return res.sendStatus(422);
+    next();
+}
+
 module.exports={
     userCheck,
-    checkLevel
+    checkLevel,
+    idChecker,
 }
