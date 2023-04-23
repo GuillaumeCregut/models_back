@@ -1,32 +1,13 @@
 const router=require('express').Router();
 const modelController=require('../controllers/model.controller');
-const {userCheck}=require('../middlewares/UserValidation');
+const {userCheck,idChecker}=require('../middlewares/UserValidation');
 const multer = require('multer');
 const {createSubUpload}=require('../utils/fs');
 const fs = require('fs');
 const path = require('path');
+const { errorFileHandler}=require('../middlewares/errorHandler');
 
 createSubUpload('models');
-
-const errorHandler = (error, req, res, next) => {
-    if (error) {
-        console.error(error);
-        const filePath = { path: null };
-        req.file = filePath;
-    }
-    next();
-}
-
-const IdChecker=(req,res,next)=>{
-    if(isNaN(req.params.id))
-        return res.sendStatus(422);
-    next();
-}
-
-const pre=(req,res,next)=>{
-    req.user={user_id:5};
-    next();
-}
 
 const storageUserPictures=multer.diskStorage(
     {
@@ -85,12 +66,12 @@ router.get('/user/:id',modelController.getStock); //Controler l'utilisateur
 router.get('/favorite/:id',modelController.getFavorite); //Controler l'utilisateur
 router.get('/info/:id/user/:iduser',userCheck,modelController.getAllInfoKit);
 router.get('/:id',modelController.getOne);
-router.post('/',uploadPicture.single('file'),errorHandler,modelController.addOne);
+router.post('/',uploadPicture.single('file'),errorFileHandler,modelController.addOne);
 router.post('/favorite',modelController.setFavorite);
-router.post('/user/picture/:id',userCheck,IdChecker,uploadPictureUser.array('file',6),errorHandler,modelController.addUserPictures); 
-router.delete('/user/picture/:id',pre,modelController.deleteUserPicture);
-router.put('/stock',modelController.updateStock); //Controler l'utilisateur
-router.put('/:id',userCheck,uploadPicture.single('file'),errorHandler,modelController.updateOne); //Controler l'utilisateur
+router.post('/user/picture/:id',userCheck,idChecker,uploadPictureUser.array('file',6),errorFileHandler,modelController.addUserPictures); 
+router.delete('/user/picture/:id',userCheck,idChecker,modelController.deleteUserPicture);
+router.put('/stock',userCheck,modelController.updateStock); //Controler l'utilisateur
+router.put('/:id',userCheck,uploadPicture.single('file'),errorFileHandler,modelController.updateOne); //Controler l'utilisateur
 router.delete('/:id',userCheck,modelController.deleteOne);
 
 module.exports=router;

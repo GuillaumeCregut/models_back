@@ -5,4 +5,17 @@ const errorHandler=(err,req,res,next)=>{
     res.status(500).send(err.message);
 }
 
-module.exports=errorHandler;
+const errorFileHandler = (error, req, res, next) => {
+    if (error) {
+        console.error(error);
+        const filePath = { path: null };
+        req.file = filePath;
+    }
+    next();
+}
+
+
+module.exports={
+    errorHandler,
+    errorFileHandler
+};
