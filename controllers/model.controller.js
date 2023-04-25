@@ -392,6 +392,22 @@ const getStat = async (req, res) => {
     else if (providerResult === -1)
         return res.sendStatus(500);
 
+    //get scale result
+    const scaleResult = await modelModel.getStatModelScale(id);
+    if (scaleResult && scaleResult !== -1) {
+        datas.scale = scaleResult;
+    }
+    else if (scaleResult === -1)
+        return res.sendStatus(500);
+    
+    //get price info
+    const priceResult = await modelModel.getStatModelPrice(id);
+    if (priceResult && priceResult !== -1) {
+        datas.price = priceResult[0].sum;
+    }
+    else if (priceResult === -1)
+        return res.sendStatus(500);
+
 
     // const datas={
     //     scale:[{

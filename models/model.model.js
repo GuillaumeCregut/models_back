@@ -169,6 +169,16 @@ const getStatModelProvider=async(id)=>{
     const dbResult=await dbquery('get','SELECT count(*) as count, providerName FROM all_info_model WHERE owner=? GROUP BY provider;',[id]);
     return dbResult;
 }
+const getStatModelScale=async(id)=>{
+    const dbResult=await dbquery('get','SELECT count(*) as count, scaleName FROM all_info_model WHERE owner=? GROUP BY scaleName;',[id]);
+    return dbResult;
+}
+
+const getStatModelPrice=async(id)=>{
+    const dbResult=await dbquery('get','SELECT SUM(price) as sum FROM `all_info_model` WHERE owner=?;',[id]);
+    return dbResult;
+}
+
 
 module.exports = {
     findAll,
@@ -187,4 +197,6 @@ module.exports = {
     getStatModelPeriod,
     getStatModelType,
     getStatModelProvider,
+    getStatModelScale,
+    getStatModelPrice
 }
