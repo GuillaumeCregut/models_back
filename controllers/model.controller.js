@@ -399,6 +399,13 @@ const getStat = async (req, res) => {
     }
     else if (scaleResult === -1)
         return res.sendStatus(500);
+    //get brand result
+    const brandResult = await modelModel.getStatModelBrand(id);
+    if (brandResult && brandResult !== -1) {
+        datas.brand = brandResult;
+    }
+    else if (brandResult === -1)
+        return res.sendStatus(500);
     
     //get price info
     const priceResult = await modelModel.getStatModelPrice(id);
@@ -407,16 +414,6 @@ const getStat = async (req, res) => {
     }
     else if (priceResult === -1)
         return res.sendStatus(500);
-
-
-    // const datas={
-    //     scale:[{
-    //         1:5,
-    //         2:4
-    //     }],
-    //     type:[],
-
-    // }
     res.json(datas);
 }
 

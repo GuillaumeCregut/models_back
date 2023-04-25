@@ -179,6 +179,10 @@ const getStatModelPrice=async(id)=>{
     return dbResult;
 }
 
+const getStatModelBrand=async(id)=>{
+    const dbResult=await dbquery('get','SELECT count(*) as count, brandName FROM all_info_model WHERE owner=? GROUP BY brandName;',[id]);
+    return dbResult;
+}
 
 module.exports = {
     findAll,
@@ -198,5 +202,6 @@ module.exports = {
     getStatModelType,
     getStatModelProvider,
     getStatModelScale,
-    getStatModelPrice
+    getStatModelPrice,
+    getStatModelBrand
 }
