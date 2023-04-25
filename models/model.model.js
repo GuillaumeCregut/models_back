@@ -150,6 +150,16 @@ const updatePictures=async(filePath,id)=>{
     return dbResult;
 }
 
+const getStateModelState=async(id)=>{
+    const dbResult=await dbquery('get', 'SELECT count(*) as count, state FROM all_info_model WHERE owner=? GROUP BY state;',[id])
+    return dbResult;
+}
+
+const getStatModelPeriod=async(id)=>{
+    const dbResult=await dbquery('get', 'SELECT count(*) as count, periodName FROM all_info_model WHERE owner=5 GROUP BY periodName;',[id])
+    return dbResult;
+}
+
 module.exports = {
     findAll,
     findOne,
@@ -163,4 +173,6 @@ module.exports = {
     updateStock,
     getAllDetailsKit,
     updatePictures,
+    getStateModelState,
+    getStatModelPeriod,
 }

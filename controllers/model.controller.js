@@ -4,16 +4,16 @@ const Joi = require('joi');
 const fs = require('fs');
 const path = require('path');
 
-const deletePath=(filePathToDelete)=>{ //Vérifier si tout est OK
+const deletePath = (filePathToDelete) => { //Vérifier si tout est OK
     const filePath = path.join(__dirname, '..', filePathToDelete);
     var list = fs.readdirSync(filePath);
-    for(var i = 0; i < list.length; i++) {
+    for (var i = 0; i < list.length; i++) {
         var filename = path.join(filePath, list[i]);
         var stat = fs.statSync(filename);
 
-        if(filename == "." || filename == "..") {
+        if (filename == "." || filename == "..") {
             // pass these files
-        } else if(stat.isDirectory()) {
+        } else if (stat.isDirectory()) {
             // rmdir recursively
             rmdir(filename);
         } else {
@@ -307,20 +307,20 @@ const getAllInfoKit = async (req, res) => {
 
 const addUserPictures = async (req, res) => {
     const fileOk = req?.fileOk;
-    if(fileOk){
+    if (fileOk) {
         //Ajoute à la BDD
-        const filesPath=req?.filePath;
-        if(filesPath&&filesPath!=''){
-            const id=parseInt(req.params.id);
+        const filesPath = req?.filePath;
+        if (filesPath && filesPath != '') {
+            const id = parseInt(req.params.id);
             //Si on rencontre un souci, alors on fait marche arrière sur le répertoire créé
-            const dbResult=await modelModel. updatePictures(filesPath,id);
-            if(dbResult && dbResult!=-1){
+            const dbResult = await modelModel.updatePictures(filesPath, id);
+            if (dbResult && dbResult != -1) {
                 return res.sendStatus(204);
             }
-            else if(dbResult===-1){
+            else if (dbResult === -1) {
                 res.sendStatus(500)
             }
-            else{
+            else {
                 //On supprime le répertoire
                 deletePath(filesPath);
                 return res.sendStatus(422)
@@ -329,29 +329,61 @@ const addUserPictures = async (req, res) => {
         else
             return res.sendStatus(418);
     }
-    else{
+    else {
         deletePath(filesPath);
         return res.sendStatus(500);
-    }        
+    }
 }
 
-const deleteUserPicture=async(req,res)=>{
-    if(isNaN(req.params.id))
+const deleteUserPicture = async (req, res) => {
+    if (isNaN(req.params.id))
         return res.sendStatus(422);
-    const userId=req.user.user_id;
-    const id=req.params.id;
-    const filename=req.query.file;
-    const filePath=path.join(__dirname,'..','assets','uploads','users',`${userId}`,id,filename);
-    try{
+    const userId = req.user.user_id;
+    const id = req.params.id;
+    const filename = req.query.file;
+    const filePath = path.join(__dirname, '..', 'assets', 'uploads', 'users', `${userId}`, id, filename);
+    try {
         fs.unlinkSync(filePath);
         return res.sendStatus(204);
     }
-    catch (err){
+    catch (err) {
         console.error(err);
         res.sendStatus(500);
     }
-    
+
 }
+
+const getStat = async (req, res) => {
+    if (isNaN(req.params.id)) {
+        return res.sendStatus(422);
+    }
+    const datas = {};
+    const id = req.params.id;
+    const stateResult = await modelModel.getStateModelState(id);
+    if (stateResult && stateResult !== -1) {
+        datas.state = stateResult;
+    }
+    else if (stateResult === -1)
+        return res.sendStatus(500);
+    const perdiodResult = await modelModel.getStatModelPeriod(id);
+    if (perdiodResult && perdiodResult !== -1) {
+        datas.period = perdiodResult;
+    }
+    else if (perdiodResult === -1)
+        return res.sendStatus(500);
+
+
+    // const datas={
+    //     scale:[{
+    //         1:5,
+    //         2:4
+    //     }],
+    //     type:[],
+
+    // }
+    res.json(datas);
+}
+
 module.exports = {
     getAll,
     getOne,
@@ -365,4 +397,5 @@ module.exports = {
     getAllInfoKit,
     addUserPictures,
     deleteUserPicture,
+    getStat,
 }

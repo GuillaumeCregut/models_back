@@ -65,6 +65,7 @@ router.get('/',modelController.getAll);
 router.get('/user/:id',modelController.getStock); //Controler l'utilisateur
 router.get('/favorite/:id',modelController.getFavorite); //Controler l'utilisateur
 router.get('/info/:id/user/:iduser',userCheck,modelController.getAllInfoKit);
+router.get('/info/user/:id',modelController.getStat);
 router.get('/:id',modelController.getOne);
 router.post('/',uploadPicture.single('file'),errorFileHandler,modelController.addOne);
 router.post('/favorite',modelController.setFavorite);
