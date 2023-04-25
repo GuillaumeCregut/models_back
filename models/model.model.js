@@ -146,17 +146,27 @@ const getAllDetailsKit=async(id)=>{
 }
 
 const updatePictures=async(filePath,id)=>{
-    const dbResult=await dbquery('update', 'UPDATE model_user SET pictures=? WHERE id=?',[filePath,id])
+    const dbResult=await dbquery('update', 'UPDATE model_user SET pictures=? WHERE id=?',[filePath,id]);
     return dbResult;
 }
 
 const getStateModelState=async(id)=>{
-    const dbResult=await dbquery('get', 'SELECT count(*) as count, state FROM all_info_model WHERE owner=? GROUP BY state;',[id])
+    const dbResult=await dbquery('get', 'SELECT count(*) as count, state FROM all_info_model WHERE owner=? GROUP BY state;',[id]);
     return dbResult;
 }
 
 const getStatModelPeriod=async(id)=>{
-    const dbResult=await dbquery('get', 'SELECT count(*) as count, periodName FROM all_info_model WHERE owner=5 GROUP BY periodName;',[id])
+    const dbResult=await dbquery('get', 'SELECT count(*) as count, periodName FROM all_info_model WHERE owner=? GROUP BY periodName;',[id]);
+    return dbResult;
+}
+
+const getStatModelType=async(id)=>{
+    const dbResult=await dbquery('get', 'SELECT count(*) as count, categoryName FROM all_info_model WHERE owner=? GROUP BY categoryName;',[id]);
+    return dbResult;
+}
+
+const getStatModelProvider=async(id)=>{
+    const dbResult=await dbquery('get','SELECT count(*) as count, providerName FROM all_info_model WHERE owner=? GROUP BY provider;',[id]);
     return dbResult;
 }
 
@@ -175,4 +185,6 @@ module.exports = {
     updatePictures,
     getStateModelState,
     getStatModelPeriod,
+    getStatModelType,
+    getStatModelProvider,
 }

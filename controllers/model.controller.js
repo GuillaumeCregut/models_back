@@ -359,17 +359,37 @@ const getStat = async (req, res) => {
     }
     const datas = {};
     const id = req.params.id;
+
+    //Get state result
     const stateResult = await modelModel.getStateModelState(id);
     if (stateResult && stateResult !== -1) {
         datas.state = stateResult;
     }
     else if (stateResult === -1)
         return res.sendStatus(500);
+    
+    //Get period result
     const perdiodResult = await modelModel.getStatModelPeriod(id);
     if (perdiodResult && perdiodResult !== -1) {
         datas.period = perdiodResult;
     }
     else if (perdiodResult === -1)
+        return res.sendStatus(500);
+
+    //get Category result
+    const categoryResult = await modelModel.getStatModelType(id);
+    if (categoryResult && categoryResult !== -1) {
+        datas.category = categoryResult;
+    }
+    else if (categoryResult === -1)
+        return res.sendStatus(500);
+    
+    //get provider result
+    const providerResult = await modelModel.getStatModelProvider(id);
+    if (providerResult && providerResult !== -1) {
+        datas.provider = providerResult;
+    }
+    else if (providerResult === -1)
         return res.sendStatus(500);
 
 
