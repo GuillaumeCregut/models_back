@@ -24,10 +24,11 @@ app.use(loggerDebug);
 app.use(errorHandler);
 
 app.use('/api/v1', router);
-app.use('/api',(req,res)=>{
-  console.log(req.path)
-  res.redirect(301,`/api/v1${req.path}`);
-})
+//Removed because creating bug....
+// app.use('/api',(req,res)=>{
+//   console.log(req.path)
+//   res.redirect(301,`/api/v1${req.path}`);
+// })
 app.use('/assets/uploads',express.static('assets/uploads'));
 
 app.get("/", (req, res) => {
