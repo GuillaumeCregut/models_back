@@ -30,7 +30,7 @@ const rmdir = (dir)=> {
             // rmdir recursively
             rmdir(filename);
         } else {
-            // rm fiilename
+            // rm filename
             fs.unlinkSync(filename);
         }
     }
@@ -38,6 +38,7 @@ const rmdir = (dir)=> {
 };
 
 const doStats = async (req, res) => {
+   
     const id = req.params.id;
     if (isNaN(id)) {
         return res.sendStatus(422);
@@ -142,8 +143,10 @@ const doStats = async (req, res) => {
     catch {
         return res.sendStatus(500);
     }
-    console.log('clean')
-    rmdir(pathTemp);
+    setTimeout(()=>{
+      //  rmdir(pathTemp);
+    },5000)
+    res.sendStatus(200)
 }
 
 module.exports = {
