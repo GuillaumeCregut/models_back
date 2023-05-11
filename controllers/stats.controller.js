@@ -18,6 +18,25 @@ const generateDatas = (datas) => {
 }
 
 
+const rmdir = (dir)=> {
+    const list = fs.readdirSync(dir);
+    for(let i = 0; i < list.length; i++) {
+        const filename = path.join(dir, list[i]);
+        const stat = fs.statSync(filename);
+
+        if(filename == "." || filename == "..") {
+            // pass these files
+        } else if(stat.isDirectory()) {
+            // rmdir recursively
+            rmdir(filename);
+        } else {
+            // rm fiilename
+            fs.unlinkSync(filename);
+        }
+    }
+    fs.rmdirSync(dir);
+};
+
 const doStats = async (req, res) => {
     const id = req.params.id;
     if (isNaN(id)) {
@@ -124,6 +143,7 @@ const doStats = async (req, res) => {
         return res.sendStatus(500);
     }
     console.log('clean')
+    rmdir(pathTemp);
 }
 
 module.exports = {
