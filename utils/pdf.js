@@ -1,5 +1,6 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
+const path = require('path');
 
 let oldFontSize = '';
 const pages = [];
@@ -93,10 +94,13 @@ const createPDF = async(response, pathTemp, totalPrice, userName, datas, models,
                 top: 30, bottom: 20, left: 72, right: 72
             }, bufferPages: true
         });
-        doc.pipe(fs.createWriteStream(`${pathTemp}/stats.pdf`,{
+        const pdfPath=path.join(__dirname,'..','assets','uploads','users',`${userId}`,'stats.pdf');
+        doc.pipe(fs.createWriteStream(pdfPath,{
             responseType: 'blob',
           }));
-        doc.pipe(response);
+        // doc.pipe(response,{
+        //     responseType: 'blob',
+        //   });
         doc.on('pageAdded', () => {
             const range = doc.bufferedPageRange();
             if (titlePage !== '') {
@@ -166,9 +170,9 @@ const createPDF = async(response, pathTemp, totalPrice, userName, datas, models,
         createImageAndTitle(doc, `${pathTemp}/state.png`, 'Répartition par états', 440);
         fillSummary(doc);
         createFooter(doc);
-
-
         doc.end();
+        const dlPath=path.join('assets','uploads','users',`${userId}`,'stats.pdf');
+        response.json({path: dlPath});
     }
     catch (err) {
         console.log(err)

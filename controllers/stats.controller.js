@@ -46,7 +46,10 @@ const doStats = async (req, res) => {
     }
     //Remove old file 
     try {
-        fs.unlinkSync(path.join(__dirname,'..','assets','uploads','users',`${id}`,'stats.pdf'));
+        if (fs.existsSync(path.join(__dirname,'..','assets','uploads','users',`${id}`,'stats.pdf'))) {
+            //file exists
+            fs.unlinkSync(path.join(__dirname,'..','assets','uploads','users',`${id}`,'stats.pdf'));
+          }
     }
     catch(err){
         console.log(err)
