@@ -158,7 +158,7 @@ const doStats = async (req, res) => {
         return res.sendStatus(500);
     }
     setTimeout(() => {
-        //  rmdir(pathTemp);
+          rmdir(pathTemp);
     }, 5000)
    
 }
