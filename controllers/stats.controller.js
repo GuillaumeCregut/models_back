@@ -20,42 +20,47 @@ const generateDatas = (datas) => {
 
 const rmdir = (dir) => {
     const list = fs.readdirSync(dir);
-    for (let i = 0; i < list.length; i++) {
-        const filename = path.join(dir, list[i]);
-        const stat = fs.statSync(filename);
+    try {
+        for (let i = 0; i < list.length; i++) {
+            const filename = path.join(dir, list[i]);
+            const stat = fs.statSync(filename);
 
-        if (filename == "." || filename == "..") {
-            // pass these files
-        } else if (stat.isDirectory()) {
-            // rmdir recursively
-            rmdir(filename);
-        } else {
-            // rm filename
-            fs.unlinkSync(filename);
+            if (filename == "." || filename == "..") {
+                // pass these files
+            } else if (stat.isDirectory()) {
+                // rmdir recursively
+                rmdir(filename);
+            } else {
+                // rm filename
+                fs.unlinkSync(filename);
+            }
         }
+        fs.rmdirSync(dir);
     }
-    fs.rmdirSync(dir);
+    catch (err) {
+        console.log(err);
+    }
 };
 
 const doStats = async (req, res) => {
-    const {firstname, lastname}=req.user;
-    const userName=`${firstname} ${lastname}`;
+    const { firstname, lastname } = req.user;
+    const userName = `${firstname} ${lastname}`;
     const id = req.params.id; //
     if (isNaN(id)) {
         return res.sendStatus(422);
     }
     //Remove old file 
     try {
-        if (fs.existsSync(path.join(__dirname,'..','assets','uploads','users',`${id}`,'stats.pdf'))) {
+        if (fs.existsSync(path.join(__dirname, '..', 'assets', 'uploads', 'users', `${id}`, 'stats.pdf'))) {
             //file exists
-            fs.unlinkSync(path.join(__dirname,'..','assets','uploads','users',`${id}`,'stats.pdf'));
-          }
+            fs.unlinkSync(path.join(__dirname, '..', 'assets', 'uploads', 'users', `${id}`, 'stats.pdf'));
+        }
     }
-    catch(err){
+    catch (err) {
         console.log(err)
     }
     const userId = parseInt(id, 10);
-    const pathTemp = path.join(__dirname, '..', 'temp', 'generator',id);
+    const pathTemp = path.join(__dirname, '..', 'temp', 'generator', id);
     //Créer le répertoire si ce n'est pas fait
     createFolder(pathTemp);
     //Générer les différents graphes
@@ -67,13 +72,16 @@ const doStats = async (req, res) => {
                 await createPie(400, 400, labels, dataContent, pathTemp + '/state.png');
             }
             catch (err) {
+                console.log(err);
                 return res.sendStatus(500);
             }
         }
         else return res.sendStatus(404)
     }
-    else if (stateResult === -1)
+    else if (stateResult === -1){
+        console.log('state', perdiodResult);
         return res.sendStatus(500);
+    }
     //Get period result
     const perdiodResult = await modelModel.getStatModelPeriod(id);
     if (perdiodResult && perdiodResult !== -1) {
@@ -82,63 +90,76 @@ const doStats = async (req, res) => {
             await createPie(400, 400, labels, dataContent, pathTemp + '/period.png');
         }
         catch (err) {
+            console.log(err);
             return res.sendStatus(500);
         }
     }
-    else if (perdiodResult === -1)
+    else if (perdiodResult === -1){
+        console.log('period', perdiodResult);
         return res.sendStatus(500);
+    }
     //get Category result
     const categoryResult = await modelModel.getStatModelType(id);
     if (categoryResult && categoryResult !== -1) {
         [labels, dataContent] = generateDatas(categoryResult);
         try {
-           await createPie(400, 400, labels, dataContent, pathTemp + '/category.png');
+            await createPie(400, 400, labels, dataContent, pathTemp + '/category.png');
         }
         catch (err) {
+            console.log(err);
             return res.sendStatus(500);
         }
     }
-    else if (categoryResult === -1)
+    else if (categoryResult === -1){
+        console.log('categoryResult', categoryResult);
         return res.sendStatus(500);
+    }
     //get provider result
     const providerResult = await modelModel.getStatModelProvider(id);
     if (providerResult && providerResult !== -1) {
         [labels, dataContent] = generateDatas(providerResult);
         try {
-           await createPie(400, 400, labels, dataContent, pathTemp + '/provider.png');
+            await createPie(400, 400, labels, dataContent, pathTemp + '/provider.png');
         }
         catch (err) {
+            console.log(err);
             return res.sendStatus(500);
         }
     }
-    else if (providerResult === -1)
+    else if (providerResult === -1){
+        console.log('provider', providerResult);
         return res.sendStatus(500);
+    }
     //get scale result
     const scaleResult = await modelModel.getStatModelScale(id);
     if (scaleResult && scaleResult !== -1) {
         [labels, dataContent] = generateDatas(scaleResult);
         try {
-           await createPie(400, 400, labels, dataContent, pathTemp + '/scale.png');
+            await createPie(400, 400, labels, dataContent, pathTemp + '/scale.png');
         }
         catch (err) {
             return res.sendStatus(500);
         }
     }
-    else if (scaleResult === -1)
+    else if (scaleResult === -1){
+        console.log('scale', perdiodResult);
         return res.sendStatus(500);
+    }
     //get brand result
     const brandResult = await modelModel.getStatModelBrand(id);
     if (brandResult && brandResult !== -1) {
         [labels, dataContent] = generateDatas(brandResult);
         try {
-          await createPie(400, 400, labels, dataContent, pathTemp + '/brand.png');
+            await createPie(400, 400, labels, dataContent, pathTemp + '/brand.png');
         }
         catch (err) {
             return res.sendStatus(500);
         }
     }
-    else if (brandResult === -1)
+    else if (brandResult === -1){
+        console.log('brand', perdiodResult);
         return res.sendStatus(500);
+    }
     //get price info
     let totalPrice = 0;
     const priceResult = await modelModel.getStatModelPrice(id);
@@ -148,19 +169,22 @@ const doStats = async (req, res) => {
     else if (priceResult === -1)
         return res.sendStatus(500);
     //Get Models fromo list
-    const allModels= await modelModel.getAllKitsUser(id);
+    const allModels = await modelModel.getAllKitsUser(id);
     //Générer le PDF
     try {
-        createPDF(res, pathTemp, priceResult[0].sum,userName,stateResult,allModels,id); 
-        //return res.sendStatus(200);
+       await  createPDF(res, pathTemp, priceResult[0].sum, userName, stateResult, allModels, id);
+       
     }
-    catch {
+    catch (err){
+console.log(err)
         return res.sendStatus(500);
     }
     setTimeout(() => {
-          rmdir(pathTemp);
+        rmdir(pathTemp);
+        const dlPath=path.join('assets','uploads','users',`${userId}`,'stats.pdf');
+       res.json({path: dlPath});
     }, 5000)
-   
+
 }
 
 module.exports = {

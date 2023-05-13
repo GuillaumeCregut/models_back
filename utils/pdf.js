@@ -87,6 +87,9 @@ const makeInlineText = (doc) => {
 
 
 const createPDF = async(response, pathTemp, totalPrice, userName, datas, models, userId) => {
+    pages.splice(0,pages.length);
+    oldFontSize = '';
+    titlePage = '';
     try {
         const today = new Date();
         const doc = new PDFDocument({
@@ -168,11 +171,10 @@ const createPDF = async(response, pathTemp, totalPrice, userName, datas, models,
         doc.addPage();
         createImageAndTitle(doc, `${pathTemp}/category.png`, 'Répartition par catégories', 40);
         createImageAndTitle(doc, `${pathTemp}/state.png`, 'Répartition par états', 440);
-        fillSummary(doc);
         createFooter(doc);
+        fillSummary(doc);
         doc.end();
-        const dlPath=path.join('assets','uploads','users',`${userId}`,'stats.pdf');
-        response.json({path: dlPath});
+        
     }
     catch (err) {
         console.log(err)
