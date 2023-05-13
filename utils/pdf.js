@@ -101,9 +101,8 @@ const createPDF = async(response, pathTemp, totalPrice, userName, datas, models,
         doc.pipe(fs.createWriteStream(pdfPath,{
             responseType: 'blob',
           }));
-        // doc.pipe(response,{
-        //     responseType: 'blob',
-        //   });
+          response.type('application/pdf');
+        doc.pipe(response);
         doc.on('pageAdded', () => {
             const range = doc.bufferedPageRange();
             if (titlePage !== '') {

@@ -182,7 +182,7 @@ console.log(err)
     setTimeout(() => {
         rmdir(pathTemp);
         const dlPath=path.join('assets','uploads','users',`${userId}`,'stats.pdf');
-       res.json({path: dlPath});
+      // res.json({path: dlPath});
     }, 5000)
 
 }
