@@ -12,6 +12,7 @@ const order=require('./order.route');
 const period=require('./period.routes');
 const scale=require('./scale.route');
 const state=require('./state.route');
+const stats=require('./stats.route');
 const supplier=require('./supplier.route');
 const users=require('./users.routes');
 /*Specific routes*/
@@ -29,6 +30,7 @@ router.use('/order',order);
 router.use('/period',period);
 router.use('/scale',scale);
 router.use('/state',state);
+router.use('/stats',stats);
 router.use('/supplier',supplier);
 router.use('/users',users);
 
