@@ -23,13 +23,13 @@ const createFooter = (doc) => {
 const fillSummary = (doc) => {
     doc.switchToPage(1);
     doc.fontSize(15);
-    let count=0;
-    const lineHeight=doc.heightOfString('ffff');
-    pages.forEach((item)=>{
-        doc.text(`Page ${item.page} ----------- ${item.titlePage}`,150,100+(count*(lineHeight +20)));
+    let count = 0;
+    const lineHeight = doc.heightOfString('ffff');
+    pages.forEach((item) => {
+        doc.text(`Page ${item.page} ----------- ${item.titlePage}`, 150, 100 + (count * (lineHeight + 20)));
         count++;
     })
-    
+
 }
 
 const createImageAndTitle = (doc, image, title, startLine) => {
@@ -85,9 +85,24 @@ const makeInlineText = (doc) => {
     doc.fontSize(16);
 }
 
+const makeDataUser = (doc, data) => {
+    const nbLine = data.data.length;
+    const disponiblePlace = doc.page.height - (80 + (nbLine * doc.currentLineHeight()));
+    const indent = 30;
+    const offset = 0;
+    if (doc.y >= disponiblePlace) {
+        titlePage = '';
+        doc.addPage();
+    }
+    doc.moveDown();
+    doc.text(`Répartion par ${data.title} :`, { indent: offset })
+    data.data.forEach((item) => {
+        doc.text(`${item.name} : ${item.count}`, { indent: offset + indent })
+    })
+}
 
-const createPDF = async(response, pathTemp, totalPrice, userName, datas, models, userId) => {
-    pages.splice(0,pages.length);
+const createPDF = async (response, pathTemp, totalPrice, userName, datas, models, userId, userData) => {
+    pages.splice(0, pages.length);
     oldFontSize = '';
     titlePage = '';
     try {
@@ -97,16 +112,16 @@ const createPDF = async(response, pathTemp, totalPrice, userName, datas, models,
                 top: 30, bottom: 20, left: 72, right: 72
             }, bufferPages: true
         });
-        const pdfPath=path.join(__dirname,'..','assets','uploads','users',`${userId}`,'stats.pdf');
-        doc.pipe(fs.createWriteStream(pdfPath,{
-            responseType: 'blob',
-          }));
-          response.type('application/pdf');
+        const pdfPath = path.join(__dirname, '..', 'assets', 'uploads', 'users', `${userId}`, 'stats.pdf');
+        // doc.pipe(fs.createWriteStream(pdfPath,{
+        //     responseType: 'blob',
+        //   }));
+        response.type('application/pdf');
         doc.pipe(response);
         doc.on('pageAdded', () => {
             const range = doc.bufferedPageRange();
             if (titlePage !== '') {
-                pages.push({titlePage,page:range.count - 1});
+                pages.push({ titlePage, page: range.count - 1 });
             }
         });
         //Première page
@@ -145,10 +160,16 @@ const createPDF = async(response, pathTemp, totalPrice, userName, datas, models,
         doc.addPage();
         makeTitle(doc, 'Données chiffréees', oldFontSize);
         makeInlineText(doc);
+        doc.text('Données référencées', 10, doc.y)
         //Stats écrites
         doc.list(datas.map((data) => {
             return (`Nombre de kits ${data.name} : ${data.count}`)
         }));
+        doc.moveDown();
+        doc.moveDown();
+        userData.forEach((ud) => {
+            makeDataUser(doc, ud);
+        });
         doc.moveDown();
         doc.text(`Coût total du stock (suivant les informations fournies) : ${totalPrice} €`);
         titlePage = 'Liste des modèles';
@@ -173,7 +194,7 @@ const createPDF = async(response, pathTemp, totalPrice, userName, datas, models,
         createFooter(doc);
         fillSummary(doc);
         doc.end();
-        
+
     }
     catch (err) {
         console.log(err)

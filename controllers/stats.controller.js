@@ -43,6 +43,7 @@ const rmdir = (dir) => {
 };
 
 const doStats = async (req, res) => {
+    const dataUser=[];
     const { firstname, lastname } = req.user;
     const userName = `${firstname} ${lastname}`;
     const id = req.params.id; //
@@ -85,6 +86,8 @@ const doStats = async (req, res) => {
     //Get period result
     const perdiodResult = await modelModel.getStatModelPeriod(id);
     if (perdiodResult && perdiodResult !== -1) {
+        
+        dataUser.push({title:"périodes",data:perdiodResult});
         [labels, dataContent] = generateDatas(perdiodResult);
         try {
             await createPie(400, 400, labels, dataContent, pathTemp + '/period.png');
@@ -101,6 +104,7 @@ const doStats = async (req, res) => {
     //get Category result
     const categoryResult = await modelModel.getStatModelType(id);
     if (categoryResult && categoryResult !== -1) {
+        dataUser.push({title:"catégories",data:categoryResult});
         [labels, dataContent] = generateDatas(categoryResult);
         try {
             await createPie(400, 400, labels, dataContent, pathTemp + '/category.png');
@@ -117,6 +121,7 @@ const doStats = async (req, res) => {
     //get provider result
     const providerResult = await modelModel.getStatModelProvider(id);
     if (providerResult && providerResult !== -1) {
+        dataUser.push({title:"fournisseurs",data:providerResult});
         [labels, dataContent] = generateDatas(providerResult);
         try {
             await createPie(400, 400, labels, dataContent, pathTemp + '/provider.png');
@@ -133,6 +138,7 @@ const doStats = async (req, res) => {
     //get scale result
     const scaleResult = await modelModel.getStatModelScale(id);
     if (scaleResult && scaleResult !== -1) {
+        dataUser.push({title:"échelles",data:scaleResult});
         [labels, dataContent] = generateDatas(scaleResult);
         try {
             await createPie(400, 400, labels, dataContent, pathTemp + '/scale.png');
@@ -148,6 +154,7 @@ const doStats = async (req, res) => {
     //get brand result
     const brandResult = await modelModel.getStatModelBrand(id);
     if (brandResult && brandResult !== -1) {
+        dataUser.push({title:"marques",data:brandResult});
         [labels, dataContent] = generateDatas(brandResult);
         try {
             await createPie(400, 400, labels, dataContent, pathTemp + '/brand.png');
@@ -172,7 +179,7 @@ const doStats = async (req, res) => {
     const allModels = await modelModel.getAllKitsUser(id);
     //Générer le PDF
     try {
-       await  createPDF(res, pathTemp, priceResult[0].sum, userName, stateResult, allModels, id);
+       await  createPDF(res, pathTemp, priceResult[0].sum, userName, stateResult, allModels, id,dataUser);
        
     }
     catch (err){
