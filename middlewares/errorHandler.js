@@ -8,6 +8,7 @@ const errorHandler=(err,req,res,next)=>{
 const errorFileHandler = (error, req, res, next) => {
     if (error) {
         console.error(error);
+        logError(`errorHandler.file : ${error}.message`);
         const filePath = { path: null };
         req.file = filePath;
     }

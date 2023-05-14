@@ -1,6 +1,6 @@
 const router=require('express').Router();
 const modelController=require('../controllers/model.controller');
-const {userCheck,idChecker}=require('../middlewares/UserValidation');
+const {userCheck,idChecker,checkLevel}=require('../middlewares/UserValidation');
 const multer = require('multer');
 const {createSubUpload}=require('../utils/fs');
 const fs = require('fs');
@@ -62,17 +62,17 @@ const uploadPictureUser=multer({storage:storageUserPictures});
 const uploadPicture=multer({storage:storagePicture});
 
 router.get('/',modelController.getAll);
-router.get('/user/:id',modelController.getStock); //Controler l'utilisateur
-router.get('/favorite/:id',modelController.getFavorite); //Controler l'utilisateur
+router.get('/user/:id',userCheck,modelController.getStock); //Controler l'utilisateur
+router.get('/favorite/:id',userCheck,modelController.getFavorite); //Controler l'utilisateur
 router.get('/info/:id/user/:iduser',userCheck,modelController.getAllInfoKit);
-router.get('/info/user/:id',modelController.getStat);
+router.get('/info/user/:id',userCheck,modelController.getStat);
 router.get('/:id',modelController.getOne);
 router.post('/',uploadPicture.single('file'),errorFileHandler,modelController.addOne);
-router.post('/favorite',modelController.setFavorite);
+router.post('/favorite',userCheck,modelController.setFavorite);
 router.post('/user/picture/:id',userCheck,idChecker,uploadPictureUser.array('file',6),errorFileHandler,modelController.addUserPictures); 
 router.delete('/user/picture/:id',userCheck,idChecker,modelController.deleteUserPicture);
 router.put('/stock',userCheck,modelController.updateStock); //Controler l'utilisateur
-router.put('/:id',userCheck,uploadPicture.single('file'),errorFileHandler,modelController.updateOne); //Controler l'utilisateur
-router.delete('/:id',userCheck,modelController.deleteOne);
+router.put('/:id',userCheck,checkLevel,uploadPicture.single('file'),errorFileHandler,modelController.updateOne); //Controler l'utilisateur
+router.delete('/:id',userCheck,checkLevel,modelController.deleteOne);
 
 module.exports=router;
