@@ -1,3 +1,4 @@
+const {logError}=require('../utils/logEvent');
 const userModel = require('../models/users.model');
 const User = require('../classes/User.class');
 const Joi = require('joi');
@@ -141,8 +142,9 @@ const deleteUser = async (req, res) => {
         }
         catch (err) {
             //Log le result
+            logError(`UserController.deleteUser : ${err}`)
             console.error('Erreur de suppression')
-            console.log(err)
+            
         } 
             res.sendStatus(204);
     }

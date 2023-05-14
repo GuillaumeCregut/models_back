@@ -1,6 +1,7 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const path = require('path');
+const {logError}=require('./logEvent');
 
 let oldFontSize = '';
 const pages = [];
@@ -197,7 +198,8 @@ const createPDF = async (response, pathTemp, totalPrice, userName, datas, models
 
     }
     catch (err) {
-        console.log(err)
+        console.error(err);
+        logError(`pdf : Erreur dans la génération du PDF : ${err}`);
         throw new Error('Erreur in pdf');
     }
 }

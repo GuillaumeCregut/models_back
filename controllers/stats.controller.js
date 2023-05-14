@@ -1,3 +1,4 @@
+const { logError } =require('../utils/logEvent');
 const modelModel = require('../models/model.model');
 const fs = require('fs');
 const fsPromises = require('fs').promises;
@@ -38,7 +39,8 @@ const rmdir = (dir) => {
         fs.rmdirSync(dir);
     }
     catch (err) {
-        console.log(err);
+        logError(`StatsController.rmdir : ${err}`);
+        console.error(err);
     }
 };
 
@@ -58,7 +60,8 @@ const doStats = async (req, res) => {
         }
     }
     catch (err) {
-        console.log(err)
+        logError(`StatController.doStats : ${err}`);
+        console.error(err)
     }
     const userId = parseInt(id, 10);
     const pathTemp = path.join(__dirname, '..', 'temp', 'generator', id);
@@ -73,14 +76,15 @@ const doStats = async (req, res) => {
                 await createPie(400, 400, labels, dataContent, pathTemp + '/state.png');
             }
             catch (err) {
-                console.log(err);
+                logError(`StatController.doStats : ${err}`);
+                console.error(err);
                 return res.sendStatus(500);
             }
         }
         else return res.sendStatus(404)
     }
     else if (stateResult === -1){
-        console.log('state', perdiodResult);
+        console.error('state', perdiodResult);
         return res.sendStatus(500);
     }
     //Get period result
@@ -93,12 +97,13 @@ const doStats = async (req, res) => {
             await createPie(400, 400, labels, dataContent, pathTemp + '/period.png');
         }
         catch (err) {
-            console.log(err);
+            logError(`StatController.doStats : ${err}`);
+            console.error(err);
             return res.sendStatus(500);
         }
     }
     else if (perdiodResult === -1){
-        console.log('period', perdiodResult);
+        console.error('period', perdiodResult);
         return res.sendStatus(500);
     }
     //get Category result
@@ -110,12 +115,13 @@ const doStats = async (req, res) => {
             await createPie(400, 400, labels, dataContent, pathTemp + '/category.png');
         }
         catch (err) {
-            console.log(err);
+            logError(`StatController.doStats : ${err}`);
+            console.error(err);
             return res.sendStatus(500);
         }
     }
     else if (categoryResult === -1){
-        console.log('categoryResult', categoryResult);
+        console.error('categoryResult', categoryResult);
         return res.sendStatus(500);
     }
     //get provider result
@@ -127,12 +133,13 @@ const doStats = async (req, res) => {
             await createPie(400, 400, labels, dataContent, pathTemp + '/provider.png');
         }
         catch (err) {
-            console.log(err);
+            logError(`StatController.doStats : ${err}`);
+            console.error(err);
             return res.sendStatus(500);
         }
     }
     else if (providerResult === -1){
-        console.log('provider', providerResult);
+        console.error('provider', providerResult);
         return res.sendStatus(500);
     }
     //get scale result
@@ -144,11 +151,12 @@ const doStats = async (req, res) => {
             await createPie(400, 400, labels, dataContent, pathTemp + '/scale.png');
         }
         catch (err) {
+            logError(`StatController.doStats : ${err}`);
             return res.sendStatus(500);
         }
     }
     else if (scaleResult === -1){
-        console.log('scale', perdiodResult);
+        console.error('scale', perdiodResult);
         return res.sendStatus(500);
     }
     //get brand result
@@ -160,11 +168,12 @@ const doStats = async (req, res) => {
             await createPie(400, 400, labels, dataContent, pathTemp + '/brand.png');
         }
         catch (err) {
+            logError(`StatController.doStats : ${err}`);
             return res.sendStatus(500);
         }
     }
     else if (brandResult === -1){
-        console.log('brand', perdiodResult);
+        console.error('brand', perdiodResult);
         return res.sendStatus(500);
     }
     //get price info
@@ -183,7 +192,8 @@ const doStats = async (req, res) => {
        
     }
     catch (err){
-console.log(err)
+        logError(`StatController.doStats : ${err}`);
+        console.error(err)
         return res.sendStatus(500);
     }
     setTimeout(() => {

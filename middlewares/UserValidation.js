@@ -1,4 +1,5 @@
 const {verifyToken}=require('../utils/auth');
+const {logError}=require('../utils/logEvent');
 
 const userCheck=(req,res,next)=>{
    // For later.
@@ -8,12 +9,19 @@ const userCheck=(req,res,next)=>{
     if(!authHeader){ 
         return res.sendStatus(401);
     }
-    const token=authHeader.split(' ')[1];
-    const isOK=verifyToken(token,'access');
-    if(!isOK)
-        return res.sendStatus(403);
-    req.user=isOK;
-    next();
+    try{
+        const token=authHeader.split(' ')[1];
+        const isOK=verifyToken(token,'access');
+        if(!isOK)
+            return res.sendStatus(403);
+        req.user=isOK;
+        next();
+    }
+    catch(err){
+        logError(`UserValidation : ${err}`);
+        console.error(err);
+        return res.sendStatus(500);
+    }
 }
 
 const checkLevel=(req,res,next)=>{

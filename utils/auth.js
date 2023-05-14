@@ -1,4 +1,5 @@
 require('dotenv').config({path:'../.env'});
+const {logWarning}=require('./logEvent');
 const jwt = require('jsonwebtoken');
 
 const privateKey=process.env.PRIVATE_KEY;
@@ -33,6 +34,7 @@ const verifyToken=(token,typeToken)=>{
         default : key=undefined;
     }
     if(!key){
+        logWarning(`Auth : Erreur de validation de clé`);
         console.error('Erreur de validation de clé');
     }
     return jwt.verify(token,key,(err,decoded)=>{

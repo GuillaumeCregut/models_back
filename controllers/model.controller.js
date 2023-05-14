@@ -1,3 +1,4 @@
+const { logError,logInfo } =require('../utils/logEvent');
 const Model = require('../classes/model.class');
 const modelModel = require('../models/model.model');
 const Joi = require('joi');
@@ -153,7 +154,8 @@ const updateOne = async (req, res) => {
             }
             catch (err) {
                 //Log le result
-                console.error('Erreur de suppression')
+                console.error('Erreur de suppression');
+                await logError(`modelController : erreur de suppression d'images id : ${id}`);
             }
         }
         return res.status(200).json(result);
@@ -180,7 +182,8 @@ const deleteOne = async (req, res) => {
                 return res.sendStatus(204);
             }
             catch (err) {
-                return res.status(204).send("Le fichier n'as pu être supprimer")
+                await logError(`modelController : erreur de suppression d'images id : ${id}`);
+                return res.status(204).send("Le fichier n'as pu être supprimer");
             }
         }
         else
@@ -227,6 +230,7 @@ const getFavorite = async (req, res) => {
     if (result && result !== -1)
         return res.json(result);
     else if (result == -1) {
+        await logInfo(`ModelController.getFavorite : something strange happen`);
         return res.sendStatus(418)
     }
     else
@@ -244,6 +248,7 @@ const getStock = async (req, res) => {
         return res.json(result)
     else if (result === -1)
         return res.sendStatus(500);
+    await logInfo(`ModelController.getStock : something strange happen`);
     res.sendStatus(418);
 }
 
@@ -282,15 +287,14 @@ const getAllInfoKit = async (req, res) => {
             const fileArray = [];
             const pathModel = path.join(__dirname, '..', basePath);
             await fs.promises.readdir(pathModel)
-
                 .then(filenames => {
                     for (let filename of filenames) {
                         fileArray.push(filename)
-
                     }
                 })
-                .catch((err) => {
-                    console.log(err)
+                .catch(async(err) => {
+                    console.error(err)
+                    await logError(`ModelController.getAllInfoKit : ${err}`);
                 })
             const pictures = {
                 baseFolder: basePath,
@@ -302,7 +306,10 @@ const getAllInfoKit = async (req, res) => {
     }
     else if (result === -1)
         return res.sendStatus(500)
-    else return res.sendStatus(418);
+    else {
+        await logInfo(`ModelController.getAllInfoKit : something strange happen`);
+        return res.sendStatus(418)
+    };
 }
 
 const addUserPictures = async (req, res) => {
@@ -347,6 +354,7 @@ const deleteUserPicture = async (req, res) => {
         return res.sendStatus(204);
     }
     catch (err) {
+        logError(`ModelController.feleteUserPicture :${err}`);
         console.error(err);
         res.sendStatus(500);
     }
