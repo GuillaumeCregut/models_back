@@ -20,7 +20,6 @@ app.use(cookieParser());
 app.use(cors(corsOptions));
 app.use(headerConfig);
 app.use(cookieParser());
-app.use(loggerDebug);
 app.use(errorHandler);
 
 app.use('/api/v1', router);
