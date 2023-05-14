@@ -98,6 +98,11 @@ const updateUser=async(user)=>{
 
 }
 
+const updateRank=async(id,rank)=>{
+    const dbResult = await dbquery('get', 'UPDATE  user set rankUser=? WHERE id=?',[rank,id]);
+    return dbResult;
+}
+
 const deleteUser=async(id)=>{
     const dbResult = await dbquery('delete', 'DELETE FROM user WHERE id=?', [id]);
     return dbResult;
@@ -160,4 +165,5 @@ module.exports={
     findUserByToken,
     findCredentialsByUser,
     addModelInStock,
+    updateRank
 }
