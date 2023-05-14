@@ -1,5 +1,6 @@
 const {verifyToken}=require('../utils/auth');
 const {logError}=require('../utils/logEvent');
+const {userRole}=require('../utils/common');
 
 const userCheck=(req,res,next)=>{
    // For later.
@@ -25,6 +26,9 @@ const userCheck=(req,res,next)=>{
 }
 
 const checkLevel=(req,res,next)=>{
+    const rankUser=req.user.rank;
+    if (rankUser!==userRole.admin)
+        return res.sendStatus(403);
     next();
 }
 
