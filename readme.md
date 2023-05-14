@@ -7,6 +7,8 @@ ModelsKit Database is a software allowing to manage a model kit collection.
 
 This is the back end part, (the heart of the application) built on node, express and MySQL.
 
+You should find front end repo here [frontend](https://github.com/GuillaumeCregut/models_front/)
+
 Documentation is also include on how to use it.
 
 How to install
