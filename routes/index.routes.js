@@ -1,5 +1,8 @@
 const router=require('express').Router();
 const {logger}=require('../middlewares/loggerMiddleware');
+const {userCheck}=require('../middlewares/UserValidation');
+//routes
+const admin=require('./admin.routes');
 const auth=require('./auth.routes');
 const logout=require('./logout.routes');
 const refresAuth=require('./refreshauth.routes');
@@ -21,6 +24,7 @@ router.use('/logout',logout);
 router.use('/refresh',refresAuth);
 
 /* Routes*/
+router.use('/admin',admin);
 router.use('/brand',brand);
 router.use('/builder',builder);
 router.use('/country',country);
