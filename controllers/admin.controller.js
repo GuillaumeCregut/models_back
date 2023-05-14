@@ -1,4 +1,5 @@
 const path = require('path');
+const {logError}=require('../utils/logEvent');
 const {logsType}=require('../utils/common');
 const getWarnings = async (req, res) => {
     if (isNaN(req.params.id))
@@ -18,10 +19,8 @@ const getWarnings = async (req, res) => {
         const pathFile = path.join(__dirname, '..', 'assets', 'logs', filename);
         res.sendFile( pathFile, function (err) {
             if (err) {
+                logError(`AdminController.logs : ${err}`)
                 console.log(err);
-            } else {
-                console.log('Sent:',  pathFile);
-    
             }
         });
     }
