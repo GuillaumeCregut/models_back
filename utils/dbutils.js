@@ -18,8 +18,8 @@ const dbquery = (action,sql,params)=>{
 
             }
     }) 
-    .catch((err)=>{
-        logError(err);
+    .catch(async(err)=>{
+        await logError(`dbutils : ${err}`);
         console.error(err);
         return -1;
     })
