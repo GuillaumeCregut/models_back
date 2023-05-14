@@ -6,7 +6,7 @@ const EventEmitter = require('events');
 
 class Emitter extends EventEmitter { };
 
-const devMode = true;
+const devMode = process.env.DEBUG_MODE==='ON'?true:false;
 
 const logFile = async (message, file) => {
     if (!devMode) {
