@@ -8,7 +8,7 @@ createSubUpload('users');
 router.get('/',userCheck,checkLevel,usersController.getAll);
 router.get('/:id',userCheck,usersController.getOne);
 router.post('/',usersController.addOne);
-router.post('/model',usersController.addModelStock);
+router.post('/model',userCheck,usersController.addModelStock);
 router.patch('/admin/:id',userCheck,checkLevel,usersController.updateRank);
 router.put('/:id',userCheck,usersController.updateUser);
 router.delete('/:id',userCheck,usersController.deleteUser);

@@ -1,11 +1,11 @@
 const router=require('express').Router();
-const {userCheck}=require('../middlewares/UserValidation');
+const {userCheck,checkLevel}=require('../middlewares/UserValidation');
 const periodController=require('../controllers/period.controller');
 
 router.get('/',periodController.getAll);
 router.get('/:id',periodController.getOne);
 router.post('/',userCheck,periodController.addOne);
-router.put('/:id',userCheck,periodController.updateOne);
-router.delete('/:id',userCheck,periodController.deleteOne)
+router.put('/:id',userCheck,checkLevel,periodController.updateOne);
+router.delete('/:id',userCheck,checkLevel,periodController.deleteOne)
 
 module.exports=router;
