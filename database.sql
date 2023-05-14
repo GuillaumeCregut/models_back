@@ -1,26 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Hôte : 127.0.0.1:3306
--- Généré le : lun. 13 fév. 2023 à 16:37
--- Version du serveur : 8.0.21
--- Version de PHP : 8.1.2
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Base de données : `modelskits`
---
-
 -- --------------------------------------------------------
 
 --
@@ -32,26 +9,7 @@ CREATE TABLE IF NOT EXISTS `brand` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `brand`
---
-
-INSERT INTO `brand` (`id`, `name`) VALUES
-(1, 'Special Hobby'),
-(2, 'Tamiya'),
-(3, 'Eduard'),
-(4, 'Academy'),
-(5, 'Revell'),
-(6, 'Airfix'),
-(7, 'Hasegawa'),
-(8, 'Italeri'),
-(9, 'Heller'),
-(10, 'Fujimi'),
-(11, 'Special Hobby');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Structure de la table `builders`
@@ -64,30 +22,7 @@ CREATE TABLE IF NOT EXISTS `builders` (
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `c_country_family` (`country`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Déchargement des données de la table `builders`
---
-
-INSERT INTO `builders` (`id`, `country`, `name`) VALUES
-(1, 2, 'Messerschmitt'),
-(2, 2, 'Focke Wulf'),
-(3, 1, 'Morane Saulnier'),
-(4, 1, 'Nieuport'),
-(5, 6, 'Supermarine'),
-(6, 6, 'Hawker'),
-(7, 3, 'Fairchild'),
-(8, 3, 'Grumann'),
-(9, 3, 'Consolited'),
-(10, 3, 'Republic'),
-(11, 3, 'North American'),
-(12, 5, 'Kawasaki'),
-(13, 4, 'Yakovlev'),
-(14, 4, 'Mikoyan Gurevitch'),
-(15, 4, 'Lavochkin');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Structure de la table `category`
@@ -111,9 +46,6 @@ INSERT INTO `category` (`id`, `name`) VALUES
 (4, 'Navires'),
 (5, 'Hélicoptères');
 
--- --------------------------------------------------------
-
---
 -- Structure de la table `country`
 --
 
@@ -122,11 +54,8 @@ CREATE TABLE IF NOT EXISTS `country` (
   `id` int NOT NULL AUTO_INCREMENT,
   `name` varchar(200) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Déchargement des données de la table `country`
---
 
 INSERT INTO `country` (`id`, `name`) VALUES
 (1, 'France'),
@@ -136,11 +65,6 @@ INSERT INTO `country` (`id`, `name`) VALUES
 (5, 'Japon'),
 (6, 'Angleterre');
 
--- --------------------------------------------------------
-
---
--- Structure de la table `friend`
---
 
 DROP TABLE IF EXISTS `friend`;
 CREATE TABLE IF NOT EXISTS `friend` (
@@ -151,11 +75,6 @@ CREATE TABLE IF NOT EXISTS `friend` (
   KEY `id2_friend` (`id_friend2`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `model`
---
 
 DROP TABLE IF EXISTS `model`;
 CREATE TABLE IF NOT EXISTS `model` (
@@ -175,11 +94,9 @@ CREATE TABLE IF NOT EXISTS `model` (
   KEY `c_family_model` (`builder`),
   KEY `c_period_model` (`period`),
   KEY `c_scale_model` (`scale`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
---
 -- Structure de la table `model_order`
 --
 
@@ -187,18 +104,15 @@ DROP TABLE IF EXISTS `model_order`;
 CREATE TABLE IF NOT EXISTS `model_order` (
   `id` int NOT NULL AUTO_INCREMENT,
   `model_id` int NOT NULL,
-  `order_id` int NOT NULL,
-  `qtte` INT NOT NULL,
-  `price` DOUBLE UNSIGNED NOT NULL,
+  `order_id` varchar(50) NOT NULL,
+  `qtte` int NOT NULL,
+  `price` double UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   KEY `model_order` (`model_id`),
-  KEY `order_order` (`order_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  KEY `oder_order` (`order_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
--- --------------------------------------------------------
-
---
 -- Structure de la table `model_user`
 --
 
@@ -215,28 +129,21 @@ CREATE TABLE IF NOT EXISTS `model_user` (
   KEY `c_model_owner` (`owner`),
   KEY `c_model_state` (`state`),
   KEY `c_model_model` (`model`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
---
--- Structure de la table `orders`
---
 
 DROP TABLE IF EXISTS `orders`;
 CREATE TABLE IF NOT EXISTS `orders` (
-  `id` int NOT NULL AUTO_INCREMENT,
   `owner` int NOT NULL,
   `provider` int NOT NULL,
   `reference` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`reference`),
   KEY `c_order_owner` (`owner`),
   KEY `c_order_provider` (`provider`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
---
 -- Structure de la table `period`
 --
 
@@ -258,8 +165,6 @@ INSERT INTO `period` (`id`, `name`) VALUES
 (4, 'Entre guerres'),
 (5, 'Moderne');
 
--- --------------------------------------------------------
-
 --
 -- Structure de la table `provider`
 --
@@ -271,9 +176,8 @@ CREATE TABLE IF NOT EXISTS `provider` (
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `c_user_provider` (`owner`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
 
 --
 -- Structure de la table `scale`
@@ -286,9 +190,6 @@ CREATE TABLE IF NOT EXISTS `scale` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Déchargement des données de la table `scale`
---
 
 INSERT INTO `scale` (`id`, `name`) VALUES
 (1, '1/72'),
@@ -296,8 +197,6 @@ INSERT INTO `scale` (`id`, `name`) VALUES
 (3, '1/24'),
 (4, '1/32'),
 (5, '1/35');
-
--- --------------------------------------------------------
 
 --
 -- Structure de la table `state`
@@ -321,9 +220,6 @@ INSERT INTO `state` (`id`, `name`) VALUES
 (4, 'Liste de souhaits'),
 (5, 'Commandé');
 
-
-
---
 -- Structure de la table `user`
 --
 
@@ -342,14 +238,45 @@ CREATE TABLE IF NOT EXISTS `user` (
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Structure de la vue `all_info_model`
+--
+DROP TABLE IF EXISTS `all_info_model`;
+
+DROP VIEW IF EXISTS `all_info_model`;
+CREATE  VIEW `all_info_model`  AS SELECT `mu`.`id` AS `id`, `mu`.`model` AS `model`, `mu`.`provider` AS `provider`, `mu`.`pictures` AS `pictures`, `mu`.`price` AS `price`, `mu`.`owner` AS `owner`, `mu`.`state` AS `state`, `m`.`name` AS `modelName`, `m`.`picture` AS `picture`, `m`.`reference` AS `reference`, `m`.`scalemates` AS `scalemates`, `b`.`name` AS `brandName`, `p`.`name` AS `periodName`, `s`.`name` AS `scaleName`, `bu`.`name` AS `builderName`, `c`.`name` AS `categoryName`, `pr`.`name` AS `providerName` FROM (((((((`model_user` `mu` join `model` `m` on((`mu`.`model` = `m`.`id`))) join `brand` `b` on((`m`.`brand` = `b`.`id`))) join `period` `p` on((`m`.`period` = `p`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `category` `c` on((`m`.`category` = `c`.`id`))) left join `provider` `pr` on((`mu`.`provider` = `pr`.`id`)))  ;
+
+-- --------------------------------------------------------
 
 --
--- Contraintes pour les tables déchargées
+-- Structure de la vue `model_favorite`
 --
+DROP TABLE IF EXISTS `model_favorite`;
+
+DROP VIEW IF EXISTS `model_favorite`;
+CREATE  VIEW `model_favorite`  AS SELECT `mu`.`id` AS `id`, `mu`.`owner` AS `owner`, `mu`.`model` AS `model`, `m`.`name` AS `modelName`, `b`.`name` AS `brandName`, `bu`.`name` AS `builderName`, `s`.`name` AS `scaleName` FROM ((((`model_user` `mu` join `model` `m` on((`mu`.`model` = `m`.`id`))) join `brand` `b` on((`m`.`brand` = `b`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) WHERE (`mu`.`state` = 4)  ;
+
+-- --------------------------------------------------------
 
 --
--- Contraintes pour la table `builders`
+-- Structure de la vue `model_full`
 --
+DROP TABLE IF EXISTS `model_full`;
+
+DROP VIEW IF EXISTS `model_full`;
+CREATE  VIEW `model_full`  AS SELECT `m`.`id` AS `id`, `m`.`name` AS `name`, `m`.`builder` AS `builder`, `m`.`category` AS `category`, `m`.`brand` AS `brand`, `m`.`period` AS `period`, `m`.`scale` AS `scale`, `m`.`reference` AS `reference`, `m`.`picture` AS `picture`, `m`.`scalemates` AS `scalemates`, `bu`.`name` AS `buildername`, `bu`.`country` AS `countryid`, `c`.`name` AS `categoryname`, `br`.`name` AS `brandname`, `p`.`name` AS `periodname`, `s`.`name` AS `scalename`, `co`.`name` AS `countryname` FROM ((((((`model` `m` join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `category` `c` on((`m`.`category` = `c`.`id`))) join `brand` `br` on((`m`.`brand` = `br`.`id`))) join `period` `p` on((`m`.`period` = `p`.`id`))) join `scale` `s` on((`m`.`scale` = `s`.`id`))) join `country` `co` on((`bu`.`country` = `co`.`id`)))  ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la vue `mymodels`
+--
+DROP TABLE IF EXISTS `mymodels`;
+
+DROP VIEW IF EXISTS `mymodels`;
+CREATE  VIEW `mymodels`  AS SELECT `mu`.`id` AS `id`, `mu`.`model` AS `idModel`, `mu`.`state` AS `state`, `mu`.`pictures` AS `pictures`, `mu`.`owner` AS `owner`, `s`.`name` AS `stateName`, `m`.`name` AS `modelName`, `m`.`reference` AS `reference`, `m`.`picture` AS `boxPicture`, `bu`.`name` AS `builderName`, `st`.`name` AS `scaleName`, `br`.`name` AS `brandName` FROM (((((`model_user` `mu` join `state` `s` on((`mu`.`state` = `s`.`id`))) join `model` `m` on((`mu`.`model` = `m`.`id`))) join `builders` `bu` on((`m`.`builder` = `bu`.`id`))) join `scale` `st` on((`m`.`scale` = `st`.`id`))) join `brand` `br` on((`m`.`brand` = `br`.`id`)))  ;
+
+
 ALTER TABLE `builders`
   ADD CONSTRAINT `c_country_family` FOREIGN KEY (`country`) REFERENCES `country` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
@@ -375,7 +302,7 @@ ALTER TABLE `model`
 --
 ALTER TABLE `model_order`
   ADD CONSTRAINT `model_order` FOREIGN KEY (`model_id`) REFERENCES `model` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  ADD CONSTRAINT `order_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+  ADD CONSTRAINT `oder_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`reference`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 --
 -- Contraintes pour la table `model_user`
@@ -397,8 +324,3 @@ ALTER TABLE `orders`
 --
 ALTER TABLE `provider`
   ADD CONSTRAINT `c_user_provider` FOREIGN KEY (`owner`) REFERENCES `user` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
